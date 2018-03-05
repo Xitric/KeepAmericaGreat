@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="dk.sdu.mmmi.cbse.KeepAmericaGreat.branding">
-    <module_version install_time="1520242398862" last="true" origin="installer" specification_version="1.0">
-        <file crc="2035164351" name="config/Modules/dk-sdu-mmmi-cbse-KeepAmericaGreat-branding.xml"/>
-        <file crc="3560923066" name="core/locale/core_keepamericagreat.jar"/>
-        <file crc="1959272577" name="modules/dk-sdu-mmmi-cbse-KeepAmericaGreat-branding.jar"/>
-        <file crc="2309542182" name="modules/locale/org-netbeans-core-windows_keepamericagreat.jar"/>
-        <file crc="456677551" name="modules/locale/org-netbeans-core_keepamericagreat.jar"/>
-    </module_version>
-</module>
