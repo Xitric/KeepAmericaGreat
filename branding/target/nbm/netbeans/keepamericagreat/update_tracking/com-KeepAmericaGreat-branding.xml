@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><module codename="com.KeepAmericaGreat.branding">
-    <module_version install_time="1520243832164" last="true" origin="installer" specification_version="1.0">
+    <module_version install_time="1520248726691" last="true" origin="installer" specification_version="1.0">
         <file crc="609301097" name="config/Modules/com-KeepAmericaGreat-branding.xml"/>
-        <file crc="1275282397" name="core/locale/core_keepamericagreat.jar"/>
-        <file crc="2499126852" name="modules/com-KeepAmericaGreat-branding.jar"/>
-        <file crc="1984927929" name="modules/locale/org-netbeans-core-windows_keepamericagreat.jar"/>
-        <file crc="1496285463" name="modules/locale/org-netbeans-core_keepamericagreat.jar"/>
+        <file crc="3715639693" name="modules/com-KeepAmericaGreat-branding.jar"/>
     </module_version>
 </module>
