@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.towercontroller;
+package com.kag.common.entities;
 
 import com.kag.common.data.World;
-import com.kag.common.interfaces.ISystem;
+import com.kag.common.interfaces.IEntitySystem;
 
 /**
  *
- * @author mstruntze
+ * @author Sofie Jørgensen
  */
-public class TowerMasterSystem implements ISystem {
+public class EntitySystem implements IEntitySystem {
 
     @Override
-    public void update(float dt, World world) {
+    public void update(float delta, Entity entity, World world) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -23,5 +23,6 @@ public class TowerMasterSystem implements ISystem {
     public int getPriority() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+ 
     
 }

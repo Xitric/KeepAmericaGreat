@@ -5,6 +5,9 @@
  */
 package com.kag.interfaces;
 
+import com.kag.common.data.Asset;
+import com.kag.common.entities.Entity;
+
 /**
  *
  * @author mstruntze

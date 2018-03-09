@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.towercontroller;
+package com.kag.enemycontroller;
 
 import com.kag.common.data.World;
 import com.kag.common.interfaces.ISystem;
 
 /**
  *
- * @author mstruntze
+ * @author Sofie Jørgensen
  */
-public class TowerMasterSystem implements ISystem {
+public class EnemyMasterSystem implements ISystem {
 
     @Override
     public void update(float dt, World world) {

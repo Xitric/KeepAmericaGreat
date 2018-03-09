@@ -60,6 +60,9 @@
         <module>branding</module>
         <module>application</module>
         <module>Common</module>
+        <module>Collision</module>
+        <module>MapGenerator</module>
+        <module>EnemyController</module>
         <module>PathFinder</module>
         <module>Sound</module>
         <module>TowerController</module>

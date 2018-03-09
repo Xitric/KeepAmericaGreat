@@ -5,6 +5,9 @@
  */
 package com.kag.common.interfaces;
 
+import com.kag.common.data.Node;
+import com.kag.common.data.World;
+
 /**
  *
  * @author andre

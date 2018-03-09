@@ -5,6 +5,8 @@
  */
 package com.kag.pathfinder;
 
+import com.kag.common.data.Node;
+import com.kag.common.data.World;
 import com.kag.common.interfaces.IPathFinder;
 
 /**
