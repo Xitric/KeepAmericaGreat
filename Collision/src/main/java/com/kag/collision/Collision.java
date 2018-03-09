@@ -6,7 +6,7 @@
 package com.kag.collision;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.interfaces.ICollision;
+import com.kag.common.spinterfaces.ICollision;
 
 
 /**
@@ -14,8 +14,7 @@ import com.kag.common.interfaces.ICollision;
  * @author Sofie Jørgensen
  */
 public class Collision implements ICollision {
-
-    @Override
+@Override
     public boolean doesCollide(Entity a, Entity b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

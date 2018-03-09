@@ -6,7 +6,7 @@
 package com.kag.enemycontroller;
 
 import com.kag.common.data.World;
-import com.kag.common.interfaces.ISystem;
+import com.kag.common.spinterfaces.ISystem;
 
 /**
  *

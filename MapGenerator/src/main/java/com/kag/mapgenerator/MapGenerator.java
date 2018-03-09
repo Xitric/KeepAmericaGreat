@@ -6,7 +6,7 @@
 package com.kag.mapgenerator;
 
 import com.kag.common.data.GameMap;
-import com.kag.common.interfaces.IMapGenerator;
+import com.kag.common.spinterfaces.IMapGenerator;
 
 /**
  *

@@ -6,7 +6,7 @@
 package com.kag.common.entities;
 
 import com.kag.common.data.World;
-import com.kag.common.interfaces.IEntitySystem;
+import com.kag.common.spinterfaces.IEntitySystem;
 
 /**
  *

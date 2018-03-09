@@ -5,7 +5,7 @@
  */
 package com.kag.sound;
 
-import com.kag.common.interfaces.ISound;
+import com.kag.common.spinterfaces.ISound;
 
 /**
  *
