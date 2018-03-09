@@ -19,7 +19,7 @@ public class GdxKeyboard {
 	 * that index is the corresponding key code in this engine. For unsupported
 	 * keys, the value at that index will be {@link Keyboard#KEY_NONE}.
 	 */
-	private final int[] keyMapper = new int[255];
+	private final int[] keyMapper = new int[256];
 
 	private final Keyboard keyboard;
 
