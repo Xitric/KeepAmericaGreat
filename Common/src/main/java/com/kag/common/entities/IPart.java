@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.common.interfaces;
-
-import com.kag.common.data.GameMap;
+package com.kag.common.entities;
 
 /**
  *
  * @author andre
  */
-public interface IMapGenerator {
-    GameMap generateMap(int width, int height);
+public interface IPart {
+    
 }
