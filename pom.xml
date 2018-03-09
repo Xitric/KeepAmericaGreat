@@ -60,6 +60,8 @@
         <module>branding</module>
         <module>application</module>
         <module>Common</module>
+        <module>PathFinder</module>
+        <module>Sound</module>
     </modules>
 
     <properties>
