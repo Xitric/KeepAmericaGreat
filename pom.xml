@@ -62,6 +62,7 @@
         <module>Common</module>
         <module>PathFinder</module>
         <module>Sound</module>
+        <module>TowerController</module>
     </modules>
 
     <properties>
