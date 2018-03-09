@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.common.interfaces;
-
-import com.kag.common.entities.Entity;
+package com.kag.common.data;
 
 /**
  *
- * @author andre
+ * @author Sofie Jørgensen
  */
-public interface ICollision {
-    boolean doesCollide(Entity a, Entity b);
+public class World {
     
 }
