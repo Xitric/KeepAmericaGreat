@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.common.interfaces;
+package com.kag.enemycontroller.interfaces;
 
 import com.kag.common.entities.Entity;
 
 /**
  *
- * @author andre
+ * @author Sofie Jørgensen
  */
-public interface ICollision {
-    boolean doesCollide(Entity a, Entity b);
+public interface IEnemy {
+    int getDifficulty();
+    Entity create();
     
 }

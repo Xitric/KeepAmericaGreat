@@ -5,6 +5,8 @@
  */
 package com.kag.common.interfaces;
 
+import com.kag.common.data.GameMap;
+
 /**
  *
  * @author andre
