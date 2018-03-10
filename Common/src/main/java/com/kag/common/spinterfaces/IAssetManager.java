@@ -6,6 +6,7 @@
 package com.kag.common.spinterfaces;
 
 import com.kag.common.data.IAsset;
+import java.io.InputStream;
 
 /**
  * Service used to create graphical elements irrespective of the underlying
@@ -22,26 +23,29 @@ public interface IAssetManager {
 	 * the asset is no longer needed it must be disposed. Assets to the same
 	 * resource must be disposed individually, however all assets are
 	 * automatically disposed when the game quits.
+	 * <p>
+	 * To use this method, clients can call
+	 * {@code getClass().getResourceAsStream(String name)} to obtain an input
+	 * stream to a resource from the class loader.
 	 * <ul>
 	 * <li>Pre-conditions: None</li>
-	 * <li>Post-conditions: The asset at the specified location is in memory and
-	 * ready for rendering</li>
+	 * <li>Post-conditions: The asset is in memory and ready for rendering</li>
 	 * </ul>
 	 *
-	 * @param source the location where the graphical element is stored in the
-	 *               file system. This must be the absolute path
+	 * @param input a stream of bytes from the resource to load
 	 * @return the reference to the new asset
 	 * @see IAssetManager#disposeAsset(IAsset)
 	 */
-	IAsset createAsset(String source);
+	IAsset createAsset(InputStream input);
 
 	/**
-	 * Release the specified asset. The implementation is free to determine the
-	 * best time to remove the asset from memory. If the asset is already
-	 * released, this method has no effect.
+	 * Release the specified asset from memory. If the asset is already
+	 * released, this method has no effect. This method should always be called
+	 * for an asset before dropping the reference, however all assets are
+	 * automatically disposed when the game quits.
 	 * <ul>
 	 * <li>Pre-conditions: None</li>
-	 * <li>Post-conditions: The asset is no longer bound in memory</li>
+	 * <li>Post-conditions: The asset is no longer in memory</li>
 	 * </ul>
 	 *
 	 * @param asset the asset to dispose

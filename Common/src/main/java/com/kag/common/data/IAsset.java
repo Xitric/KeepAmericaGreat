@@ -10,12 +10,4 @@ package com.kag.common.data;
  */
 public interface IAsset {
 
-	/**
-	 * Get the platform specific source of this IAsset. This string can be
-	 * thought of as the identifier of a resource, allowing IAssets representing
-	 * the same graphical resource on the disk to be identified.
-	 *
-	 * @return the platform specific idenfitier
-	 */
-	String getSource();
 }
