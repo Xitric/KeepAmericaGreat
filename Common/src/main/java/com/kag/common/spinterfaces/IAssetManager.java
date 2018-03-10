@@ -29,7 +29,7 @@ public interface IAssetManager {
 	 * </ul>
 	 *
 	 * @param source the location where the graphical element is stored in the
-	 *               file system
+	 *               file system. This must be the absolute path
 	 * @return the reference to the new asset
 	 * @see IAssetManager#disposeAsset(IAsset)
 	 */
