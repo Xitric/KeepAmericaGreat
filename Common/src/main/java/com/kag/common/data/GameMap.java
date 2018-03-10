@@ -11,41 +11,41 @@ package com.kag.common.data;
  */
 public class GameMap {
 
-    private Asset spriteSheet;
-    private Tile[][] tiles;
-    private Node[][] pathNodes;
+	private IAsset spriteSheet;
+	private Tile[][] tiles;
+	private Node[][] pathNodes;
 
-    public GameMap(int width, int height) {
-	this.tiles = new Tile[height][width];
-    }
+	public GameMap(int width, int height) {
+		this.tiles = new Tile[height][width];
+	}
 
-    public Tile getTile(int x, int y) {
-	return tiles[y][x];
-    }
+	public Tile getTile(int x, int y) {
+		return tiles[y][x];
+	}
 
-    public Node[][] getPathNodes() {
-	return pathNodes;
-    }
+	public Node[][] getPathNodes() {
+		return pathNodes;
+	}
 
-    public void setPathNodes(Node[][] pathNodes) {
-	this.pathNodes = pathNodes;
-    }
+	public void setPathNodes(Node[][] pathNodes) {
+		this.pathNodes = pathNodes;
+	}
 
-    /**
-     * @return the spriteSheet
-     */
-    public Asset getSpriteSheet() {
-	return spriteSheet;
-    }
+	/**
+	 * @return the spriteSheet
+	 */
+	public IAsset getSpriteSheet() {
+		return spriteSheet;
+	}
 
-    /**
-     * @param spriteSheet the spriteSheet to set
-     */
-    public void setSpriteSheet(Asset spriteSheet) {
-	this.spriteSheet = spriteSheet;
-    }
+	/**
+	 * @param spriteSheet the spriteSheet to set
+	 */
+	public void setSpriteSheet(IAsset spriteSheet) {
+		this.spriteSheet = spriteSheet;
+	}
 
-    public void recalculatePathNodeMap() {
+	public void recalculatePathNodeMap() {
 
-    }
+	}
 }
