@@ -33,7 +33,8 @@ public interface IAssetManager {
 	 * </ul>
 	 *
 	 * @param input a stream of bytes from the resource to load
-	 * @return the reference to the new asset
+	 * @return the reference to the new asset or null if the asset could not be
+	 *         loaded
 	 * @see IAssetManager#disposeAsset(IAsset)
 	 */
 	IAsset createAsset(InputStream input);
