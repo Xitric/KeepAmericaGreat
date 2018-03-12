@@ -15,7 +15,7 @@ public class PositionPart implements IPart {
     
     public PositionPart(int x, int y, int rotation){
 	setPos(x, y);
-	this.rotation = Math.min(360, Math.max(0, rotation));
+	this.rotation = rotation % 360;
     }
     public int getX() {
 	return x;
@@ -35,6 +35,6 @@ public class PositionPart implements IPart {
     }
 
     public void setRotation(int rotation) {
-	this.rotation = Math.min(360, Math.max(0, rotation));
+	this.rotation = rotation % 360;
     }
 }
