@@ -1,4 +1,4 @@
-package com.jag.core.game;
+package com.kag.core.game;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

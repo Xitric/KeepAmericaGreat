@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.jag.core.game;
+package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 
