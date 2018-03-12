@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.common.entities;
 
 import java.util.HashMap;
@@ -10,25 +5,25 @@ import java.util.Map;
 
 public class Entity {
 
-    private Map<Class, IPart> parts;
+	private final Map<Class, IPart> parts;
 
-    public Entity() {
-	this.parts = new HashMap<Class, IPart>() ;
-    }
+	public Entity() {
+		this.parts = new HashMap<>();
+	}
 
-    public boolean addPart(IPart part) {
-	return parts.put(part.getClass(), part) != null;
-    }
+	public void addPart(IPart part) {
+		parts.put(part.getClass(), part);
+	}
 
-    public boolean removePart(IPart part) {
-	return parts.remove(part.getClass()) != null;
-    }
+	public boolean removePart(IPart part) {
+		return parts.remove(part.getClass()) != null;
+	}
 
-    public boolean removePart(Class partClass) {
-	return parts.remove(partClass) != null;
-    }
+	public boolean removePart(Class partClass) {
+		return parts.remove(partClass) != null;
+	}
 
-    public IPart getPart(Class partClass) {
-	return parts.get(partClass);
-    }
+	public <T extends IPart> T getPart(Class<T> partClass) {
+		return (T) parts.get(partClass);
+	}
 }
