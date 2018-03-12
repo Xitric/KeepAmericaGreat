@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
+OpenIDE-Module-Install: com/jag/core/game/Installer.class
 OpenIDE-Module-Localizing-Bundle: com/kag/core/Bundle.properties
 
