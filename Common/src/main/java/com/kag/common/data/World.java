@@ -6,12 +6,23 @@
 package com.kag.common.data;
 
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.BlockingPart;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
  * @author Sofie Jørgensen
  */
 public class World {
+
+    private Collection<Entity> entities;
+    private GameMap gameMap;
+
+    public World(GameMap gameMap) {
+	entities = new ArrayList<>();
+	this.gameMap = gameMap;
+    }
 
     /**
      * isWalkable considers only Tile.isWalkable()
@@ -21,9 +32,7 @@ public class World {
      * @return true if Tile.isWalkable is true, false otherwise
      */
     public boolean isWalkable(int x, int y) {
-	//Find a tile with the given x and y
-	//return Tile.isWalkable();
-	return false;
+	return gameMap.getTile(x, y).isWalkable();
     }
 
     /**
@@ -36,24 +45,32 @@ public class World {
      * with a BlockingPart
      */
     public boolean isOccupied(int x, int y) {
-	//if IsWalkable is false, return true
-	//else, loop through entities and check for BlockingPart
+	if (!isWalkable(x, y)) {
+	    return true;
+	}
+	for (Entity entity : entities) {
+	    if (entity.getPart(BlockingPart.class) != null) {
+		//Check for positionpart
+		return false;
+	    }
+	}
+
 	return false;
     }
 
     public void addEntity(Entity entity) {
-
+	entities.add(entity);
     }
 
     public void removeEntity(Entity entity) {
-
+	entities.remove(entity);
     }
 
-    public Entity[] getAllEntities() {
-	return null;
+    public Collection<Entity> getAllEntities() {
+	return new ArrayList<>(entities);
     }
-	
-    public Entity getEntityAt(int screenX, int screenY){
+
+    public Entity getEntityAt(int screenX, int screenY) {
 	return null;
     }
 }
