@@ -67,6 +67,7 @@
         <module>Sound</module>
         <module>TowerController</module>
         <module>Core</module>
+        <module>ModuleUpdateManager</module>
     </modules>
 
     <properties>
