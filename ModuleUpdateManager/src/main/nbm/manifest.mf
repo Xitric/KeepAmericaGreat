@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
+OpenIDE-Module-Install: com/kag/moduleupdatemanager/Installer.class
 OpenIDE-Module-Localizing-Bundle: com/kag/moduleupdatemanager/Bundle.properties
 
