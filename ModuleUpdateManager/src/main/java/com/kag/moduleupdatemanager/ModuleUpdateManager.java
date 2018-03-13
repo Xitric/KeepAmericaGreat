@@ -40,8 +40,10 @@ public class ModuleUpdateManager {
         for (UpdateUnit unit : UpdateManager.getDefault().getUpdateUnits()) {
             if (!unit.getAvailableUpdates().isEmpty()) {
                 if (unit.getInstalled() == null) {
+					System.out.println("Found a new module " + unit.getCodeName());
                     install.add(unit.getAvailableUpdates().get(0));
                 } else {
+					System.out.println("Found an update " + unit.getCodeName());
                     update.add(unit.getAvailableUpdates().get(0));
                 }
             }
