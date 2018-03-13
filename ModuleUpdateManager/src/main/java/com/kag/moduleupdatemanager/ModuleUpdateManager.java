@@ -82,4 +82,14 @@ public class ModuleUpdateManager {
         }
     }
 
+    public List<UpdateElement> getInstall() {
+        return install;
+    }
+
+    public List<UpdateElement> getUpdate() {
+        return update;
+    }
+    
+    
+
 }
