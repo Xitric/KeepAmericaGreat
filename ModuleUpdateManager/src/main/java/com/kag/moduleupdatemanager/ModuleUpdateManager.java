@@ -44,6 +44,7 @@ public class ModuleUpdateManager {
 	}
 
 	for (UpdateUnit unit : UpdateManager.getDefault().getUpdateUnits()) {
+	    System.out.println("WWWWWWWWWWWWWWWWWWW " + unit.getCodeName());
 	    if (!unit.getAvailableUpdates().isEmpty()) {
 		if (unit.getInstalled() == null) {
 		    System.out.println("Found a new module " + unit.getCodeName());
