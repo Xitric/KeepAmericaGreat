@@ -3,48 +3,36 @@ package com.kag.moduleupdatemanager;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.netbeans.api.autoupdate.InstallSupport;
-import org.netbeans.api.autoupdate.OperationContainer;
+import java.util.logging.Logger;
 import org.openide.modules.ModuleInstall;
-import org.openide.util.Exceptions;
 
 public class Installer extends ModuleInstall {
 
-    private ModuleUpdateManager moduleUpdateManager;
-    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+	private static final Logger LOGGER = Logger.getLogger(ModuleUpdateManager.class.getName());
 
-    @Override
-    public void restored() {
-	executor.scheduleAtFixedRate(new Worker(), 5, 5, TimeUnit.SECONDS);
-    }
-
-    private class Worker implements Runnable {
+	private ModuleUpdateManager moduleUpdateManager;
+	private ScheduledExecutorService executor;
 
 	@Override
-	public void run() {
-	    System.out.println("Attempt to find new modules and updates");
-	    moduleUpdateManager = new ModuleUpdateManager();
-	    moduleUpdateManager.findNewAndUpdateModules();
-	    moduleUpdateManager.findModulesToUninstall();
-	    try {
-		OperationContainer<InstallSupport> installContainer
-			= moduleUpdateManager.addToContainer(OperationContainer.createForInstall(), moduleUpdateManager.getInstall());
+	public void restored() {
+		moduleUpdateManager = new ModuleUpdateManager();
 
-		OperationContainer<InstallSupport> updateContainer
-			= moduleUpdateManager.addToContainer(OperationContainer.createForUpdate(), moduleUpdateManager.getUpdate());
-
-		moduleUpdateManager.installModules(installContainer);
-		moduleUpdateManager.installModules(updateContainer);
-		
-		moduleUpdateManager.uninstallModules();
-	    } catch (Exception ex) {
-		Exceptions.printStackTrace(ex);
-	    }
+		//Executor for periodically checking for updates
+		executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(new UpdateChecker(), 0, 5, TimeUnit.SECONDS);
 	}
-    }
 
-    @Override
-    public void close() {
-	executor.shutdown();
-    }
+	@Override
+	public void close() {
+		executor.shutdown();
+	}
+
+	private class UpdateChecker implements Runnable {
+
+		@Override
+		public void run() {
+			LOGGER.info("Attempt to find new modules and updates");
+			moduleUpdateManager.syncWithUpdateCenter();
+		}
+	}
 }
