@@ -10,38 +10,41 @@ import org.openide.util.Exceptions;
 
 public class Installer extends ModuleInstall {
 
-	private ModuleUpdateManager moduleUpdateManager;
-	private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private ModuleUpdateManager moduleUpdateManager;
+    private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+    @Override
+    public void restored() {
+	executor.scheduleAtFixedRate(new Worker(), 5, 5, TimeUnit.SECONDS);
+    }
+
+    private class Worker implements Runnable {
 
 	@Override
-	public void restored() {
-		executor.scheduleAtFixedRate(new Worker(), 5, 5, TimeUnit.SECONDS);
+	public void run() {
+	    System.out.println("Attempt to find new modules and updates");
+	    moduleUpdateManager = new ModuleUpdateManager();
+	    moduleUpdateManager.findNewAndUpdateModules();
+	    moduleUpdateManager.findModulesToUninstall();
+	    try {
+		OperationContainer<InstallSupport> installContainer
+			= moduleUpdateManager.addToContainer(OperationContainer.createForInstall(), moduleUpdateManager.getInstall());
+
+		OperationContainer<InstallSupport> updateContainer
+			= moduleUpdateManager.addToContainer(OperationContainer.createForUpdate(), moduleUpdateManager.getUpdate());
+
+		moduleUpdateManager.installModules(installContainer);
+		moduleUpdateManager.installModules(updateContainer);
+		
+		moduleUpdateManager.uninstallModules();
+	    } catch (Exception ex) {
+		Exceptions.printStackTrace(ex);
+	    }
 	}
+    }
 
-	private class Worker implements Runnable {
-
-		@Override
-		public void run() {
-			System.out.println("Attempt to find new modules and updates");
-			moduleUpdateManager = new ModuleUpdateManager();
-			moduleUpdateManager.searchNewAndUpdateModules();
-			try {
-				OperationContainer<InstallSupport> installContainer
-						= moduleUpdateManager.addToContainer(OperationContainer.createForInstall(), moduleUpdateManager.getInstall());
-
-				OperationContainer<InstallSupport> updateContainer
-						= moduleUpdateManager.addToContainer(OperationContainer.createForUpdate(), moduleUpdateManager.getUpdate());
-
-				moduleUpdateManager.installModules(installContainer);
-				moduleUpdateManager.installModules(updateContainer);
-			} catch (Exception ex) {
-				Exceptions.printStackTrace(ex);
-			}
-		}
-	}
-
-	@Override
-	public void close() {
-		executor.shutdown();
-	}
+    @Override
+    public void close() {
+	executor.shutdown();
+    }
 }

@@ -35,7 +35,7 @@ public class ModuleUpdateManager {
 
 	for (UpdateUnitProvider provider
 		: UpdateUnitProviderFactory.getDefault()
-			.getUpdateUnitProviders(true)) {
+			.getUpdateUnitProviders(false)) {
 	    try {
 		provider.refresh(null, true);
 	    } catch (IOException ex) {
@@ -58,13 +58,13 @@ public class ModuleUpdateManager {
     }
 
     private List<UpdateElement> getLocalInstalled() {
-	List<UpdateElement> localInstalled = new ArrayList<>();
+	List<UpdateElement> locals = new ArrayList<>();
 	for (UpdateUnit unit : UpdateManager.getDefault().getUpdateUnits()) {
 	    if (unit.getInstalled() != null) {
-		localInstalled.add(unit.getInstalled());
+		locals.add(unit.getInstalled());
 	    }
 	}
-	return localInstalled;
+	return locals;
     }
 
     public OperationContainer<InstallSupport> addToContainer(
