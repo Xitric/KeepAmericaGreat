@@ -25,108 +25,132 @@ import org.openide.util.LookupListener;
  */
 public class Game implements ApplicationListener {
 
-    private final Lookup lookup;
-    private List<IComponentLoader> gameComponents;
-    private List<ISystem> systems;
-    private List<IEntitySystem> entitySystems;
-    private Lookup.Result<IComponentLoader> componentLoaderLookupResult;
-    private Lookup.Result<ISystem> systemLookupResult;
-    private Lookup.Result<IEntitySystem> entitySystemLookupResult;
+	private final Lookup lookup;
+	private List<IComponentLoader> gameComponents;
+	private List<ISystem> systems;
+	private List<IEntitySystem> entitySystems;
+	private Lookup.Result<IComponentLoader> componentLoaderLookupResult;
+	private Lookup.Result<ISystem> systemLookupResult;
+	private Lookup.Result<IEntitySystem> entitySystemLookupResult;
 
-    public Game() {
-        lookup = Lookup.getDefault();
-        gameComponents = new CopyOnWriteArrayList<>();
-        systems = new CopyOnWriteArrayList<>();
-        entitySystems = new CopyOnWriteArrayList<>();
+	public Game() {
+		lookup = Lookup.getDefault();
+		gameComponents = new CopyOnWriteArrayList<>();
+		systems = new CopyOnWriteArrayList<>();
+		entitySystems = new CopyOnWriteArrayList<>();
 
-    }
+	}
 
-    @Override
-    public void create() {
+	@Override
+	public void create() {
+		componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
+		componentLoaderLookupResult.addLookupListener(componentLoaderLookupListener);
 
-        componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
-        componentLoaderLookupResult.addLookupListener(componentLoaderLookupListener);
+		systemLookupResult = lookup.lookupResult(ISystem.class);
+		systemLookupResult.addLookupListener(systemLookupListener);
 
-        systemLookupResult = lookup.lookupResult(ISystem.class);
-        systemLookupResult.addLookupListener(systemLookupListener);
+		entitySystemLookupResult = lookup.lookupResult(IEntitySystem.class);
+		entitySystemLookupResult.addLookupListener(entitySystemLookupListener);
 
-        entitySystemLookupResult = lookup.lookupResult(IEntitySystem.class);
-        entitySystemLookupResult.addLookupListener(entitySystemLookupListener);
+		for (IComponentLoader componentLoader : componentLoaderLookupResult.allInstances()) {
+			componentLoader.load(null);
+			gameComponents.add(componentLoader);
+		}
 
-        for (IComponentLoader componentLoader : componentLoaderLookupResult.allInstances()) {
-            componentLoader.load(null);
-            gameComponents.add(componentLoader);
-        }
+		systems.addAll(systemLookupResult.allInstances());
+		systems.sort(systemComparator);
+		entitySystems.addAll(entitySystemLookupResult.allInstances());
+		entitySystems.sort(systemComparator);
 
-        //result.allItems(); we might need this
-    }
+		//result.allItems(); we might need this
+	}
 
-    @Override
-    public void resize(int i, int i1) {
+	@Override
+	public void resize(int i, int i1) {
 
-    }
+	}
 
-    @Override
-    public void render() {
+	@Override
+	public void render() {
 
-    }
+	}
 
-    @Override
-    public void pause() {
+	@Override
+	public void pause() {
 
-    }
+	}
 
-    @Override
-    public void resume() {
+	@Override
+	public void resume() {
 
-    }
+	}
 
-    @Override
-    public void dispose() {
+	@Override
+	public void dispose() {
 
-    }
+	}
 
-    private final LookupListener componentLoaderLookupListener = new LookupListener() {
-        @Override
-        public void resultChanged(LookupEvent ev) {
-            Collection<? extends IComponentLoader> actualComponents = componentLoaderLookupResult.allInstances();
+	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {
+		boolean added = false;
 
-            for (IComponentLoader component : actualComponents) {
-                // Newly installed modules
-                if (!gameComponents.contains(component)) {
-                    component.load(null); //world
-                    gameComponents.add(component);
-                }
-            }
-            // Stop and remove module
-            for (IComponentLoader component : gameComponents) {
-                if (!actualComponents.contains(component)) {
-                    component.dispose(null); //world
-                    gameComponents.remove(component);
-                }
-            }
-        }
-    };
+		for (T component : actualComponents) {
+			// Newly installed modules
+			if (!localComponents.contains(component)) {
+				localComponents.add(component);
+				added = true;
+			}
+		}
 
-    private final LookupListener systemLookupListener = new LookupListener() {
-        @Override
-        public void resultChanged(LookupEvent ev) {
-           
-           
-        }
-    };
+		for (T component : localComponents) {
+			//Removed modules
+			if (!actualComponents.contains(component)) {
+				localComponents.remove(component);
+			}
+		}
 
-    private final LookupListener entitySystemLookupListener = new LookupListener() {
-        @Override
-        public void resultChanged(LookupEvent ev) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-    };
+		return added;
+	}
 
-    private final Comparator<IPrioritizable> systemComparator = new Comparator<IPrioritizable>() {
-        @Override
-        public int compare(IPrioritizable o1, IPrioritizable o2) {
-            return Integer.compare(o1.getPriority(), o2.getPriority());
-        }
-    };
+	private final LookupListener componentLoaderLookupListener = new LookupListener() {
+		@Override
+		public void resultChanged(LookupEvent ev) {
+			Collection<? extends IComponentLoader> actualComponents = componentLoaderLookupResult.allInstances();
+
+			for (IComponentLoader component : actualComponents) {
+				// Newly installed modules
+				if (!gameComponents.contains(component)) {
+					component.load(null); //world
+					gameComponents.add(component);
+				}
+			}
+			// Stop and remove module
+			for (IComponentLoader component : gameComponents) {
+				if (!actualComponents.contains(component)) {
+					component.dispose(null); //world
+					gameComponents.remove(component);
+				}
+			}
+		}
+	};
+
+	private final LookupListener systemLookupListener = new LookupListener() {
+		@Override
+		public void resultChanged(LookupEvent ev) {
+			if (refreshSystems(systemLookupResult.allInstances(), systems)) {
+				systems.sort(systemComparator);
+			}
+		}
+	};
+
+	private final LookupListener entitySystemLookupListener = new LookupListener() {
+		@Override
+		public void resultChanged(LookupEvent ev) {
+			if (refreshSystems(entitySystemLookupResult.allInstances(), entitySystems)) {
+				entitySystems.sort(systemComparator);
+			}
+		}
+	};
+
+	private final Comparator<IPrioritizable> systemComparator
+			= (IPrioritizable o1, IPrioritizable o2) -> Integer.compare(o1.getPriority(), o2.getPriority());
 }
