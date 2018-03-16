@@ -7,21 +7,20 @@ package com.kag.enemycontroller;
 
 import com.kag.common.data.World;
 import com.kag.common.spinterfaces.ISystem;
+import org.openide.util.lookup.ServiceProvider;
 
-/**
- *
- * @author Sofie Jørgensen
- */
+@ServiceProvider(service = ISystem.class)
 public class EnemyMasterSystem implements ISystem {
 
-    @Override
-    public void update(float dt, World world) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	
+	@Override
+	public void update(float dt, World world) {
+		System.out.println("Update inde i EnemyMasterSystem");
+	}
 
-    @Override
-    public int getPriority() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+	@Override
+	public int getPriority() {
+		return 0;
+	}
+
 }

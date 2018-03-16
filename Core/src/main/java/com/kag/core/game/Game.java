@@ -6,6 +6,10 @@
 package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.kag.common.data.GameMap;
+import com.kag.common.data.World;
+import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPrioritizable;
@@ -32,13 +36,14 @@ public class Game implements ApplicationListener {
 	private Lookup.Result<IComponentLoader> componentLoaderLookupResult;
 	private Lookup.Result<ISystem> systemLookupResult;
 	private Lookup.Result<IEntitySystem> entitySystemLookupResult;
+	private World world;
 
 	public Game() {
 		lookup = Lookup.getDefault();
 		gameComponents = new CopyOnWriteArrayList<>();
 		systems = new CopyOnWriteArrayList<>();
 		entitySystems = new CopyOnWriteArrayList<>();
-
+		world = new World(new GameMap(12, 36));
 	}
 
 	@Override
@@ -52,17 +57,16 @@ public class Game implements ApplicationListener {
 		entitySystemLookupResult = lookup.lookupResult(IEntitySystem.class);
 		entitySystemLookupResult.addLookupListener(entitySystemLookupListener);
 
-		for (IComponentLoader componentLoader : componentLoaderLookupResult.allInstances()) {
-			componentLoader.load(null);
+		for (IComponentLoader componentLoader : lookup.lookupAll(IComponentLoader.class)) {
+			componentLoader.load(world);
 			gameComponents.add(componentLoader);
 		}
 
-		systems.addAll(systemLookupResult.allInstances());
+		systems.addAll(lookup.lookupAll(ISystem.class));
 		systems.sort(systemComparator);
-		entitySystems.addAll(entitySystemLookupResult.allInstances());
+		entitySystems.addAll(lookup.lookupAll(IEntitySystem.class));
 		entitySystems.sort(systemComparator);
 
-		//result.allItems(); we might need this
 	}
 
 	@Override
@@ -70,19 +74,27 @@ public class Game implements ApplicationListener {
 
 	}
 
+	// render acts as our update 
 	@Override
 	public void render() {
 
+		for (ISystem system : systems) {
+			system.update(Gdx.graphics.getDeltaTime(), world);
+		}
+
+		for (IEntitySystem entitySystem : entitySystems) {
+			for (Entity entity : world.getAllEntities()) {
+				entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world);
+			}
+		}
 	}
 
 	@Override
 	public void pause() {
-
 	}
 
 	@Override
 	public void resume() {
-
 	}
 
 	@Override
@@ -119,14 +131,14 @@ public class Game implements ApplicationListener {
 			for (IComponentLoader component : actualComponents) {
 				// Newly installed modules
 				if (!gameComponents.contains(component)) {
-					component.load(null); //world
+					component.load(world);
 					gameComponents.add(component);
 				}
 			}
 			// Stop and remove module
 			for (IComponentLoader component : gameComponents) {
 				if (!actualComponents.contains(component)) {
-					component.dispose(null); //world
+					component.dispose(world);
 					gameComponents.remove(component);
 				}
 			}
