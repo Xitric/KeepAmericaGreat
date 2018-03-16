@@ -11,7 +11,6 @@ import com.kag.common.data.World;
  *
  * @author andre
  */
-public interface ISystem {
-    void update(float dt, World world);
-    int getPriority();    
+public interface ISystem extends IPrioritizable{
+    void update(float dt, World world);  
 }

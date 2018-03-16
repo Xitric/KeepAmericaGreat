@@ -5,13 +5,12 @@
  */
 package com.kag.common.spinterfaces;
 
-import com.kag.common.data.World;
-import com.kag.common.entities.Entity;
-
 /**
  *
- * @author andre
+ * @author Emil
  */
-public interface IEntitySystem extends IPrioritizable{
-    void update(float delta, Entity entity, World world);
+public interface IPrioritizable {
+
+    int getPriority();
+
 }
