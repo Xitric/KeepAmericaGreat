@@ -22,6 +22,7 @@
                         <publicPackage>com.kag.common.interfaces</publicPackage>
                         <publicPackage>com.kag.common.spinterfaces</publicPackage>
                         <publicPackage>com.kag.common.entities.parts</publicPackage>
+                        <publicPackage>com.kag.common.entities.parts.gui</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
