@@ -7,11 +7,15 @@ package com.kag.common.spinterfaces;
 
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 
 /**
  *
  * @author andre
  */
-public interface IEntitySystem extends IPrioritizable{
-    void update(float delta, Entity entity, World world);
+public interface IEntitySystem extends IPrioritizable {
+
+	Family getFamily();
+	
+	void update(float delta, Entity entity, World world);
 }

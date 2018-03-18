@@ -15,9 +15,9 @@ import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPrioritizable;
 import com.kag.common.spinterfaces.ISystem;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.BitSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
@@ -66,7 +66,6 @@ public class Game implements ApplicationListener {
 		systems.sort(systemComparator);
 		entitySystems.addAll(lookup.lookupAll(IEntitySystem.class));
 		entitySystems.sort(systemComparator);
-
 	}
 
 	@Override
@@ -74,7 +73,7 @@ public class Game implements ApplicationListener {
 
 	}
 
-	// render acts as our update 
+	//Render also acts as our update
 	@Override
 	public void render() {
 
@@ -83,8 +82,19 @@ public class Game implements ApplicationListener {
 		}
 
 		for (IEntitySystem entitySystem : entitySystems) {
+			BitSet familyBits = entitySystem.getFamily().getBits();
+			
 			for (Entity entity : world.getAllEntities()) {
-				entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world);
+				
+				//Only update entity in the system if the system's family matches the entity
+				//We test if the family bits are a subset of the entity's part bits
+				BitSet subsetBits = new BitSet();
+				subsetBits.or(familyBits);
+				subsetBits.and(entity.getBits());
+				
+				if (subsetBits.equals(familyBits)) {
+					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world);
+				}
 			}
 		}
 	}
