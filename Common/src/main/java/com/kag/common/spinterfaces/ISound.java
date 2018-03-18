@@ -10,8 +10,12 @@ package com.kag.common.spinterfaces;
  * @author andre
  */
 public interface ISound {
-    void playSound(String filepath);
-    void playRepeatingSound(String filepath);
-    void stopSound(String filepath);
-    void stopAllSounds();
+
+	void playSound(String filepath);
+
+	void playRepeatingSound(String filepath);
+
+	void stopSound(String filepath);
+
+	void stopAllSounds();
 }

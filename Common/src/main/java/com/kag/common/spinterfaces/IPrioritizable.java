@@ -6,11 +6,20 @@
 package com.kag.common.spinterfaces;
 
 /**
+ * Interface describing an element that can be ordered by its priority. The
+ * lower the priority number, the higher the object's priority is, and the
+ * sooner it will be considered. This means that objects of this interface
+ * should be sorted in increasing order if processed from the beginning of the
+ * collection.
  *
  * @author Emil
  */
 public interface IPrioritizable {
 
-    int getPriority();
-
+	/**
+	 * Get the priority of this object. Lower values indicate a higher priority.
+	 *
+	 * @return the priority of this object
+	 */
+	int getPriority();
 }

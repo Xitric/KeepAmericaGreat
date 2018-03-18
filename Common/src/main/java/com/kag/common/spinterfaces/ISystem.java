@@ -11,6 +11,7 @@ import com.kag.common.data.World;
  *
  * @author andre
  */
-public interface ISystem extends IPrioritizable{
-    void update(float dt, World world);  
+public interface ISystem extends IPrioritizable {
+
+	void update(float dt, World world);
 }

@@ -6,7 +6,8 @@ import com.kag.common.entities.IPart;
 /**
  * Part defining an entity that is part of the graphical user interface. Such an
  * entity can be set to have any other entity as its parent, and as a result
- * this gui element will follow its parent entity on the screen.
+ * this gui element will follow its parent entity on the screen, granted that it
+ * has a position.
  *
  * @author Kasper
  */

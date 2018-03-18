@@ -3,6 +3,8 @@ package com.kag.common.entities.parts.gui;
 import com.kag.common.entities.IPart;
 
 /**
+ * Part defining a button in the graphical user interface, that can either be
+ * highlighted when the mouse hovers over it or pressed down.
  *
  * @author Kasper
  */
