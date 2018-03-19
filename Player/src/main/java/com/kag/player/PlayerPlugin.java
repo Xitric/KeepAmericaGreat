@@ -1,27 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.player;
 
 import com.kag.common.data.World;
+import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.CurrencyPart;
+import com.kag.common.entities.parts.LifePart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IComponentLoader;
 
-/**
- *
- * @author niels
- */
-public class PlayerPlugin implements IComponentLoader{
+import org.openide.util.lookup.ServiceProvider;
+
+@ServiceProvider(service = IComponentLoader.class)
+
+public class PlayerPlugin implements IComponentLoader {
+
+    private Entity player = new Entity();
+    private Entity playerHealthLabel = new Entity();
+    private Entity playerCurrencyLabel = new Entity();
 
     @Override
     public void load(World world) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        LifePart lifePart = new LifePart(50);
+        CurrencyPart currencyPart = new CurrencyPart(100);
+
+        player.addPart(new PositionPart(100, 100));
+        player.addPart(new BoundingBoxPart(0, 0));
+        player.addPart(lifePart);
+        player.addPart(currencyPart);
+
+        playerHealthLabel.addPart(new PositionPart(50, 50));
+        playerHealthLabel.addPart(lifePart);
+
+        playerCurrencyLabel.addPart(currencyPart);
+
+        world.addEntity(player);
+        world.addEntity(playerHealthLabel);
+        world.addEntity(playerCurrencyLabel);
     }
 
     @Override
     public void dispose(World world) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        world.removeEntity(player);
+        world.removeEntity(playerHealthLabel);
+        world.removeEntity(playerCurrencyLabel);
     }
-    
+
 }
