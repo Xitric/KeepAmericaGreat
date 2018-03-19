@@ -17,12 +17,14 @@ public interface IMapGenerator {
 	/**
 	 * Generate a random world map with the specified width and height in tiles.
 	 * This method has no side effects and thus no pre- or post-conditions.
+	 * Implementations of this method are entirely free to define the topography
+	 * of the generated maps.
 	 * <ul>
 	 * <li>Pre-conditions: None</li>
 	 * <li>Post-conditions: None</li>
 	 * </ul>
 	 *
-	 * @param width the width of the game map in tiles
+	 * @param width  the width of the game map in tiles
 	 * @param height the height of the game map in tiles
 	 * @return the generated world map
 	 */
