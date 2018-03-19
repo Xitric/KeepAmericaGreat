@@ -68,4 +68,8 @@ public class World {
 	public Entity getEntityAt(int screenX, int screenY) {
 		return null;
 	}
+	
+	public GameMap getGameMap() {
+		return gameMap;
+	}
 }

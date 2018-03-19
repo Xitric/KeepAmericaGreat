@@ -20,6 +20,14 @@ public class Tile {
 		return layers[layer];
 	}
 
+	public void setLayer(int layer, int value) {
+		if (layer < 0 || layer >= layers.length) {
+			throw new IndexOutOfBoundsException("The given layer was out of bounds. Layer: " + layer + ", and length was: " + layers.length);
+		}
+		
+		layers[layer] = value;
+	}
+
 	public boolean isWalkable() {
 		return walkable;
 	}
