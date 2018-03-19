@@ -68,6 +68,7 @@
         <module>TowerController</module>
         <module>Core</module>
         <module>ModuleUpdateManager</module>
+        <module>Player</module>
     </modules>
 
     <properties>
