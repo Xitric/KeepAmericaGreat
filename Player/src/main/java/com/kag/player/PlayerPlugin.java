@@ -14,12 +14,15 @@ import org.openide.util.lookup.ServiceProvider;
 
 public class PlayerPlugin implements IComponentLoader {
 
-    private Entity player = new Entity();
-    private Entity playerHealthLabel = new Entity();
-    private Entity playerCurrencyLabel = new Entity();
+    private Entity player;
+    private Entity playerHealthLabel;
+    private Entity playerCurrencyLabel;
 
     @Override
     public void load(World world) {
+        player = new Entity();
+        playerHealthLabel = new Entity();
+        playerCurrencyLabel = new Entity();
 
         LifePart lifePart = new LifePart(50);
         CurrencyPart currencyPart = new CurrencyPart(100);
