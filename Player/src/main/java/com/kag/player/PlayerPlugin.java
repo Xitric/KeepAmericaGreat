@@ -6,25 +6,22 @@
 package com.kag.player;
 
 import com.kag.common.data.World;
-import com.kag.common.entities.Entity;
-import com.kag.common.entities.Family;
-import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.ISystem;
+import com.kag.common.spinterfaces.IComponentLoader;
 
 /**
  *
  * @author niels
  */
-public class PlayerControlSystem implements ISystem {
+public class PlayerPlugin implements IComponentLoader{
 
     @Override
-    public void update(float dt, World world) {
+    public void load(World world) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int getPriority() {
+    public void dispose(World world) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
