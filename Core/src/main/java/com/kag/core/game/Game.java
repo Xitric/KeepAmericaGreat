@@ -7,7 +7,6 @@ package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.kag.common.data.GameMap;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.IComponentLoader;
@@ -46,8 +45,6 @@ public class Game implements ApplicationListener {
 		gameComponents = new CopyOnWriteArrayList<>();
 		systems = new CopyOnWriteArrayList<>();
 		entitySystems = new CopyOnWriteArrayList<>();
-		
-
 	}
 
 	@Override

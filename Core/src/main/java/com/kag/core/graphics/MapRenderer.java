@@ -3,8 +3,6 @@ package com.kag.core.graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kag.common.data.GameMap;
-import com.kag.common.data.IAsset;
-import com.kag.common.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 
 public class MapRenderer {
@@ -14,8 +12,7 @@ public class MapRenderer {
 
 	public MapRenderer() {
 		spriteBatch = new SpriteBatch();
-		assetManager = (AssetManager) Lookup.getDefault().lookup(IAssetManager.class);
-
+		assetManager = Lookup.getDefault().lookup(AssetManager.class);
 	}
 
 	public void render(GameMap gameMap) {
