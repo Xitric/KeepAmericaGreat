@@ -13,7 +13,7 @@ public class MapGenerator implements IMapGenerator {
 	public GameMap generateMap(int width, int height) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		GameMap map = new GameMap(width, height);
-		map.setSpriteSheet(assetManager.createAsset(getClass().getClassLoader().getResourceAsStream("tilesheet.png")));
+		map.setSpriteSheet(assetManager.createAsset(getClass().getResourceAsStream("/tilesheet.png")));
 		for (int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++){
 				map.getTile(x, y).setLayer(0, 12);
