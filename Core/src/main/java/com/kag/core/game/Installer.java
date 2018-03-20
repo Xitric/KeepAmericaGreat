@@ -18,5 +18,4 @@ public class Installer extends ModuleInstall {
 
 		new LwjglApplication(new Game(), cfg);
 	}
-
 }

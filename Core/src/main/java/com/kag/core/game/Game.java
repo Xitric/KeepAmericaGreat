@@ -50,7 +50,7 @@ public class Game implements ApplicationListener {
 	@Override
 	public void create() {
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
-		world = new World(mapGenerator.generateMap(12, 36));
+		world = new World(mapGenerator.generateMap(12,36));
 		mapRenderer = new MapRenderer();
 		
 		componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
