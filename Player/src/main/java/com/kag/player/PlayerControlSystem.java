@@ -72,7 +72,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         playerHealthLabel.addPart(new LabelPart("Health: " + String.valueOf(lifePart.getHealth())));
         
         //IconPart currencyIconPart = new IconPart();
-        playerCurrencyLabel.addPart(new PositionPart(900, 600));
+        playerCurrencyLabel.addPart(new PositionPart(900, 560));
         playerCurrencyLabel.addPart(currencyPart);
         playerCurrencyLabel.addPart(new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount())));
         

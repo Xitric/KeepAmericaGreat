@@ -5,10 +5,66 @@
  */
 package com.kag.core.graphics;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kag.common.data.World;
+import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.entities.parts.gui.IconPart;
+import com.kag.common.entities.parts.gui.LabelPart;
+import com.kag.common.spinterfaces.IComponentLoader;
+import com.kag.common.spinterfaces.IEntitySystem;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
+import org.openide.util.lookup.ServiceProviders;
+
 /**
  *
  * @author niels
  */
-public class IconSystem {
-    
+@ServiceProviders(value = {
+	@ServiceProvider(service = IEntitySystem.class)
+	,
+	@ServiceProvider(service = IComponentLoader.class)
+})
+public class IconSystem implements IEntitySystem, IComponentLoader {
+
+    private static final Family family = Family.forAll(IconPart.class, PositionPart.class);
+
+    private SpriteBatch sb;
+    private AssetManager assetManager;
+
+    @Override
+    public void load(World world) {
+        sb = new SpriteBatch();
+        assetManager = Lookup.getDefault().lookup(AssetManager.class);
+    }
+
+    @Override
+    public void dispose(World world) {
+        sb.dispose();
+    }
+
+    @Override
+    public void update(float delta, Entity entity, World world) {
+        IconPart iconPart = entity.getPart(IconPart.class);
+        PositionPart position = entity.getPart(PositionPart.class);
+
+        Texture texture = assetManager.getResource(iconPart.getAsset());
+        
+        sb.begin();
+        sb.draw(texture, position.getX()- 40, position.getY()- 22);
+        sb.end();
+    }
+
+    @Override
+    public int getPriority() {
+        return 100;
+    }
+
+    @Override
+    public Family getFamily() {
+        return family;
+    }
 }
