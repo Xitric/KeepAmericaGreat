@@ -14,36 +14,36 @@ public abstract class AbstractBuilder implements IWorldBuilder {
 	TileOrientation getGroundTileOrientation(float[][] heightMap, int x, int y) {
 		if (!isGroundLevel(heightMap, x, y + 1)) {
 			if (!isGroundLevel(heightMap, x + 1, y)) {
-				return TileOrientation.NE;
+				return TileOrientation.SE;
 			} else if (!isGroundLevel(heightMap, x - 1, y)) {
-				return TileOrientation.NW;
+				return TileOrientation.SW;
 			}
 
-			return TileOrientation.N;
+			return TileOrientation.S;
 		} else if (!isGroundLevel(heightMap, x + 1, y)) {
 			if (!isGroundLevel(heightMap, x, y - 1)) {
-				return TileOrientation.SE;
+				return TileOrientation.NE;
 			}
 
 			return TileOrientation.E;
 		} else if (!isGroundLevel(heightMap, x, y - 1)) {
 			if (!isGroundLevel(heightMap, x - 1, y)) {
-				return TileOrientation.SW;
+				return TileOrientation.NW;
 			}
 
-			return TileOrientation.S;
+			return TileOrientation.N;
 		} else if (!isGroundLevel(heightMap, x - 1, y)) {
 			return TileOrientation.W;
 		}
 
 		if (!isGroundLevel(heightMap, x + 1, y + 1)) {
-			return TileOrientation.dNE;
-		} else if (!isGroundLevel(heightMap, x + 1, y - 1)) {
 			return TileOrientation.dSE;
+		} else if (!isGroundLevel(heightMap, x + 1, y - 1)) {
+			return TileOrientation.dNE;
 		} else if (!isGroundLevel(heightMap, x - 1, y - 1)) {
-			return TileOrientation.dSW;
-		} else if (!isGroundLevel(heightMap, x - 1, y + 1)) {
 			return TileOrientation.dNW;
+		} else if (!isGroundLevel(heightMap, x - 1, y + 1)) {
+			return TileOrientation.dSW;
 		}
 
 		return TileOrientation.BASE;

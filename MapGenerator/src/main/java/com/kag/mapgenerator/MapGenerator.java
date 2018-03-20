@@ -33,7 +33,11 @@ public class MapGenerator implements IMapGenerator {
 
 	@Override
 	public GameMap generateMap(int width, int height) {
-		return MapGenerator.newWorld(width, height).using(new GroundBuilder()).create();
+		return MapGenerator.newWorld(width, height)
+                        .using(new GroundBuilder())
+                        .using(new WaterBuilder())
+                        .using(new SpawnBuilder())
+                        .create();
 	}
 
 	private MapGenerator using(IWorldBuilder worldBuilder) {
