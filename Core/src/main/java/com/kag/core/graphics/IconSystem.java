@@ -54,7 +54,7 @@ public class IconSystem implements IEntitySystem, IComponentLoader {
         Texture texture = assetManager.getResource(iconPart.getAsset());
         
         sb.begin();
-        sb.draw(texture, position.getX()- 40, position.getY()- 22);
+        sb.draw(texture, position.getX(), position.getY());
         sb.end();
     }
 
