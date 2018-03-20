@@ -65,13 +65,14 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         player.addPart(lifePart);
         player.addPart(currencyPart);
         
-        IconPart healthIconPart = new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/hearthIcon.png")));
+        IconPart healthIconPart = new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/lifeIcon.png")));
         playerHealthLabel.addPart(healthIconPart);
         playerHealthLabel.addPart(new PositionPart(900, 620));
         playerHealthLabel.addPart(lifePart);
         playerHealthLabel.addPart(new LabelPart("Health: " + String.valueOf(lifePart.getHealth())));
         
-        //IconPart currencyIconPart = new IconPart();
+        IconPart currencyIconPart = new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/coinIcon.png")));
+        playerCurrencyLabel.addPart(currencyIconPart);
         playerCurrencyLabel.addPart(new PositionPart(900, 560));
         playerCurrencyLabel.addPart(currencyPart);
         playerCurrencyLabel.addPart(new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount())));
