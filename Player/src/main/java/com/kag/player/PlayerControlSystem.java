@@ -9,6 +9,7 @@ import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.entities.parts.gui.LabelPart;
+import com.kag.common.entities.parts.gui.MenuBackgroundPart;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IAssetManager;
@@ -28,6 +29,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
     private Entity player;
     private Entity playerHealthLabel;
     private Entity playerCurrencyLabel;
+    private Entity playerMenuBackground;
 
     @Override
     public Family getFamily() {
@@ -54,6 +56,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         player = new Entity();
         playerHealthLabel = new Entity();
         playerCurrencyLabel = new Entity();
+        playerMenuBackground = new Entity();
         
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
@@ -67,19 +70,24 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         
         IconPart healthIconPart = new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/lifeIcon.png")));
         playerHealthLabel.addPart(healthIconPart);
-        playerHealthLabel.addPart(new PositionPart(900, 620));
+        playerHealthLabel.addPart(new PositionPart(870, 620));
         playerHealthLabel.addPart(lifePart);
         playerHealthLabel.addPart(new LabelPart("Health: " + String.valueOf(lifePart.getHealth())));
         
         IconPart currencyIconPart = new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/coinIcon.png")));
         playerCurrencyLabel.addPart(currencyIconPart);
-        playerCurrencyLabel.addPart(new PositionPart(900, 560));
+        playerCurrencyLabel.addPart(new PositionPart(870, 560));
         playerCurrencyLabel.addPart(currencyPart);
         playerCurrencyLabel.addPart(new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount())));
+        
+        
+        playerMenuBackground.addPart(new PositionPart(768,520));
+        playerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/red_panel.png"))));
         
         world.addEntity(player);
         world.addEntity(playerHealthLabel);
         world.addEntity(playerCurrencyLabel);
+        world.addEntity(playerMenuBackground);
     }
 
     @Override
