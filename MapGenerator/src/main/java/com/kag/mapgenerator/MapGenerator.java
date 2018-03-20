@@ -14,7 +14,7 @@ public class MapGenerator implements IMapGenerator {
 
 	private int width;
 	private int height;
-	private final int octaves = 4;
+	private final int octaves = 3;
 	private List<IWorldBuilder> worldBuilders;
 
 	public MapGenerator() {

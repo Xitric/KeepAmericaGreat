@@ -22,7 +22,7 @@ public class MapRenderer {
 		for (int y = 0; y < gameMap.getHeight(); y++) {
 			for (int x = 0; x < gameMap.getWidth(); x++) {
 				int spriteIndex = gameMap.getTile(x, y).getLayer(0);
-				spriteBatch.draw(texture, x * 64, 640 - y * 64 - 64, 64, 64, spriteIndex % 13 * 64, spriteIndex / 13 * 64, 64, 64, false, false);
+				spriteBatch.draw(texture, x * 64, 2304 - y * 64 - 64, 64, 64, spriteIndex % 13 * 64, spriteIndex / 13 * 64, 64, 64, false, false);
 			}
 		}
 		spriteBatch.end();
