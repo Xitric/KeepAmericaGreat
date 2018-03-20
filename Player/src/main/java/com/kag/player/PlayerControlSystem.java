@@ -95,6 +95,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         world.removeEntity(player);
         world.removeEntity(playerHealthLabel);
         world.removeEntity(playerCurrencyLabel);
+        world.removeEntity(playerMenuBackground);
     }
 
 }
