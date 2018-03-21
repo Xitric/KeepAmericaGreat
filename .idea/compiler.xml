@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Collision" />
+        <module name="Common" />
+        <module name="Core" />
+        <module name="EnemyController" />
+        <module name="KeepAmericaGreat-app" />
+        <module name="KeepAmericaGreat-branding" />
+        <module name="MapGenerator" />
+        <module name="ModuleUpdateManager" />
+        <module name="PathFinder" />
+        <module name="Sound" />
+        <module name="TowerController" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Collision" target="1.8" />
+      <module name="Common" target="1.8" />
+      <module name="Core" target="1.8" />
+      <module name="EnemyController" target="1.8" />
+      <module name="KeepAmericaGreat-app" target="1.8" />
+      <module name="KeepAmericaGreat-branding" target="1.8" />
+      <module name="KeepAmericaGreat-parent" target="1.5" />
+      <module name="MapGenerator" target="1.8" />
+      <module name="ModuleUpdateManager" target="1.8" />
+      <module name="PathFinder" target="1.8" />
+      <module name="Sound" target="1.8" />
+      <module name="TowerController" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
