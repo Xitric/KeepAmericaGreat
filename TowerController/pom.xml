@@ -16,6 +16,10 @@
                 <extensions>true</extensions>
                 <configuration>
                     <useOSGiDependencies>true</useOSGiDependencies>
+                    <publicPackages>
+                        <publicPackage>com.kag.interfaces</publicPackage>
+                        <publicPackage>com.kag.towerparts</publicPackage>
+                    </publicPackages>
                 </configuration>
             </plugin>
             <plugin>
@@ -41,8 +45,7 @@
         <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-lookup</artifactId>
-            <version>RELEASE82</version>
-            <type>jar</type>
+            <version>${netbeans.version}</version>
         </dependency>
     </dependencies>
     <properties>

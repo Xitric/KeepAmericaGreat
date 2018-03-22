@@ -6,23 +6,6 @@
     <groupId>com.kag</groupId>
     <artifactId>KeepAmericaGreat-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <dependencies>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>Common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-lookup</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>TowerController</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
     <packaging>pom</packaging>
 
     <name>KeepAmericaGreat-parent</name>
@@ -97,7 +80,7 @@
         <module>Core</module>
         <module>ModuleUpdateManager</module>
         <module>Player</module>
-        <module>CannonTowers</module>
+        <module>ShootingTowers</module>
     </modules>
 
     <properties>

@@ -2,8 +2,6 @@ package com.kag.shootingtowers;
 
 import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.interfaces.ITower;
 import org.openide.util.Lookup;

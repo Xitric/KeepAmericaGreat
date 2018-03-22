@@ -6,7 +6,7 @@
         <artifactId>KeepAmericaGreat-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>CannonTowers</artifactId>
+    <artifactId>ShootingTowers</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -34,9 +34,19 @@
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-openide-util-lookup</artifactId>
+            <version>RELEASE82</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
             <artifactId>Common</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>TowerController</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <properties>
