@@ -7,13 +7,14 @@ package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.kag.common.data.GameMap;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
+import com.kag.common.spinterfaces.IMapGenerator;
 import com.kag.common.spinterfaces.IPrioritizable;
 import com.kag.common.spinterfaces.ISystem;
+import com.kag.core.graphics.MapRenderer;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -37,17 +38,21 @@ public class Game implements ApplicationListener {
 	private Lookup.Result<ISystem> systemLookupResult;
 	private Lookup.Result<IEntitySystem> entitySystemLookupResult;
 	private World world;
+	private MapRenderer mapRenderer;
 
 	public Game() {
 		lookup = Lookup.getDefault();
 		gameComponents = new CopyOnWriteArrayList<>();
 		systems = new CopyOnWriteArrayList<>();
 		entitySystems = new CopyOnWriteArrayList<>();
-		world = new World(new GameMap(12, 36));
 	}
 
 	@Override
 	public void create() {
+		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
+		world = new World(mapGenerator.generateMap(12,36));
+		mapRenderer = new MapRenderer();
+		
 		componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
 		componentLoaderLookupResult.addLookupListener(componentLoaderLookupListener);
 
@@ -66,6 +71,7 @@ public class Game implements ApplicationListener {
 		systems.sort(systemComparator);
 		entitySystems.addAll(lookup.lookupAll(IEntitySystem.class));
 		entitySystems.sort(systemComparator);
+
 	}
 
 	@Override
@@ -76,22 +82,23 @@ public class Game implements ApplicationListener {
 	//Render also acts as our update
 	@Override
 	public void render() {
-
+		mapRenderer.render(world.getGameMap());
+		
 		for (ISystem system : systems) {
 			system.update(Gdx.graphics.getDeltaTime(), world);
 		}
 
 		for (IEntitySystem entitySystem : entitySystems) {
 			BitSet familyBits = entitySystem.getFamily().getBits();
-			
+
 			for (Entity entity : world.getAllEntities()) {
-				
+
 				//Only update entity in the system if the system's family matches the entity
 				//We test if the family bits are a subset of the entity's part bits
 				BitSet subsetBits = new BitSet();
 				subsetBits.or(familyBits);
 				subsetBits.and(entity.getBits());
-				
+
 				if (subsetBits.equals(familyBits)) {
 					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world);
 				}

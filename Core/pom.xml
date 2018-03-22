@@ -54,15 +54,25 @@
             <version>${netbeans.version}</version>
         </dependency>
 		<dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-modules</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-api-annotations-common</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-util-lookup</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-modules</artifactId>
+			<version>${netbeans.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>Common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		
 		<!-- LibGDX -->
 		<dependency>
@@ -105,9 +115,9 @@
 			<classifier>natives-desktop</classifier>
 			<version>${libGDX.version}</version>
 		</dependency>
-    </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <libGDX.version>1.5.0</libGDX.version>
-    </properties>
+	</dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<libGDX.version>1.5.0</libGDX.version>
+	</properties>
 </project>
