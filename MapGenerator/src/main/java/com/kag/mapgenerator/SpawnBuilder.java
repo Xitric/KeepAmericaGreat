@@ -13,6 +13,8 @@ import com.kag.common.data.GameMap;
  */
 public class SpawnBuilder extends AbstractBuilder {
 
+    private final static int offset = 26;
+
     @Override
     public boolean build(float[][] heightMap, GameMap gameMap) {
         for (int y = 0; y <= 2; y++) {
@@ -23,15 +25,15 @@ public class SpawnBuilder extends AbstractBuilder {
                 
                 if(x < 1 || x == heightMap[y].length - 1) {
                     if(y < 2) {
-                       gameMap.getTile(x, y).setLayer(0, (x < 1 ? TileOrientation.E.getSpriteIndex() + 26 : TileOrientation.W.getSpriteIndex() + 26)); 
+                       gameMap.getTile(x, y).setLayer(0, (x < 1 ? TileOrientation.E.getSpriteIndex() + offset : TileOrientation.W.getSpriteIndex() + offset));
                     } else {
-                        gameMap.getTile(x, y).setLayer(0, (x < 1 ? TileOrientation.dNE.getSpriteIndex() + 26 : TileOrientation.dNW.getSpriteIndex() + 26)); 
+                        gameMap.getTile(x, y).setLayer(0, (x < 1 ? TileOrientation.dNE.getSpriteIndex() + offset : TileOrientation.dNW.getSpriteIndex() + offset));
                     }
                 } else {
                     if(y < 2) {
-                       gameMap.getTile(x, y).setLayer(0, TileOrientation.BASE.getSpriteIndex() + 26);  
+                       gameMap.getTile(x, y).setLayer(0, TileOrientation.BASE.getSpriteIndex() + offset);
                     } else {
-                       gameMap.getTile(x, y).setLayer(0, TileOrientation.N.getSpriteIndex() + 26);
+                       gameMap.getTile(x, y).setLayer(0, TileOrientation.N.getSpriteIndex() + offset);
                     }
                 }
             }

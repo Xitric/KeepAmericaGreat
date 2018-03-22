@@ -16,6 +16,7 @@ public class WaterBuilder extends AbstractBuilder {
 
                 if (!isGroundLevel(heightMap, x, y)) {
                     gameMap.getTile(x, y).setLayer(0, waterTile);
+                    gameMap.getTile(x, y).setWalkable(false);
                 } else {
                     gameMap.getTile(x, y).setLayer(0, getGroundTileOrientation(heightMap, x, y).getSpriteIndex());
                 }
