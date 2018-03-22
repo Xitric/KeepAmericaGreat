@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-netbeans-api-annotations-common:RELEASE82" level="project" />
-    <orderEntry type="library" name="Maven: org.netbeans.api:org-netbeans-api-annotations-common:RELEASE82" level="project" />
+    <orderEntry type="library" name="Maven: org.netbeans.api:org-openide-util-lookup:RELEASE802" level="project" />
+    <orderEntry type="module" module-name="TowerController" />
   </component>
 </module>

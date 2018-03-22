@@ -1,4 +1,4 @@
-package com.kag.common.entities.parts;
+package com.kag.towerparts;
 
 import com.kag.common.entities.IPart;
 
@@ -6,10 +6,10 @@ public class DamagePart implements IPart {
 
 	private int damage;
 	private int range;
-	private int attackSpeed;
-	private int projectileSpeed;
+	private float attackSpeed;
+	private float projectileSpeed;
 
-	public DamagePart(int damage, int range, int attackSpeed, int projectileSpeed) {
+	public DamagePart(int damage, int range, float attackSpeed, float projectileSpeed) {
 		this.damage = damage;
 		this.range = range;
 		this.attackSpeed = attackSpeed;
@@ -32,7 +32,7 @@ public class DamagePart implements IPart {
 		this.range = range;
 	}
 
-	public int getAttackSpeed() {
+	public float getAttackSpeed() {
 		return attackSpeed;
 	}
 
@@ -40,7 +40,7 @@ public class DamagePart implements IPart {
 		this.attackSpeed = attackSpeed;
 	}
 
-	public int getProjectileSpeed() {
+	public float getProjectileSpeed() {
 		return projectileSpeed;
 	}
 

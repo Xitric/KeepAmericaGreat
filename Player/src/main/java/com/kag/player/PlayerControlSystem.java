@@ -49,6 +49,16 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
     }
 
     @Override
+    public void dispose(World world) {
+        world.removeEntity(player);
+        world.removeEntity(playerHealthLabel);
+        world.removeEntity(playerCurrencyLabel);
+        world.removeEntity(playerMenuBackground);
+        world.removeEntity(playerCurrencyIcon);
+        world.removeEntity(playerHealthIcon);
+    }
+
+    @Override
     public int getPriority() {
         return 0;
     }
@@ -61,7 +71,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         playerMenuBackground = new Entity();
         playerHealthIcon = new Entity();
         playerCurrencyIcon = new Entity();
-        
+
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         LifePart lifePart = new LifePart(50);
@@ -80,33 +90,23 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         playerHealthLabel.addPart(new PositionPart(870, 620));
         playerHealthLabel.addPart(lifePart);
         playerHealthLabel.addPart(new LabelPart("Health: " + String.valueOf(lifePart.getHealth())));
-        
+
         playerCurrencyIcon.addPart(new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/coinIcon.png"))));
         playerCurrencyIcon.addPart(new PositionPart(810, 537));
 
         playerCurrencyLabel.addPart(new PositionPart(870, 560));
         playerCurrencyLabel.addPart(currencyPart);
         playerCurrencyLabel.addPart(new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount())));
-        
+
         playerMenuBackground.addPart(new PositionPart(768,520));
         playerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/red_panel.png"))));
-        
+
         world.addEntity(player);
         world.addEntity(playerHealthLabel);
         world.addEntity(playerCurrencyLabel);
         world.addEntity(playerMenuBackground);
         world.addEntity(playerCurrencyIcon);
         world.addEntity(playerHealthIcon);
-    }
-
-    @Override
-    public void dispose(World world) {
-        world.removeEntity(player);
-        world.removeEntity(playerHealthLabel);
-        world.removeEntity(playerCurrencyLabel);
-        world.removeEntity(playerMenuBackground);
-        world.removeEntity(playerCurrencyIcon);
-        world.removeEntity(playerHealthIcon);
     }
 
 }

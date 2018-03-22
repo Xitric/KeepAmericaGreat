@@ -8,13 +8,18 @@ package com.kag.towercontroller;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.entities.parts.gui.MenuBackgroundPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
+import com.kag.interfaces.ITower;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+
+import java.util.Collection;
+import java.util.List;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = ISystem.class)
@@ -25,6 +30,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
+    private Entity byeMenuSlot1;
 
     @Override
     public void update(float dt, World world) {
@@ -40,6 +46,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void load(World world) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
+        Collection<? extends ITower> listOfPowers = Lookup.getDefault().lookupAll(ITower.class);
+
         towerMenuBackground = new Entity();
         towerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo.png"))));
         towerMenuBackground.addPart(new PositionPart(768, 260));
@@ -47,7 +55,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         upgradeMenuBackground = new Entity();
         upgradeMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo2.png"))));
         upgradeMenuBackground.addPart(new PositionPart(768, 0));
-        
+
+        byeMenuSlot1 = new Entity();
+        byeMenuSlot1.addPart(listOfPowers.iterator().next().create().getPart(IconPart.class));
+
         world.addEntity(towerMenuBackground);
         world.addEntity(upgradeMenuBackground);
     }
