@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CannonTowers/CannonTowers.iml" filepath="$PROJECT_DIR$/CannonTowers/CannonTowers.iml" />
       <module fileurl="file://$PROJECT_DIR$/Collision/Collision.iml" filepath="$PROJECT_DIR$/Collision/Collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
       <module fileurl="file://$PROJECT_DIR$/Core/Core.iml" filepath="$PROJECT_DIR$/Core/Core.iml" />
@@ -12,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/MapGenerator/MapGenerator.iml" filepath="$PROJECT_DIR$/MapGenerator/MapGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/ModuleUpdateManager/ModuleUpdateManager.iml" filepath="$PROJECT_DIR$/ModuleUpdateManager/ModuleUpdateManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/PathFinder/PathFinder.iml" filepath="$PROJECT_DIR$/PathFinder/PathFinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Player/Player.iml" filepath="$PROJECT_DIR$/Player/Player.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sound/Sound.iml" filepath="$PROJECT_DIR$/Sound/Sound.iml" />
       <module fileurl="file://$PROJECT_DIR$/TowerController/TowerController.iml" filepath="$PROJECT_DIR$/TowerController/TowerController.iml" />
     </modules>

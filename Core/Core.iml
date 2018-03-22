@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.kag:Player:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-netbeans-api-annotations-common:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-openide-util-lookup:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-openide-modules:RELEASE82" level="project" />

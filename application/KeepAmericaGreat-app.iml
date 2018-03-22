@@ -9,6 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.kag:Player:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.modules:org-netbeans-core-startup:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.modules:org-netbeans-bootstrap:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-openide-filesystems:RELEASE82" level="project" />

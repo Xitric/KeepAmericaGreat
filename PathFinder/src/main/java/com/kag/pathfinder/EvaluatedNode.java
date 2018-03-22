@@ -3,7 +3,7 @@ package com.kag.pathfinder;
 import com.kag.common.data.Node;
 import com.kag.common.data.Tile;
 
-public class EvaluatedNode extends Node {
+public class EvaluatedNode extends Node implements Comparable<EvaluatedNode> {
 
 
     // The cost of getting here
@@ -45,4 +45,10 @@ public class EvaluatedNode extends Node {
 
         return getTile() == that.getTile();
     }
+
+
+	@Override
+	public int compareTo(EvaluatedNode o) {
+    	return Integer.compare(this.fValue, o.getfValue());
+	}
 }
