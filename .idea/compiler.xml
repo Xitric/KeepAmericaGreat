@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="CannonTowers" />
         <module name="Collision" />
         <module name="Common" />
         <module name="Core" />
@@ -15,11 +16,13 @@
         <module name="MapGenerator" />
         <module name="ModuleUpdateManager" />
         <module name="PathFinder" />
+        <module name="Player" />
         <module name="Sound" />
         <module name="TowerController" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="CannonTowers" target="1.8" />
       <module name="Collision" target="1.8" />
       <module name="Common" target="1.8" />
       <module name="Core" target="1.8" />
@@ -30,6 +33,7 @@
       <module name="MapGenerator" target="1.8" />
       <module name="ModuleUpdateManager" target="1.8" />
       <module name="PathFinder" target="1.8" />
+      <module name="Player" target="1.8" />
       <module name="Sound" target="1.8" />
       <module name="TowerController" target="1.8" />
     </bytecodeTargetLevel>
