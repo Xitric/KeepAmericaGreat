@@ -79,6 +79,8 @@
         <module>TowerController</module>
         <module>Core</module>
         <module>ModuleUpdateManager</module>
+        <module>Player</module>
+        <module>CannonTowers</module>
     </modules>
 
     <properties>

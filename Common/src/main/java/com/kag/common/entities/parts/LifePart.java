@@ -4,9 +4,17 @@ import com.kag.common.entities.IPart;
 
 public class LifePart implements IPart {
 
-	private int health;
+    private int health;
 
-	public int getHealth() {
-		return health;
-	}
+    public LifePart(int health) {
+        this.health = health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
+    }
 }

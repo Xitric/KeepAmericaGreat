@@ -6,7 +6,7 @@
         <artifactId>KeepAmericaGreat-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>TowerController</artifactId>
+    <artifactId>Player</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
