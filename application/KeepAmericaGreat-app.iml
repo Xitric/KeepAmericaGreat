@@ -55,5 +55,6 @@
     <orderEntry type="library" name="Maven: org.netbeans.api:org-openide-io:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-netbeans-api-intent:RELEASE82" level="project" />
     <orderEntry type="library" name="Maven: org.netbeans.api:org-netbeans-api-io:RELEASE82" level="project" />
+    <orderEntry type="module" module-name="MapGenerator" />
   </component>
 </module>

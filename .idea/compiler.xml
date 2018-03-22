@@ -26,7 +26,7 @@
       <module name="EnemyController" target="1.8" />
       <module name="KeepAmericaGreat-app" target="1.8" />
       <module name="KeepAmericaGreat-branding" target="1.8" />
-      <module name="KeepAmericaGreat-parent" target="1.5" />
+      <module name="KeepAmericaGreat-parent" target="1.8" />
       <module name="MapGenerator" target="1.8" />
       <module name="ModuleUpdateManager" target="1.8" />
       <module name="PathFinder" target="1.8" />
