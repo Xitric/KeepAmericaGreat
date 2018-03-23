@@ -46,7 +46,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void load(World world) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
-        Collection<? extends ITower> listOfPowers = Lookup.getDefault().lookupAll(ITower.class);
+        //Collection<? extends ITower> listOfPowers = Lookup.getDefault().lookupAll(ITower.class);
 
         towerMenuBackground = new Entity();
         towerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo.png"))));
@@ -56,8 +56,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         upgradeMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo2.png"))));
         upgradeMenuBackground.addPart(new PositionPart(768, 0));
 
-        byeMenuSlot1 = new Entity();
-        byeMenuSlot1.addPart(listOfPowers.iterator().next().create().getPart(IconPart.class));
+        //byeMenuSlot1 = new Entity();
+        //byeMenuSlot1.addPart(listOfPowers.iterator().next().create().getPart(IconPart.class));
 
         world.addEntity(towerMenuBackground);
         world.addEntity(upgradeMenuBackground);
