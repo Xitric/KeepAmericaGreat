@@ -5,6 +5,7 @@
  */
 package com.kag.towercontroller;
 
+import com.kag.common.data.IAsset;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.PositionPart;
@@ -19,22 +20,33 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 import java.util.Collection;
-import java.util.List;
 
 @ServiceProviders(value = {
-    @ServiceProvider(service = ISystem.class)
-    ,
-	@ServiceProvider(service = IComponentLoader.class)
+    @ServiceProvider(service = ISystem.class),
+    @ServiceProvider(service = IComponentLoader.class)
 })
 public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
-    private Entity byeMenuSlot1;
+    private Entity buymenu;
 
     @Override
     public void update(float dt, World world) {
-        
+        Collection<? extends ITower> listOfPowers = Lookup.getDefault().lookupAll(ITower.class);
+        if (!listOfPowers.isEmpty()) {
+            if(listOfPowers.iterator().hasNext()){
+            IAsset iasset = listOfPowers.iterator().next().getAsset();
+            buymenu = new Entity();
+            buymenu.addPart(new PositionPart(100, 100));
+//            System.out.println(entity.getPart(IconPart.class).getAsset());
+            buymenu.addPart(new IconPart(iasset));
+            world.addEntity(buymenu);
+            }
+        } else {
+            System.out.println("List of towers is empty!");
+        }
+
     }
 
     @Override
@@ -46,18 +58,14 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void load(World world) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
-        //Collection<? extends ITower> listOfPowers = Lookup.getDefault().lookupAll(ITower.class);
-
+        System.out.println("TOWER SYSTEM IS CALLED!!!");
         towerMenuBackground = new Entity();
         towerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo.png"))));
         towerMenuBackground.addPart(new PositionPart(768, 260));
-        
+
         upgradeMenuBackground = new Entity();
         upgradeMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo2.png"))));
         upgradeMenuBackground.addPart(new PositionPart(768, 0));
-
-        //byeMenuSlot1 = new Entity();
-        //byeMenuSlot1.addPart(listOfPowers.iterator().next().create().getPart(IconPart.class));
 
         world.addEntity(towerMenuBackground);
         world.addEntity(upgradeMenuBackground);
