@@ -23,6 +23,7 @@ public class Family {
 	 * @param partClasses the classes of the parts represented by this family
 	 * @return the resulting family
 	 */
+	@SafeVarargs
 	public static Family forAll(Class<? extends IPart>... partClasses) {
 		BitSet bits = new BitSet();
 

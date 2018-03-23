@@ -5,17 +5,17 @@
  */
 package com.kag.enemycontroller;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.spinterfaces.ISystem;
-import org.openide.util.lookup.ServiceProvider;
 
-@ServiceProvider(service = ISystem.class)
+//@ServiceProvider(service = ISystem.class)
 public class EnemyMasterSystem implements ISystem {
 
 	
 	@Override
-	public void update(float dt, World world) {
-		System.out.println("Update inde i EnemyMasterSystem");
+	public void update(float dt, World world, GameData gameData) {
+
 	}
 
 	@Override

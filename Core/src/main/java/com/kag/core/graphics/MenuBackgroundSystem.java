@@ -2,11 +2,11 @@ package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.entities.parts.gui.MenuBackgroundPart;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
@@ -42,7 +42,7 @@ public class MenuBackgroundSystem implements IEntitySystem, IComponentLoader {
     }
 
     @Override
-    public void update(float delta, Entity entity, World world) {
+    public void update(float delta, Entity entity, World world, GameData gameData) {
         MenuBackgroundPart backgroundPart = entity.getPart(MenuBackgroundPart.class);
         PositionPart position = entity.getPart(PositionPart.class);
 

@@ -5,6 +5,7 @@
  */
 package com.kag.common.spinterfaces;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 
 /**
@@ -30,5 +31,5 @@ public interface ISystem extends IPrioritizable {
 	 *              this method invocation
 	 * @param world the game world
 	 */
-	void update(float dt, World world);
+	void update(float dt, World world, GameData gameData);
 }

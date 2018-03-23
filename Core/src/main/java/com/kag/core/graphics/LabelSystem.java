@@ -2,6 +2,7 @@ package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -50,7 +51,7 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 	}
 
 	@Override
-	public void update(float delta, Entity entity, World world) {
+	public void update(float delta, Entity entity, World world, GameData gameData) {
 		LabelPart label = entity.getPart(LabelPart.class);
 		PositionPart position = entity.getPart(PositionPart.class);
 		

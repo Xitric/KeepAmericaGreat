@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.kag.common.data.IAsset;
 import com.kag.common.spinterfaces.IAssetManager;
+import org.openide.util.lookup.ServiceProvider;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.openide.util.lookup.ServiceProvider;
 
 /**
  * Implementation of the {@link IAssetManager} interface to manage the lifetime

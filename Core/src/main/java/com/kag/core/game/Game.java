@@ -7,22 +7,23 @@ package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.kag.common.data.World;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
-import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.IMapGenerator;
-import com.kag.common.spinterfaces.IPrioritizable;
-import com.kag.common.spinterfaces.ISystem;
+import com.kag.common.spinterfaces.*;
 import com.kag.core.graphics.MapRenderer;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.BitSet;
-import java.util.concurrent.CopyOnWriteArrayList;
+import com.kag.core.input.GdxInputProcessor;
+import com.kag.core.input.GdxKeyboard;
+import com.kag.core.input.GdxMouse;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
+
+import java.util.BitSet;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -38,7 +39,11 @@ public class Game implements ApplicationListener {
 	private Lookup.Result<ISystem> systemLookupResult;
 	private Lookup.Result<IEntitySystem> entitySystemLookupResult;
 	private World world;
+	private GameData gameData;
+	private GdxKeyboard keyboard;
+	private GdxMouse mouse;
 	private MapRenderer mapRenderer;
+	private OrthographicCamera gdxCamera;
 
 	public Game() {
 		lookup = Lookup.getDefault();
@@ -49,9 +54,21 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void create() {
+		gdxCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		gdxCamera.setToOrtho(true);
+		gdxCamera.update();
+		Camera camera = new Camera();
+		camera.setX(Gdx.graphics.getWidth() / 2);
+		camera.setY(Gdx.graphics.getHeight() / 2);
+
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
 		world = new World(mapGenerator.generateMap(12,36));
-		mapRenderer = new MapRenderer();
+		mapRenderer = new MapRenderer(gdxCamera);
+
+		gameData = new GameData(new Keyboard(), new Mouse(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+		keyboard = new GdxKeyboard(gameData.getKeyboard());
+		mouse = new GdxMouse(gameData.getMouse());
+		Gdx.input.setInputProcessor(new GdxInputProcessor(keyboard, mouse));
 		
 		componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
 		componentLoaderLookupResult.addLookupListener(componentLoaderLookupListener);
@@ -82,10 +99,16 @@ public class Game implements ApplicationListener {
 	//Render also acts as our update
 	@Override
 	public void render() {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+
+		gdxCamera.position.x = gameData.getCamera().getX();
+		gdxCamera.position.y = gameData.getCamera().getY();
+		gdxCamera.update();
 		mapRenderer.render(world.getGameMap());
 		
 		for (ISystem system : systems) {
-			system.update(Gdx.graphics.getDeltaTime(), world);
+			system.update(Gdx.graphics.getDeltaTime(), world, gameData);
 		}
 
 		for (IEntitySystem entitySystem : entitySystems) {
@@ -100,10 +123,13 @@ public class Game implements ApplicationListener {
 				subsetBits.and(entity.getBits());
 
 				if (subsetBits.equals(familyBits)) {
-					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world);
+					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world, gameData);
 				}
 			}
 		}
+
+		keyboard.update();
+		mouse.update();
 	}
 
 	@Override

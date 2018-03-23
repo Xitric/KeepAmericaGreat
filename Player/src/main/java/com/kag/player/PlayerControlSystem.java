@@ -1,5 +1,6 @@
 package com.kag.player;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -39,7 +40,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
     }
 
     @Override
-    public void update(float delta, Entity entity, World world) {
+    public void update(float delta, Entity entity, World world, GameData gameData) {
         LifePart lifePart = entity.getPart(LifePart.class);
         CurrencyPart currencyPart = entity.getPart(CurrencyPart.class);
 

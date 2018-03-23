@@ -2,34 +2,34 @@ package com.kag.common.data;
 
 public class Camera {
 
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 
 	/**
 	 * @return the x
 	 */
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
 	/**
 	 * @param x the x to set
 	 */
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
 	/**
 	 * @return the y
 	 */
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
 	/**
 	 * @param y the y to set
 	 */
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 }

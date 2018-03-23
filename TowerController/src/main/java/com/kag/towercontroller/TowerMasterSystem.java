@@ -5,6 +5,7 @@
  */
 package com.kag.towercontroller;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.PositionPart;
@@ -27,7 +28,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private Entity upgradeMenuBackground;
 
     @Override
-    public void update(float dt, World world) {
+    public void update(float dt, World world, GameData gameData) {
         
     }
 
