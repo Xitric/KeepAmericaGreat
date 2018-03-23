@@ -1,11 +1,12 @@
 package com.kag.core.graphics;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IComponentLoader;
@@ -33,40 +34,40 @@ import org.openide.util.lookup.ServiceProviders;
 })
 public class LabelSystem implements IEntitySystem, IComponentLoader {
 
-	private static final Family family = Family.forAll(LabelPart.class, PositionPart.class);
+	private static final Family FAMILY = Family.forAll(LabelPart.class, AbsolutePositionPart.class);
 
-	private SpriteBatch sb;
 	private BitmapFont font;
 
 	@Override
 	public void load(World world) {
-		sb = new SpriteBatch();
-		font = new BitmapFont();
+		font = new BitmapFont(true);
 	}
 
 	@Override
 	public void dispose(World world) {
 		font.dispose();
-		sb.dispose();
 	}
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
 		LabelPart label = entity.getPart(LabelPart.class);
-		PositionPart position = entity.getPart(PositionPart.class);
-		
-		sb.begin();
-		font.draw(sb, label.getLabel(), position.getX(), position.getY());
-		sb.end();
+		AbsolutePositionPart position = entity.getPart(AbsolutePositionPart.class);
+
+		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
+		RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+			font.draw(sb, label.getLabel(), position.getX(), position.getY());
+		});
+
+		QueuedRenderer.getInstance().enqueue(renderItem);
 	}
 
 	@Override
 	public Family getFamily() {
-		return family;
+		return FAMILY;
 	}
 
 	@Override
 	public int getPriority() {
-		return 100;
+		return RENDER_PASS;
 	}
 }

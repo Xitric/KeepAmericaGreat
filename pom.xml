@@ -80,7 +80,6 @@
         <module>Core</module>
         <module>ModuleUpdateManager</module>
         <module>Player</module>
-        <module>CannonTowers</module>
         <module>CameraController</module>
     </modules>
 

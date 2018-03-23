@@ -5,14 +5,14 @@
  */
 package com.kag.interfaces;
 
-import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.AssetPart;
 
 /**
  *
  * @author mstruntze
  */
 public interface ITower {
-    IAsset getAsset();
+    AssetPart getAsset();
     Entity create();
 }

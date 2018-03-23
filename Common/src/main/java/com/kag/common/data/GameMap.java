@@ -1,26 +1,31 @@
 package com.kag.common.data;
 
+import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.TileMapPart;
+
 /**
  *
  * @author Sofie Jørgensen
  */
 public class GameMap {
 
-	private IAsset spriteSheet;
-	private Tile[][] tiles;
+	private Entity tileEntity;
 	private Node[][] pathNodes;
 
 	public GameMap(int width, int height) {
-		this.tiles = new Tile[height][width];
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				tiles[y][x] = new Tile(x, y);
-			}
-		}
+		tileEntity = new Entity();
+
+		TileMapPart tileMapPart = new TileMapPart(width, height);
+		tileEntity.addPart(tileMapPart);
+	}
+
+	public Entity getTileEntity() {
+		return tileEntity;
 	}
 
 	public Tile getTile(int x, int y) {
-		return tiles[y][x];
+		return tileEntity.getPart(TileMapPart.class).getTile(x, y);
 	}
 
 	public Node[][] getPathNodes() {
@@ -31,29 +36,19 @@ public class GameMap {
 		this.pathNodes = pathNodes;
 	}
 
-	/**
-	 * @return the spriteSheet
-	 */
-	public IAsset getSpriteSheet() {
-		return spriteSheet;
-	}
-
-	/**
-	 * @param spriteSheet the spriteSheet to set
-	 */
-	public void setSpriteSheet(IAsset spriteSheet) {
-		this.spriteSheet = spriteSheet;
+	public void setSpriteSheet(AssetPart spriteSheet) {
+		tileEntity.addPart(spriteSheet);
 	}
 
 	public void recalculatePathNodeMap() {
 
 	}
 
-	public int getHeight() {
-		return tiles.length;
+	public int getWidth() {
+		return tileEntity.getPart(TileMapPart.class).getWidth();
 	}
 
-	public int getWidth() {
-		return tiles.length == 0 ? 0 : tiles[0].length;
+	public int getHeight() {
+		return tileEntity.getPart(TileMapPart.class).getHeight();
 	}
 }

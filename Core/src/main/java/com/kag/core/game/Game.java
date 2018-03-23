@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.*;
-import com.kag.core.graphics.MapRenderer;
+import com.kag.core.graphics.QueuedRenderer;
 import com.kag.core.input.GdxInputProcessor;
 import com.kag.core.input.GdxKeyboard;
 import com.kag.core.input.GdxMouse;
@@ -42,7 +42,6 @@ public class Game implements ApplicationListener {
 	private GameData gameData;
 	private GdxKeyboard keyboard;
 	private GdxMouse mouse;
-	private MapRenderer mapRenderer;
 
 	public Game() {
 		lookup = Lookup.getDefault();
@@ -59,7 +58,6 @@ public class Game implements ApplicationListener {
 
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
 		world = new World(mapGenerator.generateMap(12,36));
-		mapRenderer = new MapRenderer();
 
 		gameData = new GameData(new Keyboard(), new Mouse(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		keyboard = new GdxKeyboard(gameData.getKeyboard());
@@ -97,11 +95,10 @@ public class Game implements ApplicationListener {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
-		OrthographicCamera camera = CoreCamera.getCamera();
-		camera.position.x = gameData.getCamera().getX();
-		camera.position.y = gameData.getCamera().getY();
+		OrthographicCamera camera = QueuedRenderer.getInstance().getDynamicCamera();
+		camera.position.x = (int)gameData.getCamera().getX();
+		camera.position.y = (int)gameData.getCamera().getY();
 		camera.update();
-		mapRenderer.render(world.getGameMap());
 		
 		for (ISystem system : systems) {
 			system.update(Gdx.graphics.getDeltaTime(), world, gameData);
@@ -124,6 +121,9 @@ public class Game implements ApplicationListener {
 			}
 		}
 
+		//Render the jobs that were enqueued during this iteration
+		QueuedRenderer.getInstance().render();
+
 		keyboard.update();
 		mouse.update();
 	}
@@ -138,7 +138,7 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void dispose() {
-
+		QueuedRenderer.getInstance().dispose();
 	}
 
 	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {

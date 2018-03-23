@@ -2,8 +2,8 @@ package com.kag.enemycontroller;
 
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.enemycontroller.interfaces.IEnemy;
@@ -33,7 +33,10 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 		Entity enemy = new Entity();
 		enemy.addPart(new PositionPart(6 * 64, 32));
 		enemy.addPart(new EnemyPart(200));
-		enemy.addPart(new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/Yellow1.png"))));
+		AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Yellow1.png"));
+		assetPart.setWidth(48);
+		assetPart.setHeight(48);
+		enemy.addPart(assetPart);
 
 		return enemy;
 	}

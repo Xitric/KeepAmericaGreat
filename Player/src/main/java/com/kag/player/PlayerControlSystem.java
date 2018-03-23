@@ -4,16 +4,11 @@ import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
-import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.CurrencyPart;
-import com.kag.common.entities.parts.LifePart;
-import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.IconPart;
+import com.kag.common.entities.parts.*;
 import com.kag.common.entities.parts.gui.LabelPart;
-import com.kag.common.entities.parts.gui.MenuBackgroundPart;
+import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -73,24 +68,26 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
         player.addPart(lifePart);
         player.addPart(currencyPart);
         player.addPart(lifePart);
-        player.addPart(new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/trumpTower.png"))));
+        player.addPart(assetManager.createTexture(getClass().getResourceAsStream("/trumpTower.png")));
 
-        playerHealthIcon.addPart(new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/lifeIcon.png"))));
-        playerHealthIcon.addPart(new PositionPart(810, 597));
+        playerHealthIcon.addPart(assetManager.createTexture(getClass().getResourceAsStream("/lifeIcon.png")));
+        playerHealthIcon.addPart(new AbsolutePositionPart(810, 597));
 
-        playerHealthLabel.addPart(new PositionPart(870, 620));
+        playerHealthLabel.addPart(new AbsolutePositionPart(870, 620));
         playerHealthLabel.addPart(lifePart);
         playerHealthLabel.addPart(new LabelPart("Health: " + String.valueOf(lifePart.getHealth())));
 
-        playerCurrencyIcon.addPart(new IconPart(assetManager.createAsset(getClass().getResourceAsStream("/coinIcon.png"))));
-        playerCurrencyIcon.addPart(new PositionPart(810, 537));
+        playerCurrencyIcon.addPart(assetManager.createTexture(getClass().getResourceAsStream("/coinIcon.png")));
+        playerCurrencyIcon.addPart(new AbsolutePositionPart(810, 537));
 
-        playerCurrencyLabel.addPart(new PositionPart(870, 560));
+        playerCurrencyLabel.addPart(new AbsolutePositionPart(870, 560));
         playerCurrencyLabel.addPart(currencyPart);
-        playerCurrencyLabel.addPart(new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount())));
+        LabelPart lblPt = new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount()));
+        lblPt.setzIndex(10);
+        playerCurrencyLabel.addPart(lblPt);
 
-        playerMenuBackground.addPart(new PositionPart(768, 520));
-        playerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/red_panel.png"))));
+        playerMenuBackground.addPart(new AbsolutePositionPart(768, 520));
+        playerMenuBackground.addPart(assetManager.createTexture(getClass().getResourceAsStream("/red_panel.png")));
 
         //world.addEntity(player); Add trump
         world.addEntity(playerHealthLabel);

@@ -25,7 +25,7 @@ public class Entity {
 		return removePart(part.getClass());
 	}
 
-	public boolean removePart(Class partClass) {
+	public boolean removePart(Class<? extends IPart> partClass) {
 		PartType type = PartType.getType(partClass);
 		bits.set(type.getId(), false);
 		

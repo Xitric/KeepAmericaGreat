@@ -8,7 +8,7 @@ public class Tile {
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
-        this.layers = new int[2];
+        this.layers = new int[] {-1, -1};
         walkable = true;
     }
 

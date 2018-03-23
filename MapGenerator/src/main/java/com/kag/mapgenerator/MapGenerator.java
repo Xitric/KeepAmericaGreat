@@ -1,15 +1,14 @@
 package com.kag.mapgenerator;
 
 import com.kag.common.data.GameMap;
-import com.kag.common.data.IAsset;
+import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IMapGenerator;
+import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.openide.util.Lookup;
-import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = IMapGenerator.class)
 public class MapGenerator implements IMapGenerator {
@@ -50,7 +49,7 @@ public class MapGenerator implements IMapGenerator {
 
     private GameMap create() {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        IAsset asset = assetManager.createAsset(getClass().getResourceAsStream("/tilesheet.png"));
+        AssetPart asset = assetManager.createTexture(getClass().getResourceAsStream("/tilesheet.png"));
         GameMap gameMap;
 
         boolean failed;
