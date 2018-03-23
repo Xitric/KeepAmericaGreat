@@ -43,7 +43,6 @@ public class Game implements ApplicationListener {
 	private GdxKeyboard keyboard;
 	private GdxMouse mouse;
 	private MapRenderer mapRenderer;
-	private OrthographicCamera gdxCamera;
 
 	public Game() {
 		lookup = Lookup.getDefault();
@@ -54,16 +53,13 @@ public class Game implements ApplicationListener {
 
 	@Override
 	public void create() {
-		gdxCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		gdxCamera.setToOrtho(true);
-		gdxCamera.update();
 		Camera camera = new Camera();
 		camera.setX(Gdx.graphics.getWidth() / 2);
 		camera.setY(Gdx.graphics.getHeight() / 2);
 
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
 		world = new World(mapGenerator.generateMap(12,36));
-		mapRenderer = new MapRenderer(gdxCamera);
+		mapRenderer = new MapRenderer();
 
 		gameData = new GameData(new Keyboard(), new Mouse(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		keyboard = new GdxKeyboard(gameData.getKeyboard());
@@ -88,7 +84,6 @@ public class Game implements ApplicationListener {
 		systems.sort(systemComparator);
 		entitySystems.addAll(lookup.lookupAll(IEntitySystem.class));
 		entitySystems.sort(systemComparator);
-
 	}
 
 	@Override
@@ -102,9 +97,10 @@ public class Game implements ApplicationListener {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
-		gdxCamera.position.x = gameData.getCamera().getX();
-		gdxCamera.position.y = gameData.getCamera().getY();
-		gdxCamera.update();
+		OrthographicCamera camera = CoreCamera.getCamera();
+		camera.position.x = gameData.getCamera().getX();
+		camera.position.y = gameData.getCamera().getY();
+		camera.update();
 		mapRenderer.render(world.getGameMap());
 		
 		for (ISystem system : systems) {

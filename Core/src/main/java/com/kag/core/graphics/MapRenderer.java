@@ -1,25 +1,23 @@
 package com.kag.core.graphics;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kag.common.data.GameMap;
+import com.kag.core.game.CoreCamera;
 import org.openide.util.Lookup;
 
 public class MapRenderer {
 
 	private SpriteBatch spriteBatch;
 	private AssetManager assetManager;
-	private OrthographicCamera camera;
 
-	public MapRenderer(OrthographicCamera camera) {
+	public MapRenderer() {
 		spriteBatch = new SpriteBatch();
 		assetManager = Lookup.getDefault().lookup(AssetManager.class);
-		this.camera = camera;
 	}
 
 	public void render(GameMap gameMap) {
-		spriteBatch.setProjectionMatrix(camera.combined);
+		spriteBatch.setProjectionMatrix(CoreCamera.getCamera().combined);
 		spriteBatch.begin();
 		Texture texture = assetManager.getResource(gameMap.getSpriteSheet());
 
