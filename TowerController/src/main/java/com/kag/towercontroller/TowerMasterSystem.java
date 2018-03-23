@@ -73,7 +73,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerImpleLookupResult = lookup.lookupResult(ITower.class);
         towerImpleLookupResult.addLookupListener(iTowerLookupListener);
         lookup.lookupAll(ITower.class).stream().map(this::addNewTowerToMenu).forEach((e) -> {
-            towersToBeDrawn.add(e);
+            world.addEntity(e);
             System.out.println("HELLOEEEEEEEEEEEEEEEEEEEEEEEEEH");
         });
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
@@ -109,10 +109,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         int x = index % 3;
         int y = index / 3;
 
-        int pixelx = 775 + x * 58;
-        int pixely = 500 + y * 58;
-
-        System.out.println("X:" + pixelx + "Y:" +pixely);
+        int pixelx = 782 + x * 58;
+        int pixely = 460 + y * 58;
 
         IconPart iconPart = new IconPart(tower.getAsset());
         PositionPart positionPart = new PositionPart(pixelx, pixely);

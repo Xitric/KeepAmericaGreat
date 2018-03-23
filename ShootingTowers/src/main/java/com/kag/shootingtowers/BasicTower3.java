@@ -4,15 +4,12 @@ import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.gui.IconPart;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.interfaces.ITower;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
-import org.openide.util.lookup.ServiceProviders;
 
 @ServiceProvider(service = ITower.class)
-public class BasicTower implements ITower {
+public class BasicTower3 implements ITower {
 
     private IconPart iconPart;
 
