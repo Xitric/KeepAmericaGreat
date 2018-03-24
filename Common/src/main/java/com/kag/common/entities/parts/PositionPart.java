@@ -4,29 +4,29 @@ import com.kag.common.entities.IPart;
 
 public class PositionPart implements IPart {
 
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	public int rotation; //0-360 degrees. Ex. 0 can indicate a downwards direction from the top.
 
-	public PositionPart(int x, int y) {
+	public PositionPart(float x, float y) {
 		setPos(x, y);
 		this.rotation = 0;
 	}
 
-	public PositionPart(int x, int y, int rotation) {
+	public PositionPart(float x, float y, int rotation) {
 		setPos(x, y);
 		this.rotation = rotation % 360;
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
-	public final void setPos(int x, int y) {
+	public final void setPos(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

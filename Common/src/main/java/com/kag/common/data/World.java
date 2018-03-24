@@ -17,6 +17,7 @@ public class World {
 	public World(GameMap gameMap) {
 		entities = new ArrayList<>();
 		this.gameMap = gameMap;
+		addEntity(gameMap.getTileEntity());
 	}
 
 	/**

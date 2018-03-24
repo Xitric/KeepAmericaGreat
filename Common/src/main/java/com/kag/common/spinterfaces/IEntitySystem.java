@@ -5,6 +5,7 @@
  */
 package com.kag.common.spinterfaces;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -51,5 +52,5 @@ public interface IEntitySystem extends IPrioritizable {
 	 * @param entity the entity to process
 	 * @param world  the game world
 	 */
-	void update(float delta, Entity entity, World world);
+	void update(float delta, Entity entity, World world, GameData gameData);
 }

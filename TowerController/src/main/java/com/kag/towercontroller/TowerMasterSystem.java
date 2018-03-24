@@ -5,10 +5,11 @@
  */
 package com.kag.towercontroller;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.MenuBackgroundPart;
+import com.kag.common.entities.parts.AbsolutePositionPart;
+import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
@@ -27,7 +28,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private Entity upgradeMenuBackground;
 
     @Override
-    public void update(float dt, World world) {
+    public void update(float dt, World world, GameData gameData) {
         
     }
 
@@ -40,13 +41,19 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void load(World world) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
+		AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+		towerPanel.setzIndex(5);
+		
         towerMenuBackground = new Entity();
-        towerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo.png"))));
-        towerMenuBackground.addPart(new PositionPart(768, 260));
+        towerMenuBackground.addPart(towerPanel);
+        towerMenuBackground.addPart(new AbsolutePositionPart(768, 128));
         
+		AssetPart upgradePanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+		upgradePanel.setzIndex(5);
+		
         upgradeMenuBackground = new Entity();
-        upgradeMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo2.png"))));
-        upgradeMenuBackground.addPart(new PositionPart(768, 0));
+        upgradeMenuBackground.addPart(upgradePanel);
+        upgradeMenuBackground.addPart(new AbsolutePositionPart(768, 384));
         
         world.addEntity(towerMenuBackground);
         world.addEntity(upgradeMenuBackground);

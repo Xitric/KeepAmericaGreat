@@ -16,6 +16,10 @@
 				<extensions>true</extensions>
 				<configuration>
 					<useOSGiDependencies>true</useOSGiDependencies>
+				 <publicPackages>
+				  <publicPackage>com.kag.enemycontroller.interfaces</publicPackage>
+				  <publicPackage>com.kag.enemycontroller.parts</publicPackage>
+				 </publicPackages>
 				</configuration>
 			</plugin>
 			<plugin>
