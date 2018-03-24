@@ -9,6 +9,7 @@ import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.core.graphics.parts.TexturePart;
+import java.util.Collection;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
@@ -21,22 +22,26 @@ public class IconRenderer implements IEntitySystem {
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
-		TexturePart texturePart = entity.getPart(TexturePart.class);
-		Texture texture = texturePart.getTexture();
+		Collection<TexturePart> textureParts = entity.getParts(TexturePart.class);
 		AbsolutePositionPart position = entity.getPart(AbsolutePositionPart.class);
 
 		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
-		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
-			sb.draw(texture,
-					position.getX() + texturePart.getxOffset(),
-					position.getY() + texturePart.getyOffset(),
-					texturePart.getWidth(), texturePart.getHeight(),
-					0, 0,
-					texture.getWidth(), texture.getHeight(),
-					false, true);
-		});
 
-		QueuedRenderer.getInstance().enqueue(renderItem);
+		for (TexturePart texturePart : textureParts) {
+			Texture texture = texturePart.getTexture();
+
+			RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
+				sb.draw(texture,
+						position.getX() + texturePart.getxOffset(),
+						position.getY() + texturePart.getyOffset(),
+						texturePart.getWidth(), texturePart.getHeight(),
+						0, 0,
+						texture.getWidth(), texture.getHeight(),
+						false, true);
+			});
+
+			QueuedRenderer.getInstance().enqueue(renderItem);
+		}
 	}
 
 	@Override

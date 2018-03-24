@@ -59,7 +59,10 @@ public class QueuedRenderer {
 	}
 
 	public void render() {
-		for (RenderItem renderItem: renderItems) {
+		int items = renderItems.size();
+		for (int i = 0; i < items; i++) {
+			RenderItem renderItem = renderItems.poll();
+			
 			sb.setProjectionMatrix(renderItem.getCamera().combined);
 			sb.begin();
 			renderItem.doOperation(sb);
