@@ -7,80 +7,82 @@ import com.kag.common.data.World;
 import java.util.*;
 
 public class AStar {
-    PriorityQueue<EvaluatedNode> queue;
 
-    public Node findPath(int startX, int startY, int endX, int endY, World world) {
-        EvaluatedNode goalNode = new EvaluatedNode(world.getGameMap().getTile(startX, startY));
+	PriorityQueue<EvaluatedNode> queue;
 
-        Map<EvaluatedNode, Integer> costMap = new HashMap<>();
+	public Node findPath(int startX, int startY, int endX, int endY, World world) {
+		EvaluatedNode goalNode = new EvaluatedNode(world.getGameMap().getTile(startX, startY));
 
-        queue = new PriorityQueue<>();
-        EvaluatedNode endNode = new EvaluatedNode(world.getGameMap().getTile(endX, endY));
-        endNode.setfValue(0);
-        endNode.setgValue(0);
-        queue.add(endNode);
+		Map<EvaluatedNode, Integer> costMap = new HashMap<>();
 
-        while (!queue.isEmpty()){
-            EvaluatedNode current = queue.poll();
+		queue = new PriorityQueue<>();
+		EvaluatedNode endNode = new EvaluatedNode(world.getGameMap().getTile(endX, endY));
+		endNode.setfValue(0);
+		endNode.setgValue(0);
+		queue.add(endNode);
 
-            if (current.equals(goalNode)){
-            	return current;
-            }
+		while (!queue.isEmpty()) {
+			EvaluatedNode current = queue.poll();
 
-            for(EvaluatedNode neighbor : getNeighborsFromTile(current, world)){
+			if (current.equals(goalNode)) {
+				return current;
+			}
+
+			for (EvaluatedNode neighbor : getNeighborsFromTile(current, world)) {
 				int newCost = current.getgValue() + 1;
+				neighbor.setgValue(newCost);
 
-				if(!costMap.containsKey(neighbor) || newCost < costMap.get(neighbor)) {
+				if (!costMap.containsKey(neighbor) || newCost < costMap.get(neighbor)) {
 					costMap.put(neighbor, newCost);
 					int fValue = newCost + heuristic(goalNode, neighbor);
 					neighbor.setfValue(fValue);
 					queue.add(neighbor);
 					neighbor.setNext(current);
 				}
-            }
-        }
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private boolean validateCoordinates(World world, int x, int y) {
-    	if(x < 0 || x >= world.getGameMap().getWidth() || y < 0 || y >= world.getGameMap().getHeight()) {
-    		return false;
-	    }
+	private boolean validateCoordinates(World world, int x, int y) {
+		if (x < 0 || x >= world.getGameMap().getWidth() || y < 0 || y >= world.getGameMap().getHeight()) {
+			return false;
+		}
 
-    	return world.isWalkable(x, y);
-    }
+		return world.isWalkable(x, y);
+	}
 
-    private Collection<EvaluatedNode> getNeighborsFromTile(EvaluatedNode current, World world) {
-        List<EvaluatedNode> nodes = new ArrayList<>();
+	private Collection<EvaluatedNode> getNeighborsFromTile(EvaluatedNode current, World world) {
+		List<EvaluatedNode> nodes = new ArrayList<>();
 
-        Tile currentTile = current.getTile();
+		Tile currentTile = current.getTile();
 
-        // Left
-	    if(validateCoordinates(world, currentTile.getX() - 1, currentTile.getY())) {
-		    nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() - 1, currentTile.getY())));
-	    }
+		// Left
+		if (validateCoordinates(world, currentTile.getX() - 1, currentTile.getY())) {
+			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() - 1, currentTile.getY())));
+		}
 
-	    // Right
-	    if(validateCoordinates(world, currentTile.getX() + 1, currentTile.getY())) {
-		    nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() + 1, currentTile.getY())));
-	    }
+		// Right
+		if (validateCoordinates(world, currentTile.getX() + 1, currentTile.getY())) {
+			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() + 1, currentTile.getY())));
+		}
 
-	    // Up
-	    if(validateCoordinates(world, currentTile.getX(), currentTile.getY() - 1)) {
-		    nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() - 1)));
-	    }
+		// Up
+		if (validateCoordinates(world, currentTile.getX(), currentTile.getY() - 1)) {
+			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() - 1)));
+		}
 
-	    // Down
-	    if(validateCoordinates(world, currentTile.getX(), currentTile.getY() + 1)) {
-		    nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() + 1)));
-	    }
+		// Down
+		if (validateCoordinates(world, currentTile.getX(), currentTile.getY() + 1)) {
+			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() + 1)));
+		}
 
-        return nodes;
-    }
+		return nodes;
+	}
 
-    private int heuristic(EvaluatedNode goal, EvaluatedNode current) {
-    	return Math.abs(goal.getTile().getX() - current.getTile().getX()) + Math.abs(goal.getTile().getY() - current.getTile().getY());
-    }
+	private int heuristic(EvaluatedNode goal, EvaluatedNode current) {
+		return Math.abs(goal.getTile().getX() - current.getTile().getX()) + Math.abs(goal.getTile().getY() - current.getTile().getY());
+	}
 
 }

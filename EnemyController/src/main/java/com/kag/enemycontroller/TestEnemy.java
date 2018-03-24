@@ -36,6 +36,7 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 		AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Yellow1.png"));
 		assetPart.setWidth(48);
 		assetPart.setHeight(48);
+		assetPart.setzIndex(4);
 		enemy.addPart(assetPart);
 
 		return enemy;
