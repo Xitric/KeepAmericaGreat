@@ -9,8 +9,9 @@ import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.core.graphics.parts.TexturePart;
-import java.util.Collection;
 import org.openide.util.lookup.ServiceProvider;
+
+import java.util.Collection;
 
 /**
  * @author Kasper
@@ -34,7 +35,10 @@ public class TextureRenderer implements IEntitySystem {
 				sb.draw(texture,
 						position.getX() + texturePart.getxOffset(),
 						position.getY() + texturePart.getyOffset(),
+						-texturePart.getxOffset(), -texturePart.getyOffset(),
 						texturePart.getWidth(), texturePart.getHeight(),
+						1, 1,
+						position.getRotation(),
 						0, 0,
 						texture.getWidth(), texture.getHeight(),
 						false, true);

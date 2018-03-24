@@ -46,6 +46,7 @@ public class AssetManager implements IAssetManager {
 		int insertionIndex = 0;
 		for (int y = 0; y < tileV; y++) {
 			for (int x = 0; x < tileH; x++) {
+				tiles2D[y][x].flip(false, true);
 				tiles1D[insertionIndex++] = tiles2D[y][x];
 			}
 		}
