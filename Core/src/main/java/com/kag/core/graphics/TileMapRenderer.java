@@ -2,6 +2,7 @@ package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -25,33 +26,46 @@ public class TileMapRenderer implements IEntitySystem {
 		Texture texture = texturePart.getTexture();
 		TileMapPart tileMap = entity.getPart(TileMapPart.class);
 
-		int tileRowLength = texture.getWidth() / tileMap.getTileWidth();
-
 		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
 		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
-			for (int l = 0; l < 2; l++) {
-				for (int y = 0; y < tileMap.getHeight(); y++) {
-					for (int x = 0; x < tileMap.getWidth(); x++) {
-						int spriteIndex = tileMap.getTile(x, y).getLayer(l);
-
-						if (spriteIndex > -1) {
-							sb.draw(texture,
-									x * tileMap.getTileWidth(),
-									y * tileMap.getTileHeight(),
-									tileMap.getTileWidth(),
-									tileMap.getTileHeight(),
-									spriteIndex % tileRowLength * tileMap.getTileWidth(),
-									spriteIndex / tileRowLength * tileMap.getTileHeight(),
-									tileMap.getTileWidth(),
-									tileMap.getTileHeight(),
-									false, true);
-						}
-					}
-				}
-			}
+			renderTileMap(sb, texture, cam, tileMap);
 		});
 
 		QueuedRenderer.getInstance().enqueue(renderItem);
+	}
+
+	private void renderTileMap(SpriteBatch sb, Texture texture, OrthographicCamera cam, TileMapPart tileMap) {
+		int tileRowLength = texture.getWidth() / tileMap.getTileWidth();
+		int startX = (int) (cam.position.x - cam.viewportWidth / 2) / tileMap.getTileWidth();
+		int endX = (int) (cam.position.x + cam.viewportWidth / 2) / tileMap.getTileWidth() + 1;
+		int startY = (int) (cam.position.y - cam.viewportHeight / 2) / tileMap.getTileHeight();
+		int endY = (int) (cam.position.y + cam.viewportHeight / 2) / tileMap.getTileHeight() + 1;
+
+		if (startX < 0) startX = 0;
+		if (startY < 0) startY = 0;
+		if (endX > tileMap.getWidth()) endX = tileMap.getWidth();
+		if (endY > tileMap.getHeight()) endY = tileMap.getHeight();
+
+		for (int l = 0; l < 2; l++) {
+			for (int y = startY; y < endY; y++) {
+				for (int x = startX; x < endX; x++) {
+					int spriteIndex = tileMap.getTile(x, y).getLayer(l);
+
+					if (spriteIndex > -1) {
+						sb.draw(texture,
+								x * tileMap.getTileWidth(),
+								y * tileMap.getTileHeight(),
+								tileMap.getTileWidth(),
+								tileMap.getTileHeight(),
+								spriteIndex % tileRowLength * tileMap.getTileWidth(),
+								spriteIndex / tileRowLength * tileMap.getTileHeight(),
+								tileMap.getTileWidth(),
+								tileMap.getTileHeight(),
+								false, true);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
