@@ -1,5 +1,6 @@
 package com.kag.shootingtowers;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -28,7 +29,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
     }
 
     @Override
-    public void update(float delta, Entity entity, World world) {
+    public void update(float delta, Entity entity, World world, GameData gameData) {
 
     }
 

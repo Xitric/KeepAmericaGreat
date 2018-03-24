@@ -1,14 +1,18 @@
 package com.kag.core.graphics;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
+import java.util.Collection;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -32,40 +36,46 @@ import org.openide.util.lookup.ServiceProviders;
 })
 public class LabelSystem implements IEntitySystem, IComponentLoader {
 
-	private static final Family family = Family.forAll(LabelPart.class, PositionPart.class);
+	private static final Family FAMILY = Family.forAll(LabelPart.class, AbsolutePositionPart.class);
 
-	private SpriteBatch sb;
 	private BitmapFont font;
+	private GlyphLayout glyphLayout;
 
 	@Override
 	public void load(World world) {
-		sb = new SpriteBatch();
-		font = new BitmapFont();
+		font = new BitmapFont(true);
+		glyphLayout = new GlyphLayout();
 	}
 
 	@Override
 	public void dispose(World world) {
 		font.dispose();
-		sb.dispose();
 	}
 
 	@Override
-	public void update(float delta, Entity entity, World world) {
-		LabelPart label = entity.getPart(LabelPart.class);
-		PositionPart position = entity.getPart(PositionPart.class);
+	public void update(float delta, Entity entity, World world, GameData gameData) {
+		Collection<LabelPart> labelParts = entity.getParts(LabelPart.class);
+		AbsolutePositionPart position = entity.getPart(AbsolutePositionPart.class);
+
+		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
 		
-		sb.begin();
-		font.draw(sb, label.getLabel(), position.getX(), position.getY());
-		sb.end();
+		for (LabelPart label : labelParts) {
+			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+				glyphLayout.setText(font, label.getLabel());
+				font.draw(sb, glyphLayout, position.getX(), position.getY() - glyphLayout.height / 2);
+			});
+
+			QueuedRenderer.getInstance().enqueue(renderItem);
+		}
 	}
 
 	@Override
 	public Family getFamily() {
-		return family;
+		return FAMILY;
 	}
 
 	@Override
 	public int getPriority() {
-		return 100;
+		return RENDER_PASS;
 	}
 }

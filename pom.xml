@@ -81,6 +81,7 @@
         <module>ModuleUpdateManager</module>
         <module>Player</module>
         <module>ShootingTowers</module>
+        <module>CameraController</module>
     </modules>
 
     <properties>

@@ -5,16 +5,15 @@
  */
 package com.kag.towercontroller;
 
+import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.IconPart;
-import com.kag.common.entities.parts.gui.MenuBackgroundPart;
+import com.kag.common.entities.parts.AbsolutePositionPart;
+import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -37,7 +36,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private Lookup lookup;
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
-    private Entity buymenu;
     private List<ITower> towerImple;
     private Lookup.Result<ITower> towerImpleLookupResult;
     private List<Entity> towersToBeDrawn;
@@ -48,8 +46,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     }
 
     @Override
-    public void update(float dt, World world) {
-
+    public void update(float dt, World world, GameData gameData) {
         if (!towerConsumer.isEmpty()) {
             for (Consumer<World> consumer : towerConsumer) {
                 consumer.accept(world);
@@ -74,22 +71,26 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerImpleLookupResult.addLookupListener(iTowerLookupListener);
         lookup.lookupAll(ITower.class).stream().map(this::addNewTowerToMenu).forEach((e) -> {
             world.addEntity(e);
-            System.out.println("HELLOEEEEEEEEEEEEEEEEEEEEEEEEEH");
         });
+		
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
-        System.out.println("TOWER SYSTEM IS CALLED!!!");
+		AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+		towerPanel.setzIndex(5);
+		
         towerMenuBackground = new Entity();
-        towerMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo.png"))));
-        towerMenuBackground.addPart(new PositionPart(768, 260));
-
+        towerMenuBackground.addPart(towerPanel);
+        towerMenuBackground.addPart(new AbsolutePositionPart(768, 128));
+        
+		AssetPart upgradePanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+		upgradePanel.setzIndex(5);
+		
         upgradeMenuBackground = new Entity();
-        upgradeMenuBackground.addPart(new MenuBackgroundPart(assetManager.createAsset(getClass().getResourceAsStream("/todo2.png"))));
-        upgradeMenuBackground.addPart(new PositionPart(768, 0));
-
-    //    world.addEntity(towerMenuBackground);
+        upgradeMenuBackground.addPart(upgradePanel);
+        upgradeMenuBackground.addPart(new AbsolutePositionPart(768, 384));
+        
+        world.addEntity(towerMenuBackground);
         world.addEntity(upgradeMenuBackground);
-
     }
 
     @Override
@@ -109,13 +110,13 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         int x = index % 3;
         int y = index / 3;
 
-        int pixelx = 782 + x * 58;
-        int pixely = 460 + y * 58;
+        int pixelx = 788 + 4 + x * 52;
+        int pixely = 154 + 1 + y * 52;
 
-        IconPart iconPart = new IconPart(tower.getAsset());
-        PositionPart positionPart = new PositionPart(pixelx, pixely);
+        AssetPart assetPart = tower.getAsset();
+        AbsolutePositionPart positionPart = new AbsolutePositionPart(pixelx, pixely);
 
-        towerEntity.addPart(iconPart);
+        towerEntity.addPart(assetPart);
         towerEntity.addPart(positionPart);
 
         return towerEntity;
@@ -128,8 +129,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
             for (ITower tower : actualTowers) {
                 // Newly installed modules
-                System.out.println("NU FINDER VI SGU ITOWERS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
                 if (!towerImple.contains(tower)) {
                     towerImple.add(tower);
                     Entity entity = addNewTowerToMenu(tower);

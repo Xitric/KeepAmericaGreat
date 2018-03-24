@@ -1,7 +1,6 @@
 package com.kag.common.data;
 
 public class Tile {
-
     private int x, y;
     private int[] layers;
     private boolean walkable;
@@ -9,8 +8,16 @@ public class Tile {
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
-        this.layers = new int[2];
+        this.layers = new int[] {-1, -1};
         walkable = true;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public int getLayer(int layer) {

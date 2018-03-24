@@ -104,6 +104,9 @@ public class SpawnBuilder extends AbstractBuilder {
                  
             }
         }
+		
+		gameMap.setPlayerX(startDrawingX + playerZoneWidth / 2);
+		gameMap.setPlayerY(heightMap.length - 1);
         
         return true;
     }

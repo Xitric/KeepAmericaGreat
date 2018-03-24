@@ -11,6 +11,7 @@ import com.kag.common.entities.IPart;
 public class LabelPart implements IPart {
 
 	private String label;
+	private int zIndex;
 
 	public LabelPart(String label) {
 		this.label = label;
@@ -22,5 +23,13 @@ public class LabelPart implements IPart {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public int getzIndex() {
+		return zIndex;
+	}
+
+	public void setzIndex(int zIndex) {
+		this.zIndex = zIndex;
 	}
 }

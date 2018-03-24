@@ -2,7 +2,7 @@ package com.kag.common.data;
 
 public class Node {
 
-	private Node next;
+	protected Node next;
 	private Tile tile;
 
 	public Node(Tile tile, Node node) {

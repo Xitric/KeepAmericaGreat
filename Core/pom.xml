@@ -108,6 +108,6 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <libGDX.version>1.5.0</libGDX.version>
+        <libGDX.version>1.7.2</libGDX.version>
     </properties>
 </project>

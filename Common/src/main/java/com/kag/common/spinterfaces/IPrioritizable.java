@@ -16,6 +16,15 @@ package com.kag.common.spinterfaces;
  */
 public interface IPrioritizable {
 
+	int PRE_UPDATE = 0,
+			UPDATE_PASS_1 = 10,
+			UPDATE_PASS_2 = 20,
+			UPDATE_PASS_3 = 30,
+			POST_UPDATE = 40,
+			PRE_RENDER = 50,
+			RENDER_PASS = 60,
+			POST_RENDER = 70;
+
 	/**
 	 * Get the priority of this object. Lower values indicate a higher priority.
 	 *
