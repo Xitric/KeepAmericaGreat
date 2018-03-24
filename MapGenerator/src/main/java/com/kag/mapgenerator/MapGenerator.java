@@ -55,7 +55,7 @@ public class MapGenerator implements IMapGenerator {
         boolean failed;
         do {
             failed = false;
-            gameMap = new GameMap(width, height);
+            gameMap = new GameMap(width, height, 64, 64);
             float[][] whiteNoise = PerlinNoiseGenerator.generateWhiteNoise(gameMap.getHeight(), gameMap.getWidth());
             float[][] heightMap = PerlinNoiseGenerator.generateSmoothNoise(whiteNoise, octaves);
 

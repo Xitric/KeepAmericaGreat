@@ -25,6 +25,8 @@ public class TileMapRenderer implements IEntitySystem {
 		Texture texture = texturePart.getTexture();
 		TileMapPart tileMap = entity.getPart(TileMapPart.class);
 
+		int tileRowLength = texture.getWidth() / tileMap.getTileWidth();
+
 		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
 		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
 			for (int l = 0; l < 2; l++) {
@@ -33,7 +35,16 @@ public class TileMapRenderer implements IEntitySystem {
 						int spriteIndex = tileMap.getTile(x, y).getLayer(l);
 
 						if (spriteIndex > -1) {
-							sb.draw(texture, x * 64, y * 64, 64, 64, spriteIndex % 13 * 64, spriteIndex / 13 * 64, 64, 64, false, true);
+							sb.draw(texture,
+									x * tileMap.getTileWidth(),
+									y * tileMap.getTileHeight(),
+									tileMap.getTileWidth(),
+									tileMap.getTileHeight(),
+									spriteIndex % tileRowLength * tileMap.getTileWidth(),
+									spriteIndex / tileRowLength * tileMap.getTileHeight(),
+									tileMap.getTileWidth(),
+									tileMap.getTileHeight(),
+									false, true);
 						}
 					}
 				}

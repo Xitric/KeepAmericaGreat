@@ -5,7 +5,6 @@ import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.TileMapPart;
 
 /**
- *
  * @author Sofie Jørgensen
  */
 public class GameMap {
@@ -13,10 +12,10 @@ public class GameMap {
 	private Entity tileEntity;
 	private Node[][] pathNodes;
 
-	public GameMap(int width, int height) {
+	public GameMap(int width, int height, int tileWidth, int tileHeight) {
 		tileEntity = new Entity();
 
-		TileMapPart tileMapPart = new TileMapPart(width, height);
+		TileMapPart tileMapPart = new TileMapPart(width, height, tileWidth, tileHeight);
 		tileEntity.addPart(tileMapPart);
 	}
 
@@ -50,5 +49,13 @@ public class GameMap {
 
 	public int getHeight() {
 		return tileEntity.getPart(TileMapPart.class).getHeight();
+	}
+
+	public int getTileWidth() {
+		return tileEntity.getPart(TileMapPart.class).getTileWidth();
+	}
+
+	public int getTileHeight() {
+		return tileEntity.getPart(TileMapPart.class).getTileHeight();
 	}
 }
