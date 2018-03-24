@@ -20,13 +20,20 @@ public class CameraController implements ISystem {
 		Mouse mouse = gameData.getMouse();
 		Camera camera = gameData.getCamera();
 
+		if (mouse.getX() > 768) return;
+		
 		if (mouse.getY() < activationHeight) {
 			camera.setY(camera.getY() - 300f * dt);
-			if (camera.getY() < gameData.getHeight() / 2) camera.setY(gameData.getHeight() / 2);
 		} else if (mouse.getY() > gameData.getHeight() - activationHeight) {
 			camera.setY(camera.getY() + 300f * dt);
-			if (camera.getY() > world.getGameMap().getHeight() * 64 - gameData.getHeight() / 2) camera.setY(world.getGameMap().getHeight() * 64 - gameData.getHeight() / 2);
 		}
+		
+		if (mouse.getScrollAmount() != 0) {
+			camera.setY(camera.getY() + 2400f * dt * mouse.getScrollAmount());
+		}
+		
+		if (camera.getY() < gameData.getHeight() / 2) camera.setY(gameData.getHeight() / 2);
+		if (camera.getY() > world.getGameMap().getHeight() * 64 - gameData.getHeight() / 2) camera.setY(world.getGameMap().getHeight() * 64 - gameData.getHeight() / 2);
 	}
 
 	@Override

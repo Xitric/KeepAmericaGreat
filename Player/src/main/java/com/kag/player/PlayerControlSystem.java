@@ -62,8 +62,10 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		AssetPart trumpTower = assetManager.createTexture(getClass().getResourceAsStream("/trumpTower.png"));
 		trumpTower.setxOffset(-64);
 		trumpTower.setyOffset(-64);
+		trumpTower.setzIndex(4);
 
-		player.addPart(new PositionPart(300, 300));
+		player.addPart(new PositionPart(world.getGameMap().getPlayerX() * world.getGameMap().getTileWidth(),
+				world.getGameMap().getPlayerY() * world.getGameMap().getTileHeight()));
 		player.addPart(new BoundingBoxPart(128, 128));
 		player.addPart(lifePart);
 		player.addPart(currencyPart);
@@ -76,25 +78,25 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		healthIcon.setzIndex(10);
 		LabelPart healthLabel = new LabelPart("Health: " + String.valueOf(lifePart.getHealth()));
 		healthLabel.setzIndex(10);
-		
+
 		playerHealthGui.addPart(new AbsolutePositionPart(66 + 768, 42));
 		playerHealthGui.addPart(healthIcon);
 		playerHealthGui.addPart(healthLabel);
-		
+
 		AssetPart currencyIcon = assetManager.createTexture(getClass().getResourceAsStream("/coin.png"));
 		currencyIcon.setxOffset(-40);
 		currencyIcon.setyOffset(-16);
 		currencyIcon.setzIndex(10);
 		LabelPart currencyLabel = new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount()));
 		currencyLabel.setzIndex(10);
-		
+
 		playerCurrencyGui.addPart(new AbsolutePositionPart(66 + 768, 86));
 		playerCurrencyGui.addPart(currencyIcon);
 		playerCurrencyGui.addPart(currencyLabel);
-		
+
 		AssetPart playerPanel = assetManager.createTexture(getClass().getResourceAsStream("/PlayerPanel.png"));
 		playerPanel.setzIndex(5);
-		
+
 		playerMenuBackground.addPart(new AbsolutePositionPart(768, 0));
 		playerMenuBackground.addPart(playerPanel);
 
