@@ -1,6 +1,7 @@
 package com.kag.core.graphics.parts;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.kag.common.data.IAsset;
 import com.kag.common.entities.parts.AssetPart;
 
 /**
@@ -8,18 +9,20 @@ import com.kag.common.entities.parts.AssetPart;
  */
 public class TexturePart extends AssetPart {
 
-	private Texture texture;
+	private IAsset asset;
+	private TextureRegion texture;
 
-	public TexturePart(Texture texture) {
+	public TexturePart(IAsset asset, TextureRegion texture) {
+		this.asset = asset;
 		this.texture = texture;
 	}
 
-	public Texture getTexture() {
+	public TextureRegion getTexture() {
 		return texture;
 	}
 
 	@Override
 	public void dispose() {
-		texture.dispose();
+		asset.dispose();
 	}
 }

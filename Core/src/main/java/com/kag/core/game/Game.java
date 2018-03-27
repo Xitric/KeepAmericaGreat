@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.*;
+import com.kag.core.graphics.AssetManager;
 import com.kag.core.graphics.QueuedRenderer;
 import com.kag.core.input.GdxInputProcessor;
 import com.kag.core.input.GdxKeyboard;
@@ -139,6 +140,11 @@ public class Game implements ApplicationListener {
 	@Override
 	public void dispose() {
 		QueuedRenderer.getInstance().dispose();
+
+		AssetManager assetManager = Lookup.getDefault().lookup(AssetManager.class);
+		if (assetManager != null) {
+			assetManager.disposeAll();
+		}
 	}
 
 	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {

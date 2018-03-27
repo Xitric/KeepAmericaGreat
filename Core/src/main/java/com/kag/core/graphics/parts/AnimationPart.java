@@ -1,18 +1,20 @@
 package com.kag.core.graphics.parts;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.kag.common.data.IAsset;
+import com.kag.common.entities.parts.AssetPart;
 
 /**
  * @author Kasper
  */
-public class AnimationPart extends TexturePart {
+public class AnimationPart extends AssetPart {
 
+	private IAsset asset;
 	private Animation animation;
 	private float stateTime;
 
-	public AnimationPart(Texture texture, Animation animation) {
-		super(texture);
+	public AnimationPart(IAsset asset, Animation animation) {
+		this.asset = asset;
 		this.animation = animation;
 	}
 
@@ -26,5 +28,10 @@ public class AnimationPart extends TexturePart {
 
 	public void addStateTime(float stateTime) {
 		this.stateTime += stateTime;
+	}
+
+	@Override
+	public void dispose() {
+		asset.dispose();
 	}
 }

@@ -1,7 +1,7 @@
 package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -29,7 +29,7 @@ public class IconRenderer implements IEntitySystem {
 		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
 
 		for (TexturePart texturePart : textureParts) {
-			Texture texture = texturePart.getTexture();
+			TextureRegion texture = texturePart.getTexture();
 
 			RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
 				sb.draw(texture,
@@ -38,10 +38,7 @@ public class IconRenderer implements IEntitySystem {
 						-texturePart.getxOffset(), -texturePart.getyOffset(),
 						texturePart.getWidth(), texturePart.getHeight(),
 						1, 1,
-						position.getRotation(),
-						0, 0,
-						texture.getWidth(), texture.getHeight(),
-						false, true);
+						position.getRotation());
 			});
 
 			QueuedRenderer.getInstance().enqueue(renderItem);
