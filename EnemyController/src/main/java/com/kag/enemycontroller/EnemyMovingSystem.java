@@ -31,7 +31,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		if (enemyPart.getNextNode() != null) {
-			move(entity, delta);
+			move(entity, delta, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
 		}
 	}
 
@@ -50,13 +50,14 @@ public class EnemyMovingSystem implements IEntitySystem {
 		entity.getPart(EnemyPart.class).setNextNode(nextNode);
 	}
 
-	private void move(Entity entity, float dt) {
+	private void move(Entity entity, float dt, int tileWidth, int tileHeight) {
 		PositionPart positionPart = entity.getPart(PositionPart.class);
 		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
 		Node nextNode = enemyPart.getNextNode();
 
 		Vector2f position = new Vector2f(positionPart.getX(), positionPart.getY());
-		Vector2f goal = new Vector2f(nextNode.getTile().getX() * 64, nextNode.getTile().getY() * 64);
+		Vector2f goal = new Vector2f(nextNode.getTile().getX() * tileWidth + tileWidth / 2,
+				nextNode.getTile().getY() * tileHeight + tileHeight / 2);
 
 		Vector2f moveDirection = goal.sub(position);
 		Vector2f move = Vector2f.ZERO;
@@ -73,13 +74,21 @@ public class EnemyMovingSystem implements IEntitySystem {
 				//We reached the final goal, so just go to it
 				move = moveDirection;
 			} else {
-				goal = new Vector2f(nextNode.getTile().getX() * 64, nextNode.getTile().getY() * 64);
+				goal = new Vector2f(nextNode.getTile().getX() * tileWidth + tileWidth / 2,
+						nextNode.getTile().getY() * tileHeight + tileHeight / 2);
 				move = goal.sub(position).normalize().scale(enemyPart.getSpeed() * dt);
 			}
 		}
 
 		Vector2f newPosition = position.add(move);
 		positionPart.setPos(newPosition.x, newPosition.y);
+
+		//Calculate enemy rotation
+		if (! move.isZero()) {
+			Vector2f lookDir = move.normalize();
+			float rotationPi = (float) Math.atan2(lookDir.det(Vector2f.AXIS_X), lookDir.dot(Vector2f.AXIS_X));
+			entity.getPart(PositionPart.class).setRotation(-(float) (rotationPi / (2 * Math.PI) * 360));
+		}
 	}
 
 	@Override
