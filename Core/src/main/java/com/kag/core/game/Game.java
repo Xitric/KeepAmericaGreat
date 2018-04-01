@@ -145,6 +145,9 @@ public class Game implements ApplicationListener {
 		if (assetManager != null) {
 			assetManager.disposeAll();
 		}
+
+		//Dispose plugins
+		gameComponents.forEach(c -> c.dispose(world));
 	}
 
 	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {

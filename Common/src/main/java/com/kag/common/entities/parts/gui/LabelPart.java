@@ -11,10 +11,16 @@ import com.kag.common.entities.IPart;
 public class LabelPart implements IPart {
 
 	private String label;
+	private int fontSize = 12;
 	private int zIndex;
 
 	public LabelPart(String label) {
 		this.label = label;
+	}
+
+	public LabelPart(String label, int fontSize) {
+		this(label);
+		this.fontSize = fontSize;
 	}
 
 	public String getLabel() {
@@ -23,6 +29,14 @@ public class LabelPart implements IPart {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public int getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
 	}
 
 	public int getzIndex() {
