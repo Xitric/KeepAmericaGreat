@@ -11,7 +11,7 @@ import com.kag.common.entities.IPart;
 public class LabelPart implements IPart {
 
 	private String label;
-	private int fontSize = 12;
+	private int fontSize = 18;
 	private int zIndex;
 
 	public LabelPart(String label) {

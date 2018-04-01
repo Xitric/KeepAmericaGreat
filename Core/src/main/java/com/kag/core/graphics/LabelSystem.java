@@ -48,7 +48,7 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 
 	@Override
 	public void load(World world) {
-		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/Comical Cartoon.ttf"));
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/BD_Cartoon_Shout.ttf"));
 		fonts = new HashMap<>();
 		glyphLayout = new GlyphLayout();
 	}
