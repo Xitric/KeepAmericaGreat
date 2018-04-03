@@ -40,7 +40,7 @@ public class Collision implements ICollision {
 				! a.hasPart(PositionPart.class) ||
 				! b.hasPart(BoundingBoxPart.class) ||
 				! b.hasPart(PositionPart.class)) {
-			throw new IllegalStateException("Pre condition of collision not satisfied - missing part.");
+			throw new IllegalArgumentException("Pre condition of collision not satisfied - missing part.");
 		}
 	}
 }
