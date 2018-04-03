@@ -3,6 +3,7 @@ package com.kag.enemycontroller;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
@@ -33,6 +34,7 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 		Entity enemy = new Entity();
 		enemy.addPart(new PositionPart(6 * 64, 32));
 		enemy.addPart(new EnemyPart(100));
+		enemy.addPart(new BoundingBoxPart(64,64));
 		AssetPart hatPart = assetManager.createTexture(getClass().getResourceAsStream("/Yellow1.png"));
 		hatPart.setWidth(48);
 		hatPart.setHeight(48);

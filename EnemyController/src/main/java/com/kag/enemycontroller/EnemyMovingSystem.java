@@ -7,6 +7,9 @@ import com.kag.common.data.World;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.CurrencyPart;
+import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
@@ -21,6 +24,7 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyMovingSystem implements IEntitySystem {
 
 	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class);
+	private static final Family PLAYERFAMILY = Family.forAll(CurrencyPart.class, LifePart.class).excluding(EnemyPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
@@ -32,6 +36,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 
 		if (enemyPart.getNextNode() != null) {
 			move(entity, delta, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
+			checkReachedGoal(entity, world);
 		}
 	}
 
@@ -88,6 +93,39 @@ public class EnemyMovingSystem implements IEntitySystem {
 			Vector2f lookDir = move.normalize();
 			float rotationPi = (float) Math.atan2(lookDir.det(Vector2f.AXIS_X), lookDir.dot(Vector2f.AXIS_X));
 			entity.getPart(PositionPart.class).setRotation(-(float) (rotationPi / (2 * Math.PI) * 360));
+		}
+	}
+
+	private void checkReachedGoal(Entity entity, World world) {
+		Entity trumpTower = null;
+
+		for (Entity ent : world.getAllEntities()) {
+			if(PLAYERFAMILY.matches(ent.getBits())) {
+				trumpTower = ent;
+			}
+		}
+
+		if(trumpTower == null) {
+			System.out.println("NO!");
+			System.out.println("NO!");
+			System.out.println("NO!");
+			return;
+		}
+
+
+
+		PositionPart pos = entity.getPart(PositionPart.class);
+		PositionPart pPos = trumpTower.getPart(PositionPart.class);
+
+		BoundingBoxPart bbEnt = entity.getPart(BoundingBoxPart.class);
+		BoundingBoxPart pbbEnt = entity.getPart(BoundingBoxPart.class);
+
+		if(pos.getY() + bbEnt.getHeight() / 2 > pPos.getY() - pbbEnt.getHeight() / 2 &&
+				pos.getX() + bbEnt.getWidth() > pPos.getX() - pbbEnt.getWidth() / 2 &&
+				pos.getX() - bbEnt.getWidth() < pPos.getX() + pbbEnt.getWidth() / 2) {
+			LifePart pHealth = trumpTower.getPart(LifePart.class);
+			pHealth.setHealth(pHealth.getHealth() - 1);
+			world.removeEntity(entity);
 		}
 	}
 
