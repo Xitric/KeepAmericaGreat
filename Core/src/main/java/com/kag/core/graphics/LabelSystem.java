@@ -1,8 +1,10 @@
 package com.kag.core.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -12,9 +14,12 @@ import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
-import java.util.Collection;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * System for rendering labels that are part of the graphical user interface.
@@ -30,26 +35,43 @@ import org.openide.util.lookup.ServiceProviders;
  * @author Kasper
  */
 @ServiceProviders(value = {
-	@ServiceProvider(service = IEntitySystem.class)
-	,
-	@ServiceProvider(service = IComponentLoader.class)
+		@ServiceProvider(service = IEntitySystem.class),
+		@ServiceProvider(service = IComponentLoader.class)
 })
 public class LabelSystem implements IEntitySystem, IComponentLoader {
 
 	private static final Family FAMILY = Family.forAll(LabelPart.class, AbsolutePositionPart.class);
 
-	private BitmapFont font;
+	private FreeTypeFontGenerator fontGenerator;
+	private Map<Integer, BitmapFont> fonts;
 	private GlyphLayout glyphLayout;
 
 	@Override
 	public void load(World world) {
-		font = new BitmapFont(true);
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/BD_Cartoon_Shout.ttf"));
+		fonts = new HashMap<>();
 		glyphLayout = new GlyphLayout();
+	}
+
+	private BitmapFont getFontForSize(int size) {
+		BitmapFont font = fonts.get(size);
+
+		if (font == null) {
+			FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+			parameter.size = size;
+			parameter.flip = true;
+			font = fontGenerator.generateFont(parameter);
+			fonts.put(size, font);
+		}
+
+		return font;
 	}
 
 	@Override
 	public void dispose(World world) {
-		font.dispose();
+		fonts.values().forEach(BitmapFont::dispose);
+		fonts.clear();
+		fontGenerator.dispose();
 	}
 
 	@Override
@@ -58,9 +80,10 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 		AbsolutePositionPart position = entity.getPart(AbsolutePositionPart.class);
 
 		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
-		
+
 		for (LabelPart label : labelParts) {
 			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+				BitmapFont font = getFontForSize(label.getFontSize());
 				glyphLayout.setText(font, label.getLabel());
 				font.draw(sb, glyphLayout, position.getX(), position.getY() - glyphLayout.height / 2);
 			});

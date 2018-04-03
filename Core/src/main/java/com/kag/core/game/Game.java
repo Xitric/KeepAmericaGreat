@@ -10,7 +10,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 import com.kag.common.spinterfaces.*;
+import com.kag.core.graphics.AssetManager;
 import com.kag.core.graphics.QueuedRenderer;
 import com.kag.core.input.GdxInputProcessor;
 import com.kag.core.input.GdxKeyboard;
@@ -19,7 +21,6 @@ import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
 
-import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -105,17 +106,12 @@ public class Game implements ApplicationListener {
 		}
 
 		for (IEntitySystem entitySystem : entitySystems) {
-			BitSet familyBits = entitySystem.getFamily().getBits();
+			Family systemFamily = entitySystem.getFamily();
 
 			for (Entity entity : world.getAllEntities()) {
 
 				//Only update entity in the system if the system's family matches the entity
-				//We test if the family bits are a subset of the entity's part bits
-				BitSet subsetBits = new BitSet();
-				subsetBits.or(familyBits);
-				subsetBits.and(entity.getBits());
-
-				if (subsetBits.equals(familyBits)) {
+				if (systemFamily.matches(entity.getBits())) {
 					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world, gameData);
 				}
 			}
@@ -139,6 +135,14 @@ public class Game implements ApplicationListener {
 	@Override
 	public void dispose() {
 		QueuedRenderer.getInstance().dispose();
+
+		AssetManager assetManager = Lookup.getDefault().lookup(AssetManager.class);
+		if (assetManager != null) {
+			assetManager.disposeAll();
+		}
+
+		//Dispose plugins
+		gameComponents.forEach(c -> c.dispose(world));
 	}
 
 	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {

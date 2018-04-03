@@ -1,16 +1,18 @@
 package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.core.graphics.parts.TexturePart;
-import java.util.Collection;
 import org.openide.util.lookup.ServiceProvider;
+
+import java.util.Collection;
 
 /**
  * @author Kasper
@@ -18,26 +20,36 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IEntitySystem.class)
 public class TextureRenderer implements IEntitySystem {
 
-	private static final Family FAMILY = Family.forAll(PositionPart.class, TexturePart.class);
+	private static final Family FAMILY = Family.forAll(TexturePart.class)
+			.includingAny(PositionPart.class, AbsolutePositionPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
 		Collection<TexturePart> textureParts = entity.getParts(TexturePart.class);
-		PositionPart position = entity.getPart(PositionPart.class);
+		PositionPart position;
+		OrthographicCamera cam;
 
-		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
+		if (entity.hasPart(PositionPart.class)) {
+			//Render in world coordinates
+			position = entity.getPart(PositionPart.class);
+			cam = QueuedRenderer.getInstance().getDynamicCamera();
+		} else {
+			//Render in screen coordinates
+			position = entity.getPart(AbsolutePositionPart.class);
+			cam = QueuedRenderer.getInstance().getStaticCamera();
+		}
 
 		for (TexturePart texturePart : textureParts) {
-			Texture texture = texturePart.getTexture();
+			TextureRegion texture = texturePart.getTexture();
 
 			RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
 				sb.draw(texture,
 						position.getX() + texturePart.getxOffset(),
 						position.getY() + texturePart.getyOffset(),
+						-texturePart.getxOffset(), -texturePart.getyOffset(),
 						texturePart.getWidth(), texturePart.getHeight(),
-						0, 0,
-						texture.getWidth(), texture.getHeight(),
-						false, true);
+						1, 1,
+						position.getRotation());
 			});
 
 			QueuedRenderer.getInstance().enqueue(renderItem);

@@ -1,11 +1,6 @@
 package com.kag.common.entities;
 
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An entity is a combination of {@link IPart parts} that can exist in the game
@@ -47,13 +42,13 @@ public class Entity {
 	 * ceases to satisfy.
 	 *
 	 * @param part the part to remove
-	 * @return whether a part was removed as a result of calling this method.
-	 *         This will be false if the entity did not have the part
+	 * @return whether a part was removed as a result of calling this method. This will be false if the entity did not
+	 * have the part
 	 */
 	public boolean removePart(IPart part) {
 		PartType type = PartType.getType(part.getClass());
 		bits.set(type.getId(), false);
-		
+
 		return getParts(part.getClass()).remove(part);
 	}
 
@@ -63,8 +58,7 @@ public class Entity {
 	 *
 	 * @param <T>       the type of part to retrieve
 	 * @param partClass the class describing what type of part to retrieve
-	 * @return the first part of the specified type, or null if the entity has
-	 *         no such parts
+	 * @return the first part of the specified type, or null if the entity has no such parts
 	 */
 	public <T extends IPart> T getPart(Class<T> partClass) {
 		Collection<T> partCollection = getParts(partClass);
@@ -81,11 +75,20 @@ public class Entity {
 	 *
 	 * @param <T>       the type of part to retrieve
 	 * @param partClass the class describing what type of part to retrieve
-	 * @return the parts of the specified type. Will be empty if the entity has
-	 *         no such parts
+	 * @return the parts of the specified type. Will be empty if the entity has no such parts
 	 */
 	public <T extends IPart> Collection<T> getParts(Class<T> partClass) {
 		return (Set<T>) parts.getOrDefault(partClass, new HashSet<>());
+	}
+
+	/**
+	 * Test if this entity contains at least one part of the specified type.
+	 *
+	 * @param partClass the type of part to test for
+	 * @return true if this entity contains at least one part of the specified type, false otherwise
+	 */
+	public boolean hasPart(Class<? extends IPart> partClass) {
+		return bits.get(PartType.getType(partClass).getId());
 	}
 
 	/**

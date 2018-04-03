@@ -6,7 +6,11 @@ public class PositionPart implements IPart {
 
 	private float x;
 	private float y;
-	public int rotation; //0-360 degrees. Ex. 0 can indicate a downwards direction from the top.
+
+	/**
+	 * The orientation in degrees from 0 to 360. A rotation of 0 indicates that the entity "looks" to the right.
+	 */
+	private float rotation;
 
 	public PositionPart(float x, float y) {
 		setPos(x, y);
@@ -31,11 +35,11 @@ public class PositionPart implements IPart {
 		this.y = y;
 	}
 
-	public int getRotation() {
+	public float getRotation() {
 		return rotation;
 	}
 
-	public void setRotation(int rotation) {
+	public void setRotation(float rotation) {
 		this.rotation = rotation % 360;
 	}
 }

@@ -32,11 +32,20 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 
 		Entity enemy = new Entity();
 		enemy.addPart(new PositionPart(6 * 64, 32));
-		enemy.addPart(new EnemyPart(200));
-		AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Yellow1.png"));
-		assetPart.setWidth(48);
-		assetPart.setHeight(48);
-		enemy.addPart(assetPart);
+		enemy.addPart(new EnemyPart(100));
+		AssetPart hatPart = assetManager.createTexture(getClass().getResourceAsStream("/Yellow1.png"));
+		hatPart.setWidth(48);
+		hatPart.setHeight(48);
+		hatPart.setxOffset(-24);
+		hatPart.setyOffset(-24);
+		hatPart.setzIndex(4);
+		enemy.addPart(hatPart);
+
+		AssetPart animationPart = assetManager.createAnimation(getClass().getResourceAsStream("/EnemyWalking.png"), 48, 52, 60);
+		animationPart.setxOffset(-24);
+		animationPart.setyOffset(-26);
+		animationPart.setzIndex(3);
+		enemy.addPart(animationPart);
 
 		return enemy;
 	}

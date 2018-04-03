@@ -3,6 +3,7 @@ package com.kag.core.graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -23,7 +24,7 @@ public class TileMapRenderer implements IEntitySystem {
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
 		TexturePart texturePart = entity.getPart(TexturePart.class);
-		Texture texture = texturePart.getTexture();
+		TextureRegion texture = texturePart.getTexture();
 		TileMapPart tileMap = entity.getPart(TileMapPart.class);
 
 		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
@@ -34,8 +35,8 @@ public class TileMapRenderer implements IEntitySystem {
 		QueuedRenderer.getInstance().enqueue(renderItem);
 	}
 
-	private void renderTileMap(SpriteBatch sb, Texture texture, OrthographicCamera cam, TileMapPart tileMap) {
-		int tileRowLength = texture.getWidth() / tileMap.getTileWidth();
+	private void renderTileMap(SpriteBatch sb, TextureRegion textureRegion, OrthographicCamera cam, TileMapPart tileMap) {
+		int tileRowLength = textureRegion.getRegionWidth() / tileMap.getTileWidth();
 		int startX = (int) (cam.position.x - cam.viewportWidth / 2) / tileMap.getTileWidth();
 		int endX = (int) (cam.position.x + cam.viewportWidth / 2) / tileMap.getTileWidth() + 1;
 		int startY = (int) (cam.position.y - cam.viewportHeight / 2) / tileMap.getTileHeight();
@@ -45,6 +46,10 @@ public class TileMapRenderer implements IEntitySystem {
 		if (startY < 0) startY = 0;
 		if (endX > tileMap.getWidth()) endX = tileMap.getWidth();
 		if (endY > tileMap.getHeight()) endY = tileMap.getHeight();
+
+		Texture texture = textureRegion.getTexture();
+		int offsetX = textureRegion.getRegionX();
+		int offsetY = texture.getHeight() - textureRegion.getRegionY();
 
 		for (int l = 0; l < 2; l++) {
 			for (int y = startY; y < endY; y++) {
@@ -57,8 +62,8 @@ public class TileMapRenderer implements IEntitySystem {
 								y * tileMap.getTileHeight(),
 								tileMap.getTileWidth(),
 								tileMap.getTileHeight(),
-								spriteIndex % tileRowLength * tileMap.getTileWidth(),
-								spriteIndex / tileRowLength * tileMap.getTileHeight(),
+								spriteIndex % tileRowLength * tileMap.getTileWidth() + offsetX,
+								spriteIndex / tileRowLength * tileMap.getTileHeight() + offsetY,
 								tileMap.getTileWidth(),
 								tileMap.getTileHeight(),
 								false, true);

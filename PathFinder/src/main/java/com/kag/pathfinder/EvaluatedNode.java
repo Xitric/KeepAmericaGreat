@@ -46,6 +46,10 @@ public class EvaluatedNode extends Node implements Comparable<EvaluatedNode> {
         return getTile() == that.getTile();
     }
 
+	@Override
+	public int hashCode() {
+		return getTile().hashCode();
+	}
 
 	@Override
 	public int compareTo(EvaluatedNode o) {
