@@ -11,6 +11,7 @@ import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.CurrencyPart;
 import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.enemycontroller.parts.EnemyPart;
@@ -23,8 +24,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IEntitySystem.class)
 public class EnemyMovingSystem implements IEntitySystem {
 
-	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class);
-	private static final Family PLAYERFAMILY = Family.forAll(CurrencyPart.class, LifePart.class).excluding(EnemyPart.class);
+	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class, BoundingBoxPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
@@ -100,29 +101,18 @@ public class EnemyMovingSystem implements IEntitySystem {
 		Entity trumpTower = null;
 
 		for (Entity ent : world.getAllEntities()) {
-			if(PLAYERFAMILY.matches(ent.getBits())) {
+			if(PLAYER_FAMILY.matches(ent.getBits())) {
 				trumpTower = ent;
 			}
 		}
 
 		if(trumpTower == null) {
-			System.out.println("NO!");
-			System.out.println("NO!");
-			System.out.println("NO!");
+			System.out.println("Trump tower missing?!");
 			return;
 		}
 
-
-
-		PositionPart pos = entity.getPart(PositionPart.class);
-		PositionPart pPos = trumpTower.getPart(PositionPart.class);
-
-		BoundingBoxPart bbEnt = entity.getPart(BoundingBoxPart.class);
-		BoundingBoxPart pbbEnt = entity.getPart(BoundingBoxPart.class);
-
-		if(pos.getY() + bbEnt.getHeight() / 2 > pPos.getY() - pbbEnt.getHeight() / 2 &&
-				pos.getX() + bbEnt.getWidth() > pPos.getX() - pbbEnt.getWidth() / 2 &&
-				pos.getX() - bbEnt.getWidth() < pPos.getX() + pbbEnt.getWidth() / 2) {
+		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
+		if (collision.doesCollide(entity, trumpTower)) {
 			LifePart pHealth = trumpTower.getPart(LifePart.class);
 			pHealth.setHealth(pHealth.getHealth() - 1);
 			world.removeEntity(entity);
