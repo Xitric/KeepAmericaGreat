@@ -1,9 +1,6 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.GameMap;
-import com.kag.common.data.Node;
-import com.kag.common.data.World;
+import com.kag.common.data.*;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -35,7 +32,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		if (enemyPart.getNextNode() != null) {
-			move(entity, delta, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
+			move(entity, delta, world, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
 			checkReachedGoal(entity, world);
 		}
 	}
@@ -55,7 +52,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 		entity.getPart(EnemyPart.class).setNextNode(nextNode);
 	}
 
-	private void move(Entity entity, float dt, int tileWidth, int tileHeight) {
+	private void move(Entity entity, float dt, World world, int tileWidth, int tileHeight) {
 		PositionPart positionPart = entity.getPart(PositionPart.class);
 		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
 		Node nextNode = enemyPart.getNextNode();
@@ -86,6 +83,17 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		Vector2f newPosition = position.add(move);
+
+		Tile oldTile = world.getTileAt(position.x, position.y);
+		Tile newTile = world.getTileAt(newPosition.x, newPosition.y);
+
+		if(oldTile != newTile) {
+			if(!newTile.isWalkable()) {
+				entity.getPart(EnemyPart.class).setNextNode(null);
+				return;
+			}
+		}
+
 		positionPart.setPos(newPosition.x, newPosition.y);
 
 		//Calculate enemy rotation

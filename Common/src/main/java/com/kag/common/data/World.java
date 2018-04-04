@@ -66,8 +66,18 @@ public class World {
 		return new ArrayList<>(entities);
 	}
 
-	public Entity getEntityAt(int screenX, int screenY) {
+	public Entity getEntityAt(float worldX, float worldY) {
 		return null;
+	}
+
+	public Tile getTileAt(float worldX, float worldY) {
+		int tX = (int)worldX / 64;
+		int tY = (int)worldY / 64;
+
+		if(tY > gameMap.getHeight() - 1 || tX > gameMap.getWidth() - 1) {
+			return null;
+		}
+		return gameMap.getTile((int)worldX / 64, (int)worldY / 64);
 	}
 	
 	public GameMap getGameMap() {
