@@ -76,6 +76,11 @@
             <artifactId>CameraController</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>Collision</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
