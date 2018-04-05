@@ -1,8 +1,9 @@
 package com.kag.common.data;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.TileMapPart;
+import com.kag.common.entities.parts.*;
+import com.kag.common.spinterfaces.ICollision;
+import org.openide.util.Lookup;
 
 /**
  * @author Sofie Jørgensen
@@ -58,6 +59,17 @@ public class GameMap {
 
 	public int getTileHeight() {
 		return tileEntity.getPart(TileMapPart.class).getTileHeight();
+	}
+
+	public boolean doesCollideWithTile(Tile tile, Entity ent) {
+		Entity tileEnt = new Entity();
+		tileEnt.addPart(new PositionPart(tile.getX() * getTileWidth() + getTileWidth() / 2,
+				tile.getY() * getTileHeight() + getTileHeight() / 2));
+		tileEnt.addPart(new BoundingBoxPart(getTileWidth(), getTileHeight()));
+
+		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
+
+		return collision.doesCollide(ent, tileEnt);
 	}
 	
 	public int getPlayerX() {

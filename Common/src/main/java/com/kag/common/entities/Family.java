@@ -17,13 +17,19 @@ public class Family {
 	private final BitSet allBits;
 
 	/**
-	 * Bit set describing a collection of part of which at least one must be present.
+	 * Bit set describing a collection of parts of which at least one must be present.
 	 */
 	private final BitSet anyBits;
 
-	private Family(BitSet allBits, BitSet anyBits) {
+	/**
+	 * Bit set describing a collection of parts that must not be present.
+	 */
+	private final BitSet excludeBits;
+
+	private Family(BitSet allBits, BitSet anyBits, BitSet excludeBits) {
 		this.allBits = allBits;
 		this.anyBits = anyBits;
+		this.excludeBits = excludeBits;
 	}
 
 	/**
@@ -43,7 +49,7 @@ public class Family {
 			allBits.set(PartType.getType(partClass).getId());
 		}
 
-		return new Family(allBits, new BitSet());
+		return new Family(allBits, new BitSet(), new BitSet());
 	}
 
 	/**
@@ -63,7 +69,27 @@ public class Family {
 			anyBits.set(PartType.getType(partClass).getId());
 		}
 
-		return new Family(new BitSet(), anyBits);
+		return new Family(new BitSet(), anyBits, new BitSet());
+	}
+
+	/**
+	 * Create a new family that matches only with collections that contain none of the specified parts. Each part must
+	 * be specified by its class. This method can be used in the following way:
+	 * <p>
+	 * {@code Family.forNone(XPart.class, YPart.class);}
+	 *
+	 * @param partClasses the classes of the parts of which none must be present to match with this family
+	 * @return the resulting family
+	 */
+	@SafeVarargs
+	public static Family forNone(Class<? extends IPart>... partClasses) {
+		BitSet excludeBits = new BitSet();
+
+		for (Class<? extends IPart> partClass : partClasses) {
+			excludeBits.set(PartType.getType(partClass).getId());
+		}
+
+		return new Family(new BitSet(), new BitSet(), excludeBits);
 	}
 
 	/**
@@ -83,7 +109,7 @@ public class Family {
 			allBits.set(PartType.getType(partClass).getId());
 		}
 
-		return new Family(newAllBits, this.anyBits);
+		return new Family(newAllBits, this.anyBits, this.excludeBits);
 	}
 
 	/**
@@ -103,13 +129,33 @@ public class Family {
 			newAnyBits.set(PartType.getType(partClass).getId());
 		}
 
-		return new Family(this.allBits, newAnyBits);
+		return new Family(this.allBits, newAnyBits, this.excludeBits);
+	}
+
+	/**
+	 * Extend this family to disallow more parts. None of the specified parts, including all of the parts initially
+	 * disallowed by this family, must be present to match with the resulting family. This method will not affect the
+	 * existing family, but instead create a new family that describes the new part requirements.
+	 *
+	 * @param partClasses the classes of the parts of which none must be present to match with this family
+	 * @return the resulting family
+	 */
+	@SafeVarargs
+	public final Family excluding(Class<? extends IPart>... partClasses) {
+		BitSet newExcludingBits = new BitSet();
+		newExcludingBits.or(this.excludeBits);
+
+		for (Class<? extends IPart> partClass : partClasses) {
+			newExcludingBits.set(PartType.getType(partClass).getId());
+		}
+
+		return new Family(this.allBits, this.anyBits, newExcludingBits);
 	}
 
 	/**
 	 * Test if the specified bit set is matched by this family. For a bit set to be matched it must include all the
-	 * parts required by this family, and include at least one of the parts specified in {@link Family#forAny(Class[])}
-	 * or {@link Family#includingAny(Class[])}.
+	 * parts required by this family, include at least one of the parts specified in {@link Family#forAny(Class[])}
+	 * or {@link Family#includingAny(Class[])}, and not contain any of the parts disallowed by this family.
 	 * <p>
 	 * This operation runs in nearly O(1) complexity, allowing for quick comparisons between system families and parts
 	 * of entities.
@@ -124,6 +170,13 @@ public class Family {
 		subsetBits.and(bits); //If the family is a subset, this will not change subsetBits
 
 		if (!subsetBits.equals(allBits)) return false;
+
+		//To ensure that the bit set excludes all disallowed parts, test if it has no bits in common with the family
+		BitSet noneBits = new BitSet();
+		noneBits.or(excludeBits);
+		noneBits.and(bits);
+
+		if (! noneBits.isEmpty()) return false; //At least one bit was in common
 
 		//If anyBits is empty, then it specifies no extra requirements
 		if (anyBits.isEmpty()) return true;

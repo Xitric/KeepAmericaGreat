@@ -2,11 +2,15 @@ package com.kag.common.data;
 
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.BlockingPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.spinterfaces.ICollision;
+import org.openide.util.Lookup;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
  * @author Sofie Jørgensen
  */
 public class World {
@@ -38,16 +42,18 @@ public class World {
 	 * @param x The x-coordinate for the tile to check upon
 	 * @param y The y-coordinate for the tile to check upon
 	 * @return true if Tile.isWalkable is false or if there's an entity on x,y
-	 *         with a BlockingPart
+	 * with a BlockingPart
 	 */
 	public boolean isOccupied(int x, int y) {
 		if (!isWalkable(x, y)) {
 			return true;
 		}
+
 		for (Entity entity : entities) {
-			if (entity.getPart(BlockingPart.class) != null) {
-				//Check for positionpart
-				return false;
+			if (entity.hasPart(BlockingPart.class) && entity.hasPart(PositionPart.class)) {
+				if(gameMap.doesCollideWithTile(gameMap.getTile(x,y), entity)) {
+					return true;
+				}
 			}
 		}
 
@@ -66,8 +72,18 @@ public class World {
 		return new ArrayList<>(entities);
 	}
 
-	public Entity getEntityAt(int screenX, int screenY) {
+	public Entity getEntityAt(float worldX, float worldY) {
 		return null;
+	}
+
+	public Tile getTileAt(float worldX, float worldY) {
+		int tX = (int)worldX / 64;
+		int tY = (int)worldY / 64;
+
+		if(tY > gameMap.getHeight() - 1 || tX > gameMap.getWidth() - 1) {
+			return null;
+		}
+		return gameMap.getTile((int)worldX / 64, (int)worldY / 64);
 	}
 	
 	public GameMap getGameMap() {

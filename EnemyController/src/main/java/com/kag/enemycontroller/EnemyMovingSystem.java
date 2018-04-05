@@ -1,13 +1,14 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.GameMap;
-import com.kag.common.data.Node;
-import com.kag.common.data.World;
+import com.kag.common.data.*;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.CurrencyPart;
+import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.enemycontroller.parts.EnemyPart;
@@ -20,7 +21,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IEntitySystem.class)
 public class EnemyMovingSystem implements IEntitySystem {
 
-	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class);
+	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class, BoundingBoxPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
@@ -31,7 +33,8 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		if (enemyPart.getNextNode() != null) {
-			move(entity, delta, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
+			move(entity, delta, world, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
+			checkReachedGoal(entity, world);
 		}
 	}
 
@@ -50,10 +53,17 @@ public class EnemyMovingSystem implements IEntitySystem {
 		entity.getPart(EnemyPart.class).setNextNode(nextNode);
 	}
 
-	private void move(Entity entity, float dt, int tileWidth, int tileHeight) {
+	private void move(Entity entity, float dt, World world, int tileWidth, int tileHeight) {
 		PositionPart positionPart = entity.getPart(PositionPart.class);
 		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
 		Node nextNode = enemyPart.getNextNode();
+
+		if(world.getGameMap().doesCollideWithTile(nextNode.getTile(), entity)) {
+			if(!nextNode.getTile().isWalkable()) {
+				entity.getPart(EnemyPart.class).setNextNode(null);
+				return;
+			}
+		}
 
 		Vector2f position = new Vector2f(positionPart.getX(), positionPart.getY());
 		Vector2f goal = new Vector2f(nextNode.getTile().getX() * tileWidth + tileWidth / 2,
@@ -63,6 +73,9 @@ public class EnemyMovingSystem implements IEntitySystem {
 		Vector2f move = Vector2f.ZERO;
 		if (!moveDirection.isZero()) {
 			move = moveDirection.normalize().scale(enemyPart.getSpeed() * dt);
+		} else {
+			//Bug fix: Some enemies would randomly stop mid path
+			enemyPart.setNextNode(enemyPart.getNextNode().getNext());
 		}
 
 		if (move.lengthSquared() > moveDirection.lengthSquared()) {
@@ -81,6 +94,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		Vector2f newPosition = position.add(move);
+
 		positionPart.setPos(newPosition.x, newPosition.y);
 
 		//Calculate enemy rotation
@@ -91,6 +105,28 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 	}
 
+	private void checkReachedGoal(Entity entity, World world) {
+		Entity trumpTower = null;
+
+		for (Entity ent : world.getAllEntities()) {
+			if(PLAYER_FAMILY.matches(ent.getBits())) {
+				trumpTower = ent;
+			}
+		}
+
+		if(trumpTower == null) {
+			System.out.println("Trump tower missing?!");
+			return;
+		}
+
+		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
+		if (collision.doesCollide(entity, trumpTower)) {
+			LifePart pHealth = trumpTower.getPart(LifePart.class);
+			pHealth.setHealth(pHealth.getHealth() - 1);
+			world.removeEntity(entity);
+		}
+	}
+
 	@Override
 	public Family getFamily() {
 		return FAMILY;
@@ -98,6 +134,6 @@ public class EnemyMovingSystem implements IEntitySystem {
 
 	@Override
 	public int getPriority() {
-		return 0;
+		return UPDATE_PASS_1;
 	}
 }

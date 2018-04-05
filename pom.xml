@@ -81,6 +81,7 @@
         <module>ModuleUpdateManager</module>
         <module>Player</module>
         <module>CameraController</module>
+        <module>BasicEnemies</module>
     </modules>
 
     <properties>
