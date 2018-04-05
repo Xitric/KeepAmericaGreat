@@ -21,7 +21,7 @@ public class TowerModel {
         this.towerEntity = towerEntity;
     }
 
-    public ITower getiTower() {
+    public ITower getITower() {
         return iTower;
     }
 
