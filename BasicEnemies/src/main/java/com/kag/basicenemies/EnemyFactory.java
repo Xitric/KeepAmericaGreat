@@ -33,6 +33,7 @@ public class EnemyFactory implements IComponentLoader {
 		enemy.addPart(new PositionPart(0, 0));
 		enemy.addPart(new EnemyPart(speed));
 		enemy.addPart(new BoundingBoxPart(hatPart.getWidth(), hatPart.getHeight()));
+		enemy.addPart(new BlockingPart());
 		enemy.addPart(new CurrencyPart(money));
 		enemy.addPart(new LifePart(life));
 

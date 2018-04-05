@@ -4,8 +4,6 @@ import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.spinterfaces.ICollision;
-import org.openide.util.Lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +48,7 @@ public class World {
 		}
 
 		for (Entity entity : entities) {
-			if (entity.hasPart(BlockingPart.class) && entity.hasPart(PositionPart.class)) {
+			if (entity.hasPart(BlockingPart.class) && entity.hasPart(PositionPart.class) && entity.hasPart(BoundingBoxPart.class)) {
 				if(gameMap.doesCollideWithTile(gameMap.getTile(x,y), entity)) {
 					return true;
 				}
