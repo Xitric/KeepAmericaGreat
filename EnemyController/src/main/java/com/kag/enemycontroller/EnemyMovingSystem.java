@@ -73,6 +73,9 @@ public class EnemyMovingSystem implements IEntitySystem {
 		Vector2f move = Vector2f.ZERO;
 		if (!moveDirection.isZero()) {
 			move = moveDirection.normalize().scale(enemyPart.getSpeed() * dt);
+		} else {
+			//Bug fix: Some enemies would randomly stop mid path
+			enemyPart.setNextNode(enemyPart.getNextNode().getNext());
 		}
 
 		if (move.lengthSquared() > moveDirection.lengthSquared()) {

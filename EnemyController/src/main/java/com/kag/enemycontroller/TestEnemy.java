@@ -1,24 +1,18 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.enemycontroller.interfaces.IEnemy;
 import com.kag.enemycontroller.parts.EnemyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
-import org.openide.util.lookup.ServiceProviders;
 
 /**
  * @author Kasper
  */
-@ServiceProviders(value = {
-		@ServiceProvider(service = IEnemy.class),
-		@ServiceProvider(service = IComponentLoader.class)
-})
-public class TestEnemy implements IEnemy, IComponentLoader {
+@ServiceProvider(service = IEnemy.class)
+public class TestEnemy implements IEnemy {
 
 	@Override
 	public int getDifficulty() {
@@ -30,7 +24,7 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
 		Entity enemy = new Entity();
-		enemy.addPart(new PositionPart(6 * 64, 32));
+		enemy.addPart(new PositionPart(0, 0));
 		enemy.addPart(new EnemyPart(100));
 		enemy.addPart(new BoundingBoxPart(64,64));
 		enemy.addPart(new CurrencyPart(10));
@@ -50,15 +44,5 @@ public class TestEnemy implements IEnemy, IComponentLoader {
 		enemy.addPart(animationPart);
 
 		return enemy;
-	}
-
-	@Override
-	public void load(World world) {
-		world.addEntity(create());
-	}
-
-	@Override
-	public void dispose(World world) {
-
 	}
 }

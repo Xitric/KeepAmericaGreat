@@ -14,13 +14,12 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 @ServiceProviders(value = {
-	@ServiceProvider(service = IEntitySystem.class)
-	,
-        @ServiceProvider(service = IComponentLoader.class)
+		@ServiceProvider(service = IEntitySystem.class),
+		@ServiceProvider(service = IComponentLoader.class)
 })
 public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 
-	private static final Family FAMILY = Family.forAll(LifePart.class, CurrencyPart.class, PositionPart.class);
+	private static final Family FAMILY = Family.forAll(LifePart.class, CurrencyPart.class, PositionPart.class, PlayerPart.class);
 
 	private Entity player;
 	private Entity playerHealthGui;
@@ -70,6 +69,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		player.addPart(lifePart);
 		player.addPart(currencyPart);
 		player.addPart(trumpTower);
+		player.addPart(new PlayerPart());
 
 		//Player gui
 		AssetPart healthIcon = assetManager.createTexture(getClass().getResourceAsStream("/health.png"));
