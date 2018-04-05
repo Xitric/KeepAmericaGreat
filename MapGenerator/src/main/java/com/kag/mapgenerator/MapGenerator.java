@@ -1,9 +1,11 @@
 package com.kag.mapgenerator;
 
 import com.kag.common.data.GameMap;
+import com.kag.common.data.World;
 import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IMapGenerator;
+import com.kag.common.spinterfaces.IPathFinder;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -51,6 +53,7 @@ public class MapGenerator implements IMapGenerator {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart asset = assetManager.createTexture(getClass().getResourceAsStream("/tilesheet.png"));
         GameMap gameMap;
+	    IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
 
         boolean failed;
         do {
@@ -65,6 +68,13 @@ public class MapGenerator implements IMapGenerator {
                     failed = true;
                     break;
                 }
+            }
+
+            if(!failed) {
+	            World tempWorld = new World(gameMap);
+	            if(pathFinder.getPath(0,0, gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld) == null) {
+		            failed = true;
+	            }
             }
 
         } while (failed);
