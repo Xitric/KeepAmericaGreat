@@ -68,12 +68,12 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         if (towerSelectionManager.getSelectedTower() != null) {
 
             if (isMouseOnGameMap(gameData)) {
-                towerSelectionManager.createOverlay();
-                towerSelectionManager.updateOverlay(world, gameData);
+                towerSelectionManager.createTowerPreviewOverlay();
+                towerSelectionManager.updateTowerPreviewOverlay(world, gameData);
             }
 
             if (isMouseOnGameMap(gameData) && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
-                towerSelectionManager.placeTowerOnField(world, gameData);
+                towerSelectionManager.placeTowerOnGameMap(world, gameData);
             }
         }
     }
@@ -110,7 +110,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                     if (model.getTowerEntity() == tower) {
                         towerSelectionManager.resetTowerSelection(world);
                         towerSelectionManager.setSelectedTower(model);
-                        world.addEntity(towerSelectionManager.createMouseTower(gameData, towerSelectionManager.getSelectedTower()));
+                        world.addEntity(towerSelectionManager.createTowerPreview(gameData, towerSelectionManager.getSelectedTower()));
                     }
                 }
             }
