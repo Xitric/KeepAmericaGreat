@@ -29,7 +29,7 @@ public class WaveGenerator {
 
 		while (strength > 0 && possibleEnemyCount > 0) {
 			for (int i = 0; i < possibleEnemyTypes.size(); i++) {
-				if (possibleEnemyTypes.get(i).getDifficulty() > strength) {
+				if (possibleEnemyTypes.get(i).getDifficulty() > strength && spawnChances.get(i) > 0) {
 					range -= spawnChances.get(i);
 					spawnChances.set(i, 0.0);
 					possibleEnemyCount--;
