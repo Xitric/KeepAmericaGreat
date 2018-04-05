@@ -24,7 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	private static final float spawnDelay = 1f; //The delay between spawning two enemies
-	private static final float waveDelay = 30f; //The delay between waves
+	private static final float waveDelay = 3f; //The delay between waves
 
 	private ServiceManager<IEnemy> enemyServiceManager;
 	private List<IEnemy> enemyTypes;
@@ -53,6 +53,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 			nextWaveCountdown -= dt;
 		} else {
 			if (wave == null || wave.size() == 0) {
+				System.out.println("Generated wave: " + getWaveStrength(waveNumber));
 				wave = waveGenerator.generateWave(getWaveStrength(waveNumber), enemyTypes);
 				nextWaveCountdown = waveDelay;
 				waveNumber++;
