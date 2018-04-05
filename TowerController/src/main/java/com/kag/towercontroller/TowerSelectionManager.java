@@ -96,11 +96,15 @@ public class TowerSelectionManager {
             Entity newTower = getSelectedTower().getITower().create();
             newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
 
-            world.removeEntity(getMouseTower());
-            setMouseTower(null);
-            setSelectedTower(null);
+            resetTowerSelection(world);
             world.addEntity(newTower);
             hoverTile.setWalkable(false);
         }
+    }
+
+    public void resetTowerSelection(World world) {
+        world.removeEntity(getMouseTower());
+        setMouseTower(null);
+        setSelectedTower(null);
     }
 }
