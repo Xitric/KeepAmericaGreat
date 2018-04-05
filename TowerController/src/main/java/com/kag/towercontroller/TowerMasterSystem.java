@@ -42,6 +42,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private List<Consumer<World>> towerConsumer;
     private List<TowerModel> towerModels;
     private boolean towerSelected = false;
+    private Entity tempHoverTower = null;
+    private TowerModel towerAtPosition = null;
 
 
     public TowerMasterSystem() {
@@ -51,9 +53,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     @Override
     public void update(float dt, World world, GameData gameData) {
-
-        TowerModel towerAtPosition;
-
+        
+        System.out.println(towerAtPosition);
         if (!towerConsumer.isEmpty()) {
             for (Consumer<World> consumer : towerConsumer) {
                 consumer.accept(world);
@@ -61,41 +62,77 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             towerConsumer.clear();
         }
 
-        if (gameData.getMouse().isButtonDown(Mouse.BUTTON_LEFT)) {
+        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && !towerSelected) {
             towerAtPosition = getTowerAtMousePosition(gameData.getMouse().getX(), gameData.getMouse().getY());
+            System.out.println("Hej");
+
+
             if (towerAtPosition != null) {
                 towerSelected = true;
             }
 
+
         } else if (gameData.getMouse().isButtonDown(Mouse.BUTTON_RIGHT) || gameData.getKeyboard().isKeyDown(Keyboard.KEY_ESCAPE)) {
+            world.removeEntity(tempHoverTower);
             towerSelected = false;
         }
 
-        if (towerSelected) {
+        if (towerSelected && towerAtPosition != null) {
+
+            System.out.println("Nu er et tower selected");
             //The mouse starts in the left upper corner whereas the camera starts in the middle. We therefore move the camera
             // to start in the same position as the mouse, thereby ensuring that the correct tile is registered.
-            float xPositionMap = gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX();
-            float yPositionMap = gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY();
-            Tile hoverTile = world.getGameMap().getTile((int) xPositionMap, (int) yPositionMap);
-
-            PositionPart part = towerAtPosition.getTowerEntity().getPart(PositionPart.class);
-            AssetPart assetPart = towerAtPosition.getTowerEntity().getPart(AssetPart.class);
-
-            assetPart.setzIndex(6);
-            part.setPos(gameData.getMouse().getX(), gameData.getMouse().getY());
-
-            //Add red or blue to the entity
-            IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-            AssetPart red = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
-            red.setzIndex(5);
 
 
-            //If the tile is occupied the tile should turn red to indicate that the player is not allowed to place a tower
-            if (world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
+            if (tempHoverTower == null) {
+                tempHoverTower = new Entity();
+                System.out.println("Nu har vi et temp tower");
 
+                PositionPart positionPart = new AbsolutePositionPart(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
+
+                IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+                IAsset iAsset = towerAtPosition.getiTower().getAsset();
+                AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
+
+                assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
+                assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
+
+                assetPart.setzIndex(29);
+
+                //Add red or blue to the entity
+                AssetPart red = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+                red.setzIndex(30);
+
+                tempHoverTower.addPart(red);
+                tempHoverTower.addPart(positionPart);
+                tempHoverTower.addPart(assetPart);
+
+                world.addEntity(tempHoverTower);
             }
-        }
 
+            tempHoverTower.getPart(AbsolutePositionPart.class).setPos(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
+
+
+            if (gameData.getMouse().getX() < 768 && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+                float xPositionMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
+                float yPositionMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
+
+                Tile hoverTile = world.getGameMap().getTile((int) xPositionMap, (int) yPositionMap);
+                System.out.println("Nu er vi på mappet");
+
+                //If the tile is occupied the tile should turn red to indicate that the player is not allowed to place a tower
+                if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
+                    System.out.println("Nu sætter vi et tårn");
+                    Entity newTower = towerAtPosition.getiTower().create();
+                    newTower.getPart(PositionPart.class).setPos(hoverTile.getX(), hoverTile.getY());
+                    world.removeEntity(tempHoverTower);
+                    world.addEntity(newTower);
+                    towerSelected = false;
+
+                }
+            }
+
+        }
     }
 
     private TowerModel getTowerAtMousePosition(int mouseX, int mouseY) {
@@ -117,9 +154,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                         return model;
                     }
                 }
-
             }
-
         }
         return null;
     }
@@ -139,8 +174,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerImpleLookupResult = lookup.lookupResult(ITower.class);
         towerImpleLookupResult.addLookupListener(iTowerLookupListener);
 
-        lookup.lookupAll(ITower.class).stream().map(this::addNewTowerToMenu).forEach((e) -> {
-            world.addEntity(e);
+        lookup.lookupAll(ITower.class).stream().forEach((e) -> {
+            Entity entity = addNewTowerToMenu(e);
+            world.addEntity(entity);
+            addTowerToList(new TowerModel(entity, e));
         });
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
@@ -183,7 +220,11 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         int pixelx = 788 + 4 + x * 52;
         int pixely = 154 + 1 + y * 52;
 
-        AssetPart assetPart = tower.getAsset();
+        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+
+        IAsset iAsset = tower.getAsset();
+        AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
+        assetPart.setzIndex(30);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(pixelx, pixely);
 
         towerEntity.addPart(assetPart);
@@ -192,9 +233,16 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         return towerEntity;
     }
 
+    private void addTowerToList(TowerModel towerModel) {
+
+        towerModels.add(towerModel);
+
+    }
+
     private final LookupListener iTowerLookupListener = new LookupListener() {
         @Override
         public void resultChanged(LookupEvent ev) {
+
             Collection<? extends ITower> actualTowers = towerImpleLookupResult.allInstances();
 
             for (ITower tower : actualTowers) {
@@ -202,7 +250,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 if (!towerImple.contains(tower)) {
                     towerImple.add(tower);
                     Entity entity = addNewTowerToMenu(tower);
-                    towerModels.add(new TowerModel(entity, tower));
+                    addTowerToList(new TowerModel(entity, tower));
                     towerConsumer.add(world -> {
                         world.addEntity(entity);
                     });
