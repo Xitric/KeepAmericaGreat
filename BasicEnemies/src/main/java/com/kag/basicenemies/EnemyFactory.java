@@ -36,7 +36,7 @@ public class EnemyFactory implements IComponentLoader {
 		enemy.addPart(new CurrencyPart(money));
 		enemy.addPart(new LifePart(life));
 
-		AssetPart animationPart = assetManager.createAnimation(EnemyFactory.class.getResourceAsStream("/EnemyWalking.png"), 48, 52, 60);
+		AssetPart animationPart = assetManager.createAnimation(EnemyFactory.class.getResourceAsStream("/EnemyWalking.png"), 48, 52, (int) (60.0f * 100 / speed));
 		animationPart.setxOffset(-24);
 		animationPart.setyOffset(-26);
 		animationPart.setzIndex(3);
