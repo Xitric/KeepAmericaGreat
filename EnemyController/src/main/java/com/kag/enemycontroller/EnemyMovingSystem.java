@@ -131,6 +131,6 @@ public class EnemyMovingSystem implements IEntitySystem {
 
 	@Override
 	public int getPriority() {
-		return 0;
+		return UPDATE_PASS_1;
 	}
 }
