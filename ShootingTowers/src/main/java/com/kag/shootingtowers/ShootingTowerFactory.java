@@ -37,6 +37,9 @@ public class ShootingTowerFactory {
 		CostPart costPart = new CostPart(cost);
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
+
+		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
+		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
 		
 		//Creating new entity and adding parts
 		Entity newTowerentity = new Entity();

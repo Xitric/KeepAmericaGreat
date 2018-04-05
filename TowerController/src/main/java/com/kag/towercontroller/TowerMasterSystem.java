@@ -44,17 +44,18 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private boolean towerSelected = false;
     private Entity tempHoverTower = null;
     private TowerModel towerAtPosition = null;
+    private IAssetManager assetManager = null;
 
 
     public TowerMasterSystem() {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
+        assetManager = Lookup.getDefault().lookup(IAssetManager.class);
     }
 
     @Override
     public void update(float dt, World world, GameData gameData) {
-        
-        System.out.println(towerAtPosition);
+
         if (!towerConsumer.isEmpty()) {
             for (Consumer<World> consumer : towerConsumer) {
                 consumer.accept(world);
@@ -64,8 +65,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
         if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && !towerSelected) {
             towerAtPosition = getTowerAtMousePosition(gameData.getMouse().getX(), gameData.getMouse().getY());
-            System.out.println("Hej");
-
 
             if (towerAtPosition != null) {
                 towerSelected = true;
@@ -79,18 +78,16 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
         if (towerSelected && towerAtPosition != null) {
 
-            System.out.println("Nu er et tower selected");
             //The mouse starts in the left upper corner whereas the camera starts in the middle. We therefore move the camera
             // to start in the same position as the mouse, thereby ensuring that the correct tile is registered.
 
 
             if (tempHoverTower == null) {
                 tempHoverTower = new Entity();
-                System.out.println("Nu har vi et temp tower");
 
                 PositionPart positionPart = new AbsolutePositionPart(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
 
-                IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+
                 IAsset iAsset = towerAtPosition.getiTower().getAsset();
                 AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
 
@@ -99,11 +96,11 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
                 assetPart.setzIndex(29);
 
-                //Add red or blue to the entity
-                AssetPart red = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-                red.setzIndex(30);
-
-                tempHoverTower.addPart(red);
+//                //Add red or blue to the entity
+//                AssetPart red = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+//                red.setzIndex(30);
+//
+//                tempHoverTower.addPart(red);
                 tempHoverTower.addPart(positionPart);
                 tempHoverTower.addPart(assetPart);
 
@@ -112,6 +109,27 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
             tempHoverTower.getPart(AbsolutePositionPart.class).setPos(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
 
+            if (gameData.getMouse().getX() < 768) {
+                float xPositionMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
+                float yPositionMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
+
+                Tile hoverTile = world.getGameMap().getTile((int) xPositionMap, (int) yPositionMap);
+
+                AssetPart colorPart = null;
+                if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
+                    colorPart = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
+                    System.out.println("Ledig!");
+
+                } else {
+                    colorPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+                    System.out.println("Optaget!");
+                }
+                colorPart.setzIndex(30);
+
+                tempHoverTower.addPart(colorPart);
+
+
+            }
 
             if (gameData.getMouse().getX() < 768 && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
                 float xPositionMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
@@ -124,7 +142,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
                     System.out.println("Nu sætter vi et tårn");
                     Entity newTower = towerAtPosition.getiTower().create();
-                    newTower.getPart(PositionPart.class).setPos(hoverTile.getX(), hoverTile.getY());
+                    newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
                     world.removeEntity(tempHoverTower);
                     world.addEntity(newTower);
                     towerSelected = false;
