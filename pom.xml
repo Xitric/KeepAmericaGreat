@@ -80,6 +80,7 @@
         <module>Core</module>
         <module>ModuleUpdateManager</module>
         <module>Player</module>
+        <module>ShootingTowers</module>
         <module>CameraController</module>
         <module>BasicEnemies</module>
     </modules>
