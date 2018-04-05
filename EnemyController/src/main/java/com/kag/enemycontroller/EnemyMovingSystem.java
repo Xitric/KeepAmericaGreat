@@ -58,6 +58,13 @@ public class EnemyMovingSystem implements IEntitySystem {
 		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
 		Node nextNode = enemyPart.getNextNode();
 
+		if(world.getGameMap().doesCollideWithTile(nextNode.getTile(), entity)) {
+			if(!nextNode.getTile().isWalkable()) {
+				entity.getPart(EnemyPart.class).setNextNode(null);
+				return;
+			}
+		}
+
 		Vector2f position = new Vector2f(positionPart.getX(), positionPart.getY());
 		Vector2f goal = new Vector2f(nextNode.getTile().getX() * tileWidth + tileWidth / 2,
 				nextNode.getTile().getY() * tileHeight + tileHeight / 2);
@@ -84,16 +91,6 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		Vector2f newPosition = position.add(move);
-
-		Tile oldTile = world.getTileAt(position.x, position.y);
-		Tile newTile = world.getTileAt(newPosition.x, newPosition.y);
-
-		if(oldTile != newTile) {
-			if(!newTile.isWalkable()) {
-				entity.getPart(EnemyPart.class).setNextNode(null);
-				return;
-			}
-		}
 
 		positionPart.setPos(newPosition.x, newPosition.y);
 

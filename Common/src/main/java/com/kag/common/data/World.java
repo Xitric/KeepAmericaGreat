@@ -49,18 +49,9 @@ public class World {
 			return true;
 		}
 
-		//Test if an entity is over the tile
-		//Making a dummy entity for the tile allows us to use the collision module
-		Entity tile = new Entity();
-		tile.addPart(new PositionPart(x * gameMap.getTileWidth() + gameMap.getTileWidth() / 2,
-				y * gameMap.getTileHeight() + gameMap.getTileHeight() / 2));
-		tile.addPart(new BoundingBoxPart(gameMap.getTileWidth(), gameMap.getHeight()));
-
-		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
-
 		for (Entity entity : entities) {
 			if (entity.hasPart(BlockingPart.class) && entity.hasPart(PositionPart.class)) {
-				if (collision.doesCollide(entity, tile)) {
+				if(gameMap.doesCollideWithTile(gameMap.getTile(x,y), entity)) {
 					return true;
 				}
 			}
