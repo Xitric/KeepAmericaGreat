@@ -1,13 +1,11 @@
 package com.kag.shootingtowers;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BlockingPart;
-import com.kag.common.entities.parts.NamePart;
+import com.kag.common.entities.parts.*;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.DamagePart;
-import com.kag.common.entities.parts.PositionPart;
 import com.kag.towerparts.RotationSpeedPart;
+import com.kag.towerparts.TowerPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ public class ShootingTowerFactory {
 		return INSTANCE;
 	}
 
-	public Entity createTower(String name, int damage, int range, int attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart) {
+	public Entity createTower(String name, int damage, int range, int attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart, int spriteWidth, int spriteHeight) {
 		//Creating new parts for tower
 		NamePart namePart = new NamePart(name);
 		PositionPart positionPart = new PositionPart(0, 0);
@@ -37,6 +35,8 @@ public class ShootingTowerFactory {
 		CostPart costPart = new CostPart(cost);
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
+		TowerPart towerPart = new TowerPart();
+		BoundingBoxPart boundingBoxPart = new BoundingBoxPart(spriteWidth, spriteHeight);
 
 		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
 		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
@@ -51,6 +51,8 @@ public class ShootingTowerFactory {
 		newTowerentity.addPart(blockingPart);
 		newTowerentity.addPart(rotationSpeedPart);
 		newTowerentity.addPart(assetPart);
+		newTowerentity.addPart(towerPart);
+		newTowerentity.addPart(boundingBoxPart);
 
 		listOfTowers.add(newTowerentity);
 
