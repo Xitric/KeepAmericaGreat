@@ -5,15 +5,14 @@ import com.kag.common.data.Mouse;
 import com.kag.common.data.ServiceManager;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AbsolutePositionPart;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.*;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.enemycontroller.interfaces.IEnemy;
+import com.kag.enemycontroller.parts.EnemyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -31,6 +30,8 @@ import static com.kag.common.data.Mouse.BUTTON_LEFT;
 		@ServiceProvider(service = IComponentLoader.class)
 })
 public class EnemyWaveSystem implements ISystem, IComponentLoader {
+
+	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
 
 	private static final float spawnDelay = 1f; //The delay between spawning two enemies
 	private static final float waveDelay = 30f; //The delay between waves
@@ -87,17 +88,23 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 		} else {
 			if (wave == null || wave.size() == 0) {
+				if (wave != null){
+					rewardPlayer(world);
+				}
 				System.out.println("Generated wave: " + getWaveStrength(waveNumber));
 				wave = waveGenerator.generateWave(getWaveStrength(waveNumber), enemyTypes);
 				nextWaveCountdown = waveDelay;
 				waveNumber++;
+
 				world.addEntity(nextWaveButton);
 			} else {
+
 				nextSpawnCountdown += dt;
 				countDownLabel.getPart(LabelPart.class).setLabel("Enemies spawning");
 				world.removeEntity(nextWaveButton);
 
 				if (nextSpawnCountdown >= spawnDelay) {
+
 
 					nextSpawnCountdown -= spawnDelay;
 
@@ -139,4 +146,22 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	public int getPriority() {
 		return UPDATE_PASS_1;
 	}
-}
+
+	private void rewardPlayer(World world) {
+		Entity trump = getPlayer(world);
+		if (trump != null) {
+			CurrencyPart money = trump.getPart(CurrencyPart.class);
+			money.setCurrencyAmount(money.getCurrencyAmount() + 250);
+		}
+	}
+
+	private Entity getPlayer(World world) {
+		for (Entity entity : world.getAllEntities()) {
+			if (PLAYER_FAMILY.matches(entity.getBits())) {
+				entity.getPart(CurrencyPart.class);
+				return entity;
+			}
+		}
+		return null;
+		}
+	}
