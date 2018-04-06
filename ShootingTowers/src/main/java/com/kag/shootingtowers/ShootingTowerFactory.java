@@ -29,7 +29,7 @@ public class ShootingTowerFactory {
 		return INSTANCE;
 	}
 
-	public Entity createTower(String name, int damage, int range, int attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart) {
+	public Entity createTower(String name, int damage, int range, float attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart) {
 		//Creating new parts for tower
 		NamePart namePart = new NamePart(name);
 		PositionPart positionPart = new PositionPart(0, 0);
@@ -44,13 +44,13 @@ public class ShootingTowerFactory {
 		//Creating new entity and adding parts
 		Entity newTowerEntity = new Entity();
 
-		newTowerentity.addPart(namePart);
-		newTowerentity.addPart(positionPart);
-		newTowerentity.addPart(weaponPart);
-		newTowerentity.addPart(costPart);
-		newTowerentity.addPart(blockingPart);
-		newTowerentity.addPart(rotationSpeedPart);
-		newTowerentity.addPart(assetPart);
+		newTowerEntity.addPart(namePart);
+		newTowerEntity.addPart(positionPart);
+		newTowerEntity.addPart(weaponPart);
+		newTowerEntity.addPart(costPart);
+		newTowerEntity.addPart(blockingPart);
+		newTowerEntity.addPart(rotationSpeedPart);
+		newTowerEntity.addPart(assetPart);
 
 		listOfTowers.add(newTowerEntity);
 
