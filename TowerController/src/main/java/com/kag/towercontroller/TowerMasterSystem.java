@@ -43,7 +43,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private Entity upgradeMenuBackground;
     private Entity sellTowerButton;
     private Entity sellTowerLabel;
-    private Entity tempTower;
+    private Entity tempTower;//TODO works, but might not be a good idea
+    private float xTilePositionOnMap;//TODO works, but might not be a good idea
+    private float yTilePositionOnMap;//TODO works, but might not be a good idea
     private List<ITower> towerImple;
     private Lookup.Result<ITower> towerImpleLookupResult;
     private List<Entity> towersToBeDrawn;
@@ -91,6 +93,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             Entity tower = getMouseSelectedTower(gameData, world);
             double sellingPrice;
             if (tower != null && towerFamily.matches(tower.getBits())){
+                xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
+                yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
                 //Save a reference to the tower, so the tower can be removed
                 tempTower = tower;
                 sellingPrice = tower.getPart(CostPart.class).getCost()*0.75;
@@ -107,6 +111,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 world.removeEntity(sellTowerButton);
                 //Give player sellingPrice currencies
                 sellingPrice = 0;
+                Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
+                hoverTile.setWalkable(true);
             }
         }
     }
