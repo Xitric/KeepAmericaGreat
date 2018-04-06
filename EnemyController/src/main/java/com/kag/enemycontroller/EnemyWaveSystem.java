@@ -33,7 +33,7 @@ import static com.kag.common.data.Mouse.BUTTON_LEFT;
 public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	private static final float spawnDelay = 1f; //The delay between spawning two enemies
-	private static final float waveDelay = 3f; //The delay between waves
+	private static final float waveDelay = 30f; //The delay between waves
 
 	private ServiceManager<IEnemy> enemyServiceManager;
 	private List<IEnemy> enemyTypes;
