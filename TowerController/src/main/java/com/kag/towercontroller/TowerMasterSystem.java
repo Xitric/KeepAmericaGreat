@@ -40,7 +40,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private List<Entity> towersToBeDrawn;
     private List<Consumer<World>> towerConsumer;
     private List<TowerModel> towerModels;
-    private IAssetManager assetManager = null;
+    private IAssetManager assetManager;
     private TowerSelectionManager towerSelectionManager;
 
 

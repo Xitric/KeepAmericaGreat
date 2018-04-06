@@ -2,18 +2,28 @@ package com.kag.towerparts;
 
 import com.kag.common.entities.IPart;
 
-public class DamagePart implements IPart {
+public class WeaponPart implements IPart {
 
 	private int damage;
 	private int range;
 	private float attackSpeed;
 	private float projectileSpeed;
+	private float timeSinceLast;
 
-	public DamagePart(int damage, int range, float attackSpeed, float projectileSpeed) {
+	
+	public WeaponPart(int damage, int range, float attackSpeed, float projectileSpeed) {
 		this.damage = damage;
 		this.range = range;
 		this.attackSpeed = attackSpeed;
 		this.projectileSpeed = projectileSpeed;
+		
+	}
+	public float getTimeSinceLast() {
+		return timeSinceLast;
+	}
+
+	public void addDelta(float delta) {
+		this.timeSinceLast += delta;
 	}
 
 	public int getDamage() {

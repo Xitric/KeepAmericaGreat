@@ -5,7 +5,7 @@ import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.NamePart;
 import com.kag.towerparts.CostPart;
-import com.kag.towerparts.DamagePart;
+import com.kag.towerparts.WeaponPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.towerparts.RotationSpeedPart;
 
@@ -33,7 +33,7 @@ public class ShootingTowerFactory {
 		//Creating new parts for tower
 		NamePart namePart = new NamePart(name);
 		PositionPart positionPart = new PositionPart(0, 0);
-		DamagePart damagePart = new DamagePart(damage, range, attackSpeed, projectileSpeed);
+		WeaponPart weaponPart = new WeaponPart(damage, range, attackSpeed, projectileSpeed);
 		CostPart costPart = new CostPart(cost);
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
@@ -46,7 +46,7 @@ public class ShootingTowerFactory {
 
 		newTowerentity.addPart(namePart);
 		newTowerentity.addPart(positionPart);
-		newTowerentity.addPart(damagePart);
+		newTowerentity.addPart(weaponPart);
 		newTowerentity.addPart(costPart);
 		newTowerentity.addPart(blockingPart);
 		newTowerentity.addPart(rotationSpeedPart);
