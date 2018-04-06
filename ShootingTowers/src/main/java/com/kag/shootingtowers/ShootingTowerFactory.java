@@ -27,7 +27,7 @@ public class ShootingTowerFactory {
 		return INSTANCE;
 	}
 
-	public Entity createTower(String name, int damage, int range, int attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart, int spriteWidth, int spriteHeight) {
+	public Entity createTower(String name, int damage, int range, int attackSpeed, float projectileSpeed, int cost, float rotationSpeed, AssetPart assetPart) {
 		//Creating new parts for tower
 		NamePart namePart = new NamePart(name);
 		PositionPart positionPart = new PositionPart(0, 0);
@@ -36,7 +36,7 @@ public class ShootingTowerFactory {
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
 		TowerPart towerPart = new TowerPart();
-		BoundingBoxPart boundingBoxPart = new BoundingBoxPart(spriteWidth, spriteHeight);
+		BoundingBoxPart boundingBoxPart = new BoundingBoxPart(assetPart.getWidth(), assetPart.getHeight());
 
 		assetPart.setxOffset(- assetPart.getWidth() / 2);
 		assetPart.setyOffset(- assetPart.getHeight() / 2);

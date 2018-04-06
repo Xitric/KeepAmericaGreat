@@ -24,7 +24,7 @@ public class BasicTower implements ITower {
         AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/towerTest.png"));
         assetPart.setzIndex(30);
 
-        Entity newTower = ShootingTowerFactory.getInstance().createTower("Basic Tower", 2, 96, 1000, 0.03f, 10, (float) (Math.PI / 4), assetPart, 40, 46);
+        Entity newTower = ShootingTowerFactory.getInstance().createTower("Basic Tower", 2, 96, 1000, 0.03f, 10, (float) (Math.PI / 4), assetPart);
 
         return newTower;
     }
