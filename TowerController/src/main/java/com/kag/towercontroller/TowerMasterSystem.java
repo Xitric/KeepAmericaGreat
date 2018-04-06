@@ -39,7 +39,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private List<Entity> towersToBeDrawn;
     private List<Consumer<World>> towerConsumer;
     private List<TowerModel> towerModels;
-    private IAssetManager assetManager = null;
+    private IAssetManager assetManager;
     private TowerSelectionManager towerSelectionManager;
 
 
@@ -47,7 +47,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        towerSelectionManager = new TowerSelectionManager();
     }
 
     @Override
@@ -120,11 +119,12 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     @Override
     public int getPriority() {
-        return 0;
+        return UPDATE_PASS_1;
     }
 
     @Override
     public void load(World world) {
+	    towerSelectionManager = new TowerSelectionManager();
         lookup = Lookup.getDefault();
 
         towersToBeDrawn = new ArrayList<>();
@@ -133,7 +133,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerImpleLookupResult = lookup.lookupResult(ITower.class);
         towerImpleLookupResult.addLookupListener(iTowerLookupListener);
 
-        lookup.lookupAll(ITower.class).stream().forEach((e) -> {
+        lookup.lookupAll(ITower.class).forEach((e) -> {
             Entity entity = addNewTowerToMenu(e);
             world.addEntity(entity);
             addTowerToList(new TowerModel(entity, e));
@@ -164,6 +164,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         for(TowerModel model : towerModels){
             world.removeEntity(model.getTowerEntity());
         }
+        towerSelectionManager.dispose();
     }
 
 
