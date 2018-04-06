@@ -14,6 +14,8 @@ import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
 import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -22,9 +24,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
-
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
 @ServiceProviders(value = {
         @ServiceProvider(service = ISystem.class),
@@ -69,7 +68,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
             if (isMouseOnGameMap(gameData)) {
                 towerSelectionManager.createTowerPreviewOverlay();
-                towerSelectionManager.updateTowerPreviewOverlay(world, gameData);
+                towerSelectionManager.updateTowerPreviewOverlayOnMap(world, gameData);
+            } else {
+                towerSelectionManager.updateTowerPreviewOverlayOnMenu(gameData);
             }
 
             if (isMouseOnGameMap(gameData) && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {

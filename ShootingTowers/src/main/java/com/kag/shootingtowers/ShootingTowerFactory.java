@@ -38,23 +38,23 @@ public class ShootingTowerFactory {
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
 
-		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
-		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
+		assetPart.setxOffset(- assetPart.getWidth() / 2);
+		assetPart.setyOffset(- assetPart.getHeight() / 2);
 		
 		//Creating new entity and adding parts
-		Entity newTowerentity = new Entity();
+		Entity newTowerEntity = new Entity();
 
-		newTowerentity.addPart(namePart);
-		newTowerentity.addPart(positionPart);
-		newTowerentity.addPart(damagePart);
-		newTowerentity.addPart(costPart);
-		newTowerentity.addPart(blockingPart);
-		newTowerentity.addPart(rotationSpeedPart);
-		newTowerentity.addPart(assetPart);
+		newTowerEntity.addPart(namePart);
+		newTowerEntity.addPart(positionPart);
+		newTowerEntity.addPart(damagePart);
+		newTowerEntity.addPart(costPart);
+		newTowerEntity.addPart(blockingPart);
+		newTowerEntity.addPart(rotationSpeedPart);
+		newTowerEntity.addPart(assetPart);
 
-		listOfTowers.add(newTowerentity);
+		listOfTowers.add(newTowerEntity);
 
-		return newTowerentity;
+		return newTowerEntity;
 	}
 
 	public List<Entity> getTowersCreated() {
