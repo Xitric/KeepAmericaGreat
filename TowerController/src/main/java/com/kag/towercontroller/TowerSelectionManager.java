@@ -14,31 +14,15 @@ import org.openide.util.Lookup;
 public class TowerSelectionManager {
     private TowerModel selectedTower;
     private IAssetManager assetManager;
-    private AssetPart overlayAssetPart = null;
-    private Entity mouseTower;
+    private AssetPart towerPreviewOverlayAssetPart = null;
+    private Entity previewTower;
 
     public TowerSelectionManager() {
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
     }
 
-    public Entity getMouseTower() {
-        return mouseTower;
-    }
-
-    public void setMouseTower(Entity mouseTower) {
-        this.mouseTower = mouseTower;
-    }
-
-    public TowerModel getSelectedTower() {
-        return selectedTower;
-    }
-
-    public void setSelectedTower(TowerModel selectedTower) {
-        this.selectedTower = selectedTower;
-    }
-
-    public Entity createMouseTower(GameData gameData, TowerModel selectedTower) {
-        mouseTower = new Entity();
+    public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
+        previewTower = new Entity();
 
         PositionPart positionPart = new AbsolutePositionPart(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
 
@@ -50,42 +34,42 @@ public class TowerSelectionManager {
 
         assetPart.setzIndex(29);
 
-        mouseTower.addPart(positionPart);
-        mouseTower.addPart(assetPart);
+        previewTower.addPart(positionPart);
+        previewTower.addPart(assetPart);
 
-        return mouseTower;
+        return previewTower;
     }
 
-    public void createOverlay() {
-        if (overlayAssetPart == null) {
-            overlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-            overlayAssetPart.setzIndex(30);
-            getMouseTower().addPart(overlayAssetPart);
+    public void createTowerPreviewOverlay() {
+        if (towerPreviewOverlayAssetPart == null) {
+            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+            towerPreviewOverlayAssetPart.setzIndex(30);
+            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
         }
     }
 
-    public void updateOverlay(World world, GameData gameData){
+    public void updateTowerPreviewOverlay(World world, GameData gameData){
         float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
         float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
         Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
-        getMouseTower().getPart(AbsolutePositionPart.class).setPos(hoverTile.getX() * 64 - gameData.getCamera().getX() + (gameData.getWidth()/2), hoverTile.getY() * 64 - gameData.getCamera().getY() + (gameData.getHeight()/2));
+        getPreviewTower().getPart(AbsolutePositionPart.class).setPos(hoverTile.getX() * 64 - gameData.getCamera().getX() + (gameData.getWidth()/2), hoverTile.getY() * 64 - gameData.getCamera().getY() + (gameData.getHeight()/2));
 
         if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
-            getMouseTower().removePart(overlayAssetPart);
-            overlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
-            overlayAssetPart.setzIndex(30);
-            getMouseTower().addPart(overlayAssetPart);
+            getPreviewTower().removePart(towerPreviewOverlayAssetPart);
+            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
+            towerPreviewOverlayAssetPart.setzIndex(30);
+            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
 
         } else {
-            getMouseTower().removePart(overlayAssetPart);
-            overlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-            overlayAssetPart.setzIndex(30);
-            getMouseTower().addPart(overlayAssetPart);
+            getPreviewTower().removePart(towerPreviewOverlayAssetPart);
+            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+            towerPreviewOverlayAssetPart.setzIndex(30);
+            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
         }
     }
 
-    public void placeTowerOnField(World world, GameData gameData) {
+    public void placeTowerOnGameMap(World world, GameData gameData) {
         float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
         float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
@@ -96,11 +80,31 @@ public class TowerSelectionManager {
             Entity newTower = getSelectedTower().getITower().create();
             newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
 
-            world.removeEntity(getMouseTower());
-            setMouseTower(null);
-            setSelectedTower(null);
+            resetTowerSelection(world);
             world.addEntity(newTower);
             hoverTile.setWalkable(false);
         }
+    }
+
+    public void resetTowerSelection(World world) {
+        world.removeEntity(getPreviewTower());
+        setPreviewTower(null);
+        setSelectedTower(null);
+    }
+
+    public Entity getPreviewTower() {
+        return previewTower;
+    }
+
+    public void setPreviewTower(Entity mouseTower) {
+        this.previewTower = mouseTower;
+    }
+
+    public TowerModel getSelectedTower() {
+        return selectedTower;
+    }
+
+    public void setSelectedTower(TowerModel selectedTower) {
+        this.selectedTower = selectedTower;
     }
 }

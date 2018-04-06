@@ -9,7 +9,6 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
@@ -48,17 +47,12 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public TowerMasterSystem() {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
+        assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         towerSelectionManager = new TowerSelectionManager();
     }
 
     @Override
     public void update(float dt, World world, GameData gameData) {
-        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
-        float yTolePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
-
-        if (assetManager == null) {
-            assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        }
 
         if (!towerConsumer.isEmpty()) {
             for (Consumer<World> consumer : towerConsumer) {
@@ -67,38 +61,38 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             towerConsumer.clear();
         }
 
-        handleTowerSelection(world, gameData);
+        //Handle tower selection on buy menu.
+        handleMouseInput(world, gameData);
 
+        //If a tower has been selected.
         if (towerSelectionManager.getSelectedTower() != null) {
 
-            if (isMouseOnPlayField(gameData)) {
-                towerSelectionManager.createOverlay();
-                towerSelectionManager.updateOverlay(world, gameData);
+            if (isMouseOnGameMap(gameData)) {
+                towerSelectionManager.createTowerPreviewOverlay();
+                towerSelectionManager.updateTowerPreviewOverlay(world, gameData);
             }
 
-            if (isMouseOnPlayField(gameData) && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
-                towerSelectionManager.placeTowerOnField(world, gameData);
+            if (isMouseOnGameMap(gameData) && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+                towerSelectionManager.placeTowerOnGameMap(world, gameData);
             }
         }
     }
 
-    private boolean isMouseOnPlayField(GameData gameData) {
+    private boolean isMouseOnGameMap(GameData gameData) {
         return gameData.getMouse().getX() < 768;
     }
 
 
-    private void handleTowerSelection(World world, GameData gameData) {
-        TowerModel model = null;
+    private void handleMouseInput(World world, GameData gameData) {
         if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
-            setTowerFromBuyMenu(gameData, world);
+            handleBuyMenu(gameData, world);
 
         } else if (gameData.getMouse().isButtonDown(Mouse.BUTTON_RIGHT) || gameData.getKeyboard().isKeyDown(Keyboard.KEY_ESCAPE)) {
-//            world.removeEntity(tempHoverTower);
-//            towerSelected = false;
+            towerSelectionManager.resetTowerSelection(world);
         }
     }
 
-    private void setTowerFromBuyMenu(GameData gameData, World world) {
+    private void handleBuyMenu(GameData gameData, World world) {
         int mouseX = gameData.getMouse().getX();
         int mouseY = gameData.getMouse().getY();
         for (Entity tower : towersToBeDrawn) {
@@ -114,8 +108,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             if (mouseX >= towerXStart && mouseX <= towerXEnd && mouseY >= towerYStart && mouseY <= towerYEnd) {
                 for (TowerModel model : towerModels) {
                     if (model.getTowerEntity() == tower) {
+                        towerSelectionManager.resetTowerSelection(world);
                         towerSelectionManager.setSelectedTower(model);
-                        world.addEntity(towerSelectionManager.createMouseTower(gameData, towerSelectionManager.getSelectedTower()));
+                        world.addEntity(towerSelectionManager.createTowerPreview(gameData, towerSelectionManager.getSelectedTower()));
                     }
                 }
             }
@@ -143,8 +138,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             addTowerToList(new TowerModel(entity, e));
         });
 
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
         towerPanel.setzIndex(5);
 
@@ -167,6 +160,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void dispose(World world) {
         world.removeEntity(towerMenuBackground);
         world.removeEntity(upgradeMenuBackground);
+        for(TowerModel model : towerModels){
+            world.removeEntity(model.getTowerEntity());
+        }
     }
 
 
@@ -177,18 +173,18 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
         int index = towersToBeDrawn.indexOf(towerEntity);
 
-        int x = index % 3;
-        int y = index / 3;
+        int menuX = index % 3;
+        int menuY = index / 3;
 
-        int pixelx = 788 + 4 + x * 52;
-        int pixely = 154 + 1 + y * 52;
+        int menuStartX = 788 + 4 + menuX * 52;
+        int menuStartY = 154 + 1 + menuY * 52;
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         IAsset iAsset = tower.getAsset();
         AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
         assetPart.setzIndex(30);
-        AbsolutePositionPart positionPart = new AbsolutePositionPart(pixelx, pixely);
+        AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
         towerEntity.addPart(assetPart);
         towerEntity.addPart(positionPart);
@@ -197,9 +193,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     }
 
     private void addTowerToList(TowerModel towerModel) {
-
         towerModels.add(towerModel);
-
     }
 
     private final LookupListener iTowerLookupListener = new LookupListener() {
