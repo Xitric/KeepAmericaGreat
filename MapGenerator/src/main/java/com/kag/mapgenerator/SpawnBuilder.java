@@ -36,6 +36,8 @@ public class SpawnBuilder extends AbstractBuilder {
                        gameMap.getTile(x, y).setLayer(0, TileOrientation.N.getSpriteIndex() + offset);
                     }
                 }
+
+                gameMap.getTile(x, y).setOccupied(true);
             }
         }
         
@@ -101,7 +103,8 @@ public class SpawnBuilder extends AbstractBuilder {
                         gameMap.getTile(x, y).setLayer(0, TileOrientation.BASE.getSpriteIndex() + 13);
                     }
                 }
-                 
+
+	            gameMap.getTile(x, y).setOccupied(true);
             }
         }
 		

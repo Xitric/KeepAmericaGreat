@@ -47,6 +47,10 @@ public class World {
 			return true;
 		}
 
+		if (gameMap.getTile(x, y).isOccupied()) {
+			return true;
+		}
+
 		for (Entity entity : entities) {
 			if (entity.hasPart(BlockingPart.class) && entity.hasPart(PositionPart.class) && entity.hasPart(BoundingBoxPart.class)) {
 				if(gameMap.doesCollideWithTile(gameMap.getTile(x,y), entity)) {
