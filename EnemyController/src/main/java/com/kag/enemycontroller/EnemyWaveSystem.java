@@ -125,13 +125,8 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 		float btnW = nextWaveButton.getPart(BoundingBoxPart.class).getWidth();
 		float btnH = nextWaveButton.getPart(BoundingBoxPart.class).getHeight();
-		if (mouse.isButtonPressed(BUTTON_LEFT) &&
-				mouseX > btnX && mouseX < btnX+btnW &&
-				mouseY > btnY && mouseY < btnY+btnH)
-		{
-			return true;
-		}
-		return false;
+
+		return mouse.isButtonPressed(BUTTON_LEFT) && mouseX > btnX && mouseX < btnX + btnW && mouseY > btnY && mouseY < btnY + btnH;
 	}
 
 	private int getWaveStrength(int waveNumber) {
