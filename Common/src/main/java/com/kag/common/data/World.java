@@ -1,12 +1,15 @@
 package com.kag.common.data;
 
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Sofie Jørgensen
@@ -86,6 +89,10 @@ public class World {
 			return null;
 		}
 		return gameMap.getTile((int)worldX / 64, (int)worldY / 64);
+	}
+
+	public List<Entity> getEntitiesByFamily(Family family) {
+		return getAllEntities().stream().filter(entity -> family.matches(entity.getBits())).collect(Collectors.toList());
 	}
 	
 	public GameMap getGameMap() {

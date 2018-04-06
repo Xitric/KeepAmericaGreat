@@ -2,15 +2,18 @@ package com.kag.towercontroller;
 
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AbsolutePositionPart;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.entities.Family;
+import com.kag.common.entities.IPart;
+import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
+import com.kag.towerparts.CostPart;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {
-    private TowerModel selectedTower;
+	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(BlockingPart.class);
+
+	private TowerModel selectedTower;
     private IAssetManager assetManager;
     private AssetPart towerPreviewOverlayAssetPart = null;
     private Entity previewTower;
@@ -87,6 +90,22 @@ public class TowerSelectionManager {
     	return count;
     }
 
+    private boolean canAffordTower(Entity player, Entity tower) {
+	    int playerMoney = player.getPart(CurrencyPart.class).getCurrencyAmount();
+	    int cost = tower.getPart(CostPart.class).getCost();
+
+    	return cost <= playerMoney;
+    }
+
+    private void buyTower(Entity player, Entity tower) {
+    	CurrencyPart playerCurrencyPart = player.getPart(CurrencyPart.class);
+
+	    int playerMoney = playerCurrencyPart.getCurrencyAmount();
+	    int cost = tower.getPart(CostPart.class).getCost();
+
+	    playerCurrencyPart.setCurrencyAmount(playerMoney - cost);
+    }
+
     public void placeTowerOnGameMap(World world, GameData gameData) {
         float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
         float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
@@ -96,9 +115,20 @@ public class TowerSelectionManager {
         //If the tile is occupied the tile should turn red to indicate that the player is not allowed to place a tower
         if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
             Entity newTower = getSelectedTower().getITower().create();
-            newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
 
-            resetTowerSelection(world);
+	        resetTowerSelection(world);
+
+	        Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
+
+            // Check cost and can afford
+	        if(!canAffordTower(trumpTower, newTower)) {
+		        System.out.println("Cant afford");
+		        return;
+	        }
+
+	        buyTower(trumpTower, newTower);
+
+            newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
 
             // Running Dijkstra pf to get a count of nodes available for start pos, to know how many start positions are removed after tower placement
 	        Node[][] validPaths = getPaths(world);
