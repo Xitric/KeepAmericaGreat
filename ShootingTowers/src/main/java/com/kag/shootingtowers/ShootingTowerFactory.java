@@ -1,13 +1,11 @@
 package com.kag.shootingtowers;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BlockingPart;
-import com.kag.common.entities.parts.NamePart;
+import com.kag.common.entities.parts.*;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.DamagePart;
-import com.kag.common.entities.parts.PositionPart;
 import com.kag.towerparts.RotationSpeedPart;
+import com.kag.towerparts.TowerPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +35,28 @@ public class ShootingTowerFactory {
 		CostPart costPart = new CostPart(cost);
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
+		TowerPart towerPart = new TowerPart();
+		BoundingBoxPart boundingBoxPart = new BoundingBoxPart(assetPart.getWidth(), assetPart.getHeight());
 
-		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
-		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
+		assetPart.setxOffset(- assetPart.getWidth() / 2);
+		assetPart.setyOffset(- assetPart.getHeight() / 2);
 		
 		//Creating new entity and adding parts
-		Entity newTowerentity = new Entity();
+		Entity newTowerEntity = new Entity();
 
-		newTowerentity.addPart(namePart);
-		newTowerentity.addPart(positionPart);
-		newTowerentity.addPart(damagePart);
-		newTowerentity.addPart(costPart);
-		newTowerentity.addPart(blockingPart);
-		newTowerentity.addPart(rotationSpeedPart);
-		newTowerentity.addPart(assetPart);
+		newTowerEntity.addPart(namePart);
+		newTowerEntity.addPart(positionPart);
+		newTowerEntity.addPart(damagePart);
+		newTowerEntity.addPart(costPart);
+		newTowerEntity.addPart(blockingPart);
+		newTowerEntity.addPart(rotationSpeedPart);
+		newTowerEntity.addPart(assetPart);
+		newTowerEntity.addPart(boundingBoxPart);
+		newTowerEntity.addPart(towerPart);
 
-		listOfTowers.add(newTowerentity);
+		listOfTowers.add(newTowerEntity);
 
-		return newTowerentity;
+		return newTowerEntity;
 	}
 
 	public List<Entity> getTowersCreated() {

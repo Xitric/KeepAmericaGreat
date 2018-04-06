@@ -15,6 +15,8 @@ import com.kag.enemycontroller.parts.EnemyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
+import java.util.List;
+
 /**
  * @author Kasper
  */
@@ -106,13 +108,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 	}
 
 	private void checkReachedGoal(Entity entity, World world) {
-		Entity trumpTower = null;
-
-		for (Entity ent : world.getAllEntities()) {
-			if(PLAYER_FAMILY.matches(ent.getBits())) {
-				trumpTower = ent;
-			}
-		}
+		Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 
 		if(trumpTower == null) {
 			System.out.println("Trump tower missing?!");
