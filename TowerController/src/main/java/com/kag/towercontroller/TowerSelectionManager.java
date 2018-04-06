@@ -3,7 +3,6 @@ package com.kag.towercontroller;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
-import com.kag.common.entities.IPart;
 import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
@@ -14,157 +13,169 @@ public class TowerSelectionManager {
 	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(BlockingPart.class);
 
 	private TowerModel selectedTower;
-    private IAssetManager assetManager;
-    private AssetPart towerPreviewOverlayAssetPart = null;
-    private Entity previewTower;
+	private IAssetManager assetManager;
+	private AssetPart towerPreviewOverlayAssetPart = null;
+	private Entity previewTower;
+	private AssetPart redOverlay;
+	private AssetPart blueOverlay;
 
-    public TowerSelectionManager() {
-        assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-    }
+	public TowerSelectionManager() {
+		assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+		redOverlay = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
+		redOverlay.setzIndex(30);
+		blueOverlay = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
+		blueOverlay.setzIndex(30);
+	}
 
-    public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
-        previewTower = new Entity();
+	public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
+		previewTower = new Entity();
 
-        PositionPart positionPart = new AbsolutePositionPart(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
+		PositionPart positionPart = new AbsolutePositionPart(0, 0);
 
-        IAsset iAsset = selectedTower.getITower().getAsset();
-        AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
+		IAsset iAsset = selectedTower.getITower().getAsset();
+		AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
 
-        assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
-        assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
+		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
+		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
 
-        assetPart.setzIndex(29);
+		assetPart.setzIndex(29);
 
-        previewTower.addPart(positionPart);
-        previewTower.addPart(assetPart);
+		previewTower.addPart(positionPart);
+		previewTower.addPart(assetPart);
 
-        return previewTower;
-    }
+		return previewTower;
+	}
 
-    public void createTowerPreviewOverlay() {
-        if (towerPreviewOverlayAssetPart == null) {
-            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-            towerPreviewOverlayAssetPart.setzIndex(30);
-            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
-        }
-    }
+	public void createTowerPreviewOverlay() {
+		if (towerPreviewOverlayAssetPart == null) {
+			towerPreviewOverlayAssetPart = redOverlay;
+			getPreviewTower().addPart(towerPreviewOverlayAssetPart);
+		}
+	}
 
-    public void updateTowerPreviewOverlay(World world, GameData gameData){
-        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
-        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
+	public void updateTowerPreviewOverlayOnMap(World world, GameData gameData) {
+		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
+		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
-        Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
-        getPreviewTower().getPart(AbsolutePositionPart.class).setPos(hoverTile.getX() * 64 - gameData.getCamera().getX() + (gameData.getWidth()/2), hoverTile.getY() * 64 - gameData.getCamera().getY() + (gameData.getHeight()/2));
+		Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
+		getPreviewTower().getPart(AbsolutePositionPart.class).setPos(hoverTile.getX() * 64 - gameData.getCamera().getX() + (gameData.getWidth() / 2), hoverTile.getY() * 64 - gameData.getCamera().getY() + (gameData.getHeight() / 2));
 
-        if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
-            getPreviewTower().removePart(towerPreviewOverlayAssetPart);
-            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
-            towerPreviewOverlayAssetPart.setzIndex(30);
-            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
+		if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
+			getPreviewTower().removePart(towerPreviewOverlayAssetPart);
+			towerPreviewOverlayAssetPart = blueOverlay;
+			getPreviewTower().addPart(towerPreviewOverlayAssetPart);
 
-        } else {
-            getPreviewTower().removePart(towerPreviewOverlayAssetPart);
-            towerPreviewOverlayAssetPart = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-            towerPreviewOverlayAssetPart.setzIndex(30);
-            getPreviewTower().addPart(towerPreviewOverlayAssetPart);
-        }
-    }
+		} else {
+			getPreviewTower().removePart(towerPreviewOverlayAssetPart);
+			towerPreviewOverlayAssetPart = redOverlay;
+			getPreviewTower().addPart(towerPreviewOverlayAssetPart);
+		}
+	}
 
-    private Node[][] getPaths(World world) {
-	    IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
+	public void updateTowerPreviewOverlayOnMenu(GameData gameData) {
+		getPreviewTower().getPart(AbsolutePositionPart.class).setPos(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
 
-	    return pathFinder.getPath(world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world);
-    }
+		if (towerPreviewOverlayAssetPart != null) {
+			getPreviewTower().removePart(towerPreviewOverlayAssetPart);
+		}
+	}
 
-    private int countValidPaths(Node[][] paths) {
-	    int count = 0;
+	private Node[][] getPaths(World world) {
+		IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
 
-	    for (int i = 0; i < paths.length; i++) {
-	    	for(int j = 0; j < paths[i].length; j++) {
-	    		if(paths[i][j] != null) {
-	    			count++;
-			    }
-		    }
-	    }
+		return pathFinder.getPath(world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world);
+	}
 
-    	return count;
-    }
+	private int countValidPaths(Node[][] paths) {
+		int count = 0;
 
-    private boolean canAffordTower(Entity player, Entity tower) {
-	    int playerMoney = player.getPart(CurrencyPart.class).getCurrencyAmount();
-	    int cost = tower.getPart(CostPart.class).getCost();
+		for (int i = 0; i < paths.length; i++) {
+			for (int j = 0; j < paths[i].length; j++) {
+				if (paths[i][j] != null) {
+					count++;
+				}
+			}
+		}
 
-    	return cost <= playerMoney;
-    }
+		return count;
+	}
 
-    private void buyTower(Entity player, Entity tower) {
-    	CurrencyPart playerCurrencyPart = player.getPart(CurrencyPart.class);
+	private boolean canAffordTower(Entity player, Entity tower) {
+		int playerMoney = player.getPart(CurrencyPart.class).getCurrencyAmount();
+		int cost = tower.getPart(CostPart.class).getCost();
 
-	    int playerMoney = playerCurrencyPart.getCurrencyAmount();
-	    int cost = tower.getPart(CostPart.class).getCost();
+		return cost <= playerMoney;
+	}
 
-	    playerCurrencyPart.setCurrencyAmount(playerMoney - cost);
-    }
+	private void buyTower(Entity player, Entity tower) {
+		CurrencyPart playerCurrencyPart = player.getPart(CurrencyPart.class);
 
-    public void placeTowerOnGameMap(World world, GameData gameData) {
-        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
-        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
+		int playerMoney = playerCurrencyPart.getCurrencyAmount();
+		int cost = tower.getPart(CostPart.class).getCost();
 
-        Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
+		playerCurrencyPart.setCurrencyAmount(playerMoney - cost);
+	}
 
-        //If the tile is occupied the tile should turn red to indicate that the player is not allowed to place a tower
-        if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
-            Entity newTower = getSelectedTower().getITower().create();
+	public void placeTowerOnGameMap(World world, GameData gameData) {
+		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
+		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
-	        resetTowerSelection(world);
+		Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
 
-	        Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
+		//If the tile is occupied the tile should turn red to indicate that the player is not allowed to place a tower
+		if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
+			Entity newTower = getSelectedTower().getITower().create();
 
-            // Check cost and can afford
-	        if(!canAffordTower(trumpTower, newTower)) {
-		        System.out.println("Cant afford");
-		        return;
-	        }
+			resetTowerSelection(world);
 
-	        buyTower(trumpTower, newTower);
+			Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 
-            newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * 64, hoverTile.getY() * 64);
+			// Check cost and can afford
+			if (!canAffordTower(trumpTower, newTower)) {
+				System.out.println("Cant afford");
+				return;
+			}
 
-            // Running Dijkstra pf to get a count of nodes available for start pos, to know how many start positions are removed after tower placement
-	        Node[][] validPaths = getPaths(world);
-	        int validPathsCount = countValidPaths(validPaths);
+			buyTower(trumpTower, newTower);
 
-            world.addEntity(newTower);
-            hoverTile.setWalkable(false);
+			newTower.getPart(PositionPart.class).setPos(hoverTile.getX() * world.getGameMap().getTileWidth() + world.getGameMap().getTileWidth() / 2,
+					hoverTile.getY() * world.getGameMap().getTileHeight() + world.getGameMap().getTileHeight() / 2);
 
-            if(!isMapValid(world, validPathsCount, validPaths)) {
-            	world.removeEntity(newTower);
-            	hoverTile.setWalkable(true);
-            }
-        }
-    }
+			// Running Dijkstra pf to get a count of nodes available for start pos, to know how many start positions are removed after tower placement
+			Node[][] validPaths = getPaths(world);
+			int validPathsCount = countValidPaths(validPaths);
 
-    private boolean isMapValid(World world, int prevValidPathsCount, Node[][] prevValidPaths) {
+			world.addEntity(newTower);
+			hoverTile.setWalkable(false);
+
+			if (!isMapValid(world, validPathsCount, validPaths)) {
+				world.removeEntity(newTower);
+				hoverTile.setWalkable(true);
+			}
+		}
+	}
+
+	private boolean isMapValid(World world, int prevValidPathsCount, Node[][] prevValidPaths) {
     	/*
     	Run Dijkstra.
     	If more than one possible path to the goal is removed, an area is blocked off.
     	Validate that there are no enemies by checking the blocked off tiles for whether they are walkable and occupied,
     	if that's the case, there are enemies on the blocked off tiles and the map is invalid.
     	 */
-	    IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
+		IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
 
-	    // Check whether there's a valid path from spawn to goal (the player)
-		if(pathFinder.getPath(0,0, world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world) == null) {
+		// Check whether there's a valid path from spawn to goal (the player)
+		if (pathFinder.getPath(0, 0, world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world) == null) {
 			return false;
 		}
 
 		Node[][] validPaths = getPaths(world);
 
 		// Check whether more than one valid path was removed
-		if(prevValidPathsCount - countValidPaths(validPaths) > 1) {
+		if (prevValidPathsCount - countValidPaths(validPaths) > 1) {
 			for (int y = 0; y < validPaths.length; y++) {
 				for (int x = 0; x < validPaths[y].length; x++) {
-					if(prevValidPaths[y][x] != null && validPaths[y][x] == null && world.isWalkable(x, y) && world.isOccupied(x, y)) {
+					if (prevValidPaths[y][x] != null && validPaths[y][x] == null && world.isWalkable(x, y) && world.isOccupied(x, y)) {
 						return false;
 					}
 				}
@@ -172,27 +183,32 @@ public class TowerSelectionManager {
 		}
 
 		return true;
-    }
+	}
 
-    public void resetTowerSelection(World world) {
-        world.removeEntity(getPreviewTower());
-        setPreviewTower(null);
-        setSelectedTower(null);
-    }
+	public void resetTowerSelection(World world) {
+		world.removeEntity(getPreviewTower());
+		setPreviewTower(null);
+		setSelectedTower(null);
+	}
 
-    public Entity getPreviewTower() {
-        return previewTower;
-    }
+	public Entity getPreviewTower() {
+		return previewTower;
+	}
 
-    public void setPreviewTower(Entity mouseTower) {
-        this.previewTower = mouseTower;
-    }
+	public void setPreviewTower(Entity mouseTower) {
+		this.previewTower = mouseTower;
+	}
 
-    public TowerModel getSelectedTower() {
-        return selectedTower;
-    }
+	public TowerModel getSelectedTower() {
+		return selectedTower;
+	}
 
-    public void setSelectedTower(TowerModel selectedTower) {
-        this.selectedTower = selectedTower;
-    }
+	public void setSelectedTower(TowerModel selectedTower) {
+		this.selectedTower = selectedTower;
+	}
+
+	public void dispose() {
+		redOverlay.dispose();
+		blueOverlay.dispose();
+	}
 }

@@ -18,15 +18,28 @@ public class CoreAsset implements IAsset {
 	private final UUID id;
 
 	private final AssetManager assetManager;
+	private final int width, height;
 
 	/**
 	 * Constructs a new, uniquely identifiable asset.
 	 *
 	 * @param assetManager the manager responsible for controlling the life time of this asset
 	 */
-	public CoreAsset(AssetManager assetManager) {
+	public CoreAsset(AssetManager assetManager, int width, int height) {
 		id = UUID.randomUUID();
 		this.assetManager = assetManager;
+		this.width = width;
+		this.height = height;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
 	}
 
 	@Override
