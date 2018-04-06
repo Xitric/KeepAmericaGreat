@@ -41,10 +41,6 @@ public class GameMap {
 		tileEntity.addPart(spriteSheet);
 	}
 
-	public void recalculatePathNodeMap() {
-
-	}
-
 	public int getWidth() {
 		return tileEntity.getPart(TileMapPart.class).getWidth();
 	}
