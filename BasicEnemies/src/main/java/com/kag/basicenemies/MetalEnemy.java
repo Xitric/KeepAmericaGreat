@@ -2,6 +2,7 @@ package com.kag.basicenemies;
 
 import com.kag.common.entities.Entity;
 import com.kag.enemycontroller.interfaces.IEnemy;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 /**
@@ -17,6 +18,6 @@ public class MetalEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(6, 20, 50, 50);
+		return Lookup.getDefault().lookup(EnemyFactory.class).createEnemy(6, 20, 50, 50);
 	}
 }
