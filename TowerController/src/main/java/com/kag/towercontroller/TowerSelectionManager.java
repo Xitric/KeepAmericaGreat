@@ -23,7 +23,7 @@ public class TowerSelectionManager {
 		assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		redOverlay = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
 		redOverlay.setzIndex(30);
-		blueOverlay = assetManager.createTexture(getClass().getResourceAsStream("/BlueOverlay.png"));
+		blueOverlay = assetManager.createTexture(getClass().getResourceAsStream("/WhiteOverlay.png"));
 		blueOverlay.setzIndex(30);
 	}
 
