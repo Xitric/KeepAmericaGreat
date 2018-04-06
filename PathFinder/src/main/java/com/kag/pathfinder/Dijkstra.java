@@ -6,44 +6,46 @@ import com.kag.common.data.World;
 
 import java.util.*;
 
-public class AStar {
+/**
+ * @author Kasper
+ */
+public class Dijkstra {
 
-	PriorityQueue<EvaluatedNode> queue;
+	/**
+	 * Perform a modified version of Dijkstra's algorithm (inspired by Uniform Cost Search) from the specified goal
+	 * coordinate to all other tiles in the specified map. The result will be a two-dimensional array of linked
+	 * {@link Node} elements providing the shortest path to the goal from any location.
+	 *
+	 * @param endX the x coordinate of the goal tile
+	 * @param endY the y coordinate of the goal tile
+	 * @return a two-dimensional array of linked Node elements
+	 */
+	public Node[][] constructNodeMap(int endX, int endY, World world) {
+		Node[][] nodeMap = new Node[world.getGameMap().getHeight()][world.getGameMap().getWidth()];
 
-	public Node findPath(int startX, int startY, int endX, int endY, World world) {
-		EvaluatedNode goalNode = new EvaluatedNode(world.getGameMap().getTile(startX, startY));
-
+		Queue<EvaluatedNode> open = new PriorityQueue<>(new GScoreComparator());
 		Map<EvaluatedNode, Integer> costMap = new HashMap<>();
 
-		queue = new PriorityQueue<>();
 		EvaluatedNode endNode = new EvaluatedNode(world.getGameMap().getTile(endX, endY));
-		endNode.setfValue(0);
 		endNode.setgValue(0);
-		queue.add(endNode);
-		//TODO: Should end node be added to costMap
+		open.add(endNode);
+		costMap.put(endNode, endNode.getgValue());
 
-		while (!queue.isEmpty()) {
-			EvaluatedNode current = queue.poll();
-
-			if (current.equals(goalNode)) {
-				return current;
-			}
+		while (!open.isEmpty()) {
+			EvaluatedNode current = open.poll();
 
 			for (EvaluatedNode neighbor : getNeighborsFromTile(current, world)) {
-				int newCost = current.getgValue() + 1;
-				neighbor.setgValue(newCost);
-
-				if (!costMap.containsKey(neighbor) || newCost < costMap.get(neighbor)) {
-					costMap.put(neighbor, newCost);
-					int fValue = newCost + heuristic(goalNode, neighbor);
-					neighbor.setfValue(fValue);
-					queue.add(neighbor);
+				if (neighbor.getgValue() < costMap.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+					costMap.put(neighbor, neighbor.getgValue());
 					neighbor.setNext(current);
+					open.add(neighbor);
+
+					nodeMap[neighbor.getTile().getY()][neighbor.getTile().getX()] = neighbor;
 				}
 			}
 		}
 
-		return null;
+		return nodeMap;
 	}
 
 	private boolean validateCoordinates(World world, int x, int y) {
@@ -82,8 +84,11 @@ public class AStar {
 		return nodes;
 	}
 
-	private int heuristic(EvaluatedNode goal, EvaluatedNode current) {
-		return Math.abs(goal.getTile().getX() - current.getTile().getX()) + Math.abs(goal.getTile().getY() - current.getTile().getY());
-	}
+	private static class GScoreComparator implements Comparator<EvaluatedNode> {
 
+		@Override
+		public int compare(EvaluatedNode a, EvaluatedNode b) {
+			return Float.compare(a.getgValue(), b.getgValue());
+		}
+	}
 }
