@@ -14,6 +14,8 @@ import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
 import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -22,9 +24,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
-
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
 @ServiceProviders(value = {
         @ServiceProvider(service = ISystem.class),
@@ -48,7 +47,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        towerSelectionManager = new TowerSelectionManager();
     }
 
     @Override
@@ -69,7 +67,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
             if (isMouseOnGameMap(gameData)) {
                 towerSelectionManager.createTowerPreviewOverlay();
-                towerSelectionManager.updateTowerPreviewOverlay(world, gameData);
+                towerSelectionManager.updateTowerPreviewOverlayOnMap(world, gameData);
+            } else {
+                towerSelectionManager.updateTowerPreviewOverlayOnMenu(gameData);
             }
 
             if (isMouseOnGameMap(gameData) && gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
@@ -119,11 +119,12 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     @Override
     public int getPriority() {
-        return 0;
+        return UPDATE_PASS_1;
     }
 
     @Override
     public void load(World world) {
+	    towerSelectionManager = new TowerSelectionManager();
         lookup = Lookup.getDefault();
 
         towersToBeDrawn = new ArrayList<>();
@@ -132,7 +133,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerImpleLookupResult = lookup.lookupResult(ITower.class);
         towerImpleLookupResult.addLookupListener(iTowerLookupListener);
 
-        lookup.lookupAll(ITower.class).stream().forEach((e) -> {
+        lookup.lookupAll(ITower.class).forEach((e) -> {
             Entity entity = addNewTowerToMenu(e);
             world.addEntity(entity);
             addTowerToList(new TowerModel(entity, e));
@@ -163,6 +164,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         for(TowerModel model : towerModels){
             world.removeEntity(model.getTowerEntity());
         }
+        towerSelectionManager.dispose();
     }
 
 

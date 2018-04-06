@@ -46,10 +46,16 @@ public class Entity {
 	 * have the part
 	 */
 	public boolean removePart(IPart part) {
-		PartType type = PartType.getType(part.getClass());
-		bits.set(type.getId(), false);
+		if (getParts(part.getClass()).removeIf(p -> p == part)) {
+			if (getParts(part.getClass()).isEmpty()) {
+				PartType type = PartType.getType(part.getClass());
+				bits.set(type.getId(), false);
 
-		return getParts(part.getClass()).remove(part);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
