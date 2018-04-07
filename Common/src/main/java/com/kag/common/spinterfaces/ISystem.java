@@ -10,7 +10,7 @@ import com.kag.common.data.World;
 
 /**
  * A system for performing some logic once every iteration of the game loop. Use
- * this interface when perfoming logic that is not entity specific.
+ * this interface when performing logic that is not entity specific.
  *
  * @author andre
  */
@@ -26,10 +26,11 @@ public interface ISystem extends IPrioritizable {
 	 * <li>Post-conditions: None</li>
 	 * </ul>
 	 *
-	 * @param dt    the time in milliseconds since the last iteration of the
-	 *              game loop. This is the time span that must be simulated by
-	 *              this method invocation
-	 * @param world the game world
+	 * @param dt       the time in milliseconds since the last iteration of the
+	 *                 game loop. This is the time span that must be simulated by
+	 *                 this method invocation
+	 * @param world    the game world
+	 * @param gameData container for input devices and window information
 	 */
 	void update(float dt, World world, GameData gameData);
 }
