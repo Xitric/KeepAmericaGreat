@@ -1,13 +1,12 @@
 package com.kag.shootingtowers;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BlockingPart;
-import com.kag.common.entities.parts.NamePart;
+import com.kag.common.entities.parts.*;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.WeaponPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.towerparts.RotationSpeedPart;
+import com.kag.towerparts.TowerPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,8 @@ public class ShootingTowerFactory {
 		CostPart costPart = new CostPart(cost);
 		BlockingPart blockingPart = new BlockingPart();
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);
+		TowerPart towerPart = new TowerPart();
+		BoundingBoxPart boundingBoxPart = new BoundingBoxPart(assetPart.getWidth(), assetPart.getHeight());
 
 		assetPart.setxOffset(- assetPart.getWidth() / 2);
 		assetPart.setyOffset(- assetPart.getHeight() / 2);
@@ -51,6 +52,8 @@ public class ShootingTowerFactory {
 		newTowerEntity.addPart(blockingPart);
 		newTowerEntity.addPart(rotationSpeedPart);
 		newTowerEntity.addPart(assetPart);
+		newTowerEntity.addPart(boundingBoxPart);
+		newTowerEntity.addPart(towerPart);
 
 		listOfTowers.add(newTowerEntity);
 

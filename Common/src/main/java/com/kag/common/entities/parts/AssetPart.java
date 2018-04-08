@@ -16,6 +16,8 @@ public abstract class AssetPart implements IPart {
 	private int xOffset, yOffset;
 	private int width;
 	private int height;
+	private float rotation;
+	private int originX, originY;
 
 	public int getzIndex() {
 		return zIndex;
@@ -55,6 +57,30 @@ public abstract class AssetPart implements IPart {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public float getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
+
+	public int getOriginX() {
+		return originX;
+	}
+
+	public void setOriginX(int originX) {
+		this.originX = originX;
+	}
+
+	public int getOriginY() {
+		return originY;
+	}
+
+	public void setOriginY(int originY) {
+		this.originY = originY;
 	}
 
 	/**

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -29,6 +30,7 @@ public class TileMapRenderer implements IEntitySystem {
 
 		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
 		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
+			sb.setTransformMatrix(new Matrix4().idt());
 			renderTileMap(sb, texture, cam, tileMap);
 		});
 

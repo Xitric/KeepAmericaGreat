@@ -108,12 +108,8 @@ public class Game implements ApplicationListener {
 		for (IEntitySystem entitySystem : entitySystems) {
 			Family systemFamily = entitySystem.getFamily();
 
-			for (Entity entity : world.getAllEntities()) {
-
-				//Only update entity in the system if the system's family matches the entity
-				if (systemFamily.matches(entity.getBits())) {
-					entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world, gameData);
-				}
+			for (Entity entity : world.getEntitiesByFamily(systemFamily)) {
+				entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world, gameData);
 			}
 		}
 

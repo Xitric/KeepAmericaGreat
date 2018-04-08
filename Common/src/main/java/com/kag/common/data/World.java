@@ -2,6 +2,7 @@ package com.kag.common.data;
 
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
@@ -78,7 +79,35 @@ public class World {
 	}
 
 	public Entity getEntityAt(float worldX, float worldY) {
+		Family targetFamily = Family.forAll(PositionPart.class, BoundingBoxPart.class);
+		for (Entity entity : getEntitiesByFamily(targetFamily)) {
+			PositionPart ePos = entity.getPart(PositionPart.class);
+			BoundingBoxPart eBox = entity.getPart(BoundingBoxPart.class);
+
+			float eX = ePos.getX();
+			float eY = ePos.getY();
+			int eW = eBox.getWidth();
+			int	eH = eBox.getHeight();
+
+			if(worldX > eX-eW/2 && worldX < eX + eW/2 && worldY > eY-eH/2 && worldY < eY + eH/2){
+				return entity;
+			}
+		}
 		return null;
+	}
+
+	public boolean isEntityLeftPressed(GameData gameData, Entity entity){
+		Mouse mouse = gameData.getMouse();
+		int mouseX = mouse.getX();
+		int mouseY = mouse.getY();
+
+		float btnX = entity.getPart(AbsolutePositionPart.class).getX();
+		float btnY = entity.getPart(AbsolutePositionPart.class).getY();
+
+		float btnW = entity.getPart(BoundingBoxPart.class).getWidth();
+		float btnH = entity.getPart(BoundingBoxPart.class).getHeight();
+
+		return mouse.isButtonPressed(Mouse.BUTTON_LEFT) && mouseX > btnX && mouseX < btnX + btnW && mouseY > btnY && mouseY < btnY + btnH;
 	}
 
 	public Tile getTileAt(float worldX, float worldY) {
@@ -94,7 +123,7 @@ public class World {
 	public List<Entity> getEntitiesByFamily(Family family) {
 		return getAllEntities().stream().filter(entity -> family.matches(entity.getBits())).collect(Collectors.toList());
 	}
-	
+
 	public GameMap getGameMap() {
 		return gameMap;
 	}
