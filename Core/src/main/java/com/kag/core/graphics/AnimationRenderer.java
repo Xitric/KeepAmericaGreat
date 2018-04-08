@@ -3,6 +3,8 @@ package com.kag.core.graphics;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -34,14 +36,20 @@ public class AnimationRenderer implements IEntitySystem {
 			Animation animation = animationPart.getAnimation();
 			TextureRegion stateTexture = animation.getKeyFrame(animationPart.getStateTime(), true);
 
+			Matrix4 transform = new Matrix4();
+			transform.idt()
+					.translate(position.getX(), position.getY(), 0)
+					.rotate(Vector3.Z, position.getRotation())
+					.translate(animationPart.getxOffset(), animationPart.getyOffset(), 0);
+
 			RenderItem renderItem = new RenderItem(animationPart.getzIndex(), cam, sb -> {
+				sb.setTransformMatrix(transform);
 				sb.draw(stateTexture,
-						position.getX() + animationPart.getxOffset(),
-						position.getY() + animationPart.getyOffset(),
-						-animationPart.getxOffset(), -animationPart.getyOffset(),
-						stateTexture.getRegionWidth(), stateTexture.getRegionHeight(),
+						0, 0,
+						animationPart.getOriginX(), animationPart.getOriginY(),
+						animationPart.getWidth(), animationPart.getHeight(),
 						1, 1,
-						position.getRotation());
+						animationPart.getRotation());
 			});
 
 			QueuedRenderer.getInstance().enqueue(renderItem);

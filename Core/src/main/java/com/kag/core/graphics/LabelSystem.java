@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Matrix4;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -83,6 +84,7 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 
 		for (LabelPart label : labelParts) {
 			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+				sb.setTransformMatrix(new Matrix4().idt());
 				BitmapFont font = getFontForSize(label.getFontSize());
 				glyphLayout.setText(font, label.getLabel());
 				font.draw(sb, glyphLayout, position.getX(), position.getY() - glyphLayout.height / 2);
