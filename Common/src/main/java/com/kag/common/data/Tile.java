@@ -4,12 +4,14 @@ public class Tile {
     private int x, y;
     private int[] layers;
     private boolean walkable;
+    private boolean occupied;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
         this.layers = new int[] {-1, -1};
         walkable = true;
+        occupied = false;
     }
 
     public int getX() {
@@ -43,4 +45,8 @@ public class Tile {
     public void setWalkable(boolean walkable) {
         this.walkable = walkable;
     }
+
+    public boolean isOccupied() { return occupied; }
+
+    public void setOccupied(boolean occupied) { this.occupied = occupied; }
 }

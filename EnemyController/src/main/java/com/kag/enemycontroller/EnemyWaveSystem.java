@@ -50,15 +50,15 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		nextWaveButton = new Entity();
-		nextWaveButton.addPart(new AbsolutePositionPart(15, 550));
-		nextWaveButton.addPart(new BoundingBoxPart(45,32));
+		nextWaveButton.addPart(new AbsolutePositionPart(15, 570));
+		nextWaveButton.addPart(new BoundingBoxPart(45, 32));
 		AssetPart waveImage = assetManager.createTexture(getClass().getResourceAsStream("/next.png"));
 		waveImage.setzIndex(10);
 		nextWaveButton.addPart(waveImage);
 
 		countDownLabel = new Entity();
-		LabelPart labelPart = new LabelPart("Wave " + waveNumber + " in "+ String.valueOf(Math.round(nextWaveCountdown)),13);
-		countDownLabel.addPart(new AbsolutePositionPart(15,620));
+		LabelPart labelPart = new LabelPart("Wave " + waveNumber + " in " + String.valueOf(Math.round(nextWaveCountdown)), 13);
+		countDownLabel.addPart(new AbsolutePositionPart(15, 620));
 		countDownLabel.addPart(labelPart);
 		labelPart.setzIndex(10);
 
@@ -78,7 +78,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	@Override
 	public void update(float dt, World world, GameData gameData) {
-		if (isNextWavePressed(gameData)){
+		if (isNextWavePressed(world, gameData, nextWaveButton)) {
 			nextWaveCountdown = 0;
 		}
 
@@ -88,7 +88,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 		} else {
 			if (wave == null || wave.size() == 0) {
-				if (wave != null){
+				if (wave != null) {
 					rewardPlayer(world);
 				}
 				System.out.println("Generated wave: " + getWaveStrength(waveNumber));
@@ -122,18 +122,8 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 		}
 	}
 
-	private boolean isNextWavePressed(GameData gameData){
-		Mouse mouse = gameData.getMouse();
-		int mouseX = mouse.getX();
-		int mouseY = mouse.getY();
-
-		float btnX = nextWaveButton.getPart(AbsolutePositionPart.class).getX();
-		float btnY = nextWaveButton.getPart(AbsolutePositionPart.class).getY();
-
-		float btnW = nextWaveButton.getPart(BoundingBoxPart.class).getWidth();
-		float btnH = nextWaveButton.getPart(BoundingBoxPart.class).getHeight();
-
-		return mouse.isButtonPressed(BUTTON_LEFT) && mouseX > btnX && mouseX < btnX + btnW && mouseY > btnY && mouseY < btnY + btnH;
+	private boolean isNextWavePressed(World world, GameData gameData, Entity nextWaveButton) {
+		return world.isEntityLeftPressed(gameData, nextWaveButton);
 	}
 
 	private int getWaveStrength(int waveNumber) {
@@ -148,20 +138,10 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	}
 
 	private void rewardPlayer(World world) {
-		Entity trump = getPlayer(world);
+		Entity trump = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 		if (trump != null) {
 			CurrencyPart money = trump.getPart(CurrencyPart.class);
 			money.setCurrencyAmount(money.getCurrencyAmount() + 250);
 		}
 	}
-
-	private Entity getPlayer(World world) {
-		for (Entity entity : world.getAllEntities()) {
-			if (PLAYER_FAMILY.matches(entity.getBits())) {
-				entity.getPart(CurrencyPart.class);
-				return entity;
-			}
-		}
-		return null;
-		}
-	}
+}
