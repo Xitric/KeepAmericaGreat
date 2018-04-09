@@ -204,13 +204,13 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         });
 
         LabelPart btnDescription = new LabelPart("",14);
-        btnDescription.setzIndex(ZIndex.GUI_PANELS);
+        btnDescription.setzIndex(ZIndex.GUI_SELLLABEL);
         sellTowerLabel = new Entity();
         sellTowerLabel.addPart(btnDescription);
         sellTowerLabel.addPart(new AbsolutePositionPart(653, 590));
 
         AssetPart sellBtnImg = assetManager.createTexture(getClass().getResourceAsStream("/WoodSign.png"));
-        sellBtnImg.setzIndex(ZIndex.GUI_PANELS);
+        sellBtnImg.setzIndex(ZIndex.GUI_BUTTON);
         sellTowerButton = new Entity();
         sellTowerButton.addPart(sellBtnImg);
         sellTowerButton.addPart(new AbsolutePositionPart(630, 552));
