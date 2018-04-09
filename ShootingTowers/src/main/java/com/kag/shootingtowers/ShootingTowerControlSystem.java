@@ -37,7 +37,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
 	@Override
 	public void dispose(World world) {
-		for (Entity entity : ShootingTowerFactory.getInstance().getTowersCreated()) {
+		for (Entity entity : ShootingTowerBuilder.getAllTowers()) {
 			world.removeEntity(entity);
 		}
 		projectileAsset.dispose();

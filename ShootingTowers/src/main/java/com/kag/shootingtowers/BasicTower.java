@@ -20,9 +20,21 @@ public class BasicTower implements ITower {
 	@Override
 	public Entity create() {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-		AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/towerTest.png"));
-		assetPart.setzIndex(30);
+		AssetPart baseAsset = assetManager.createTexture(getClass().getResourceAsStream("/YellowBase.png"));
+		AssetPart turretAsset = assetManager.createTexture(getClass().getResourceAsStream("/YellowTurret.png"));
 
-		return ShootingTowerFactory.getInstance().createTower("Basic Tower", 2, 100, 0.25f, 200, 10, (float) (Math.PI / 4), assetPart);
+		return new ShootingTowerBuilder()
+				.setName("Basic Tower")
+				.setDamage(2)
+				.setRange(100)
+				.setAttackSpeed(0.25f)
+				.setProjectileSpeed(200)
+				.setCost(10)
+				.setRotationSpeed((float) Math.PI / 4)
+				.setBaseAsset(baseAsset)
+				.setTurretAsset(turretAsset)
+				.setTurretAxisX(turretAsset.getHeight() / 2)
+				.setTurretAxisY(turretAsset.getHeight() / 2)
+				.getResult();
 	}
 }
