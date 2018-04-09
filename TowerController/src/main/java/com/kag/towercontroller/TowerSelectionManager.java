@@ -22,9 +22,9 @@ public class TowerSelectionManager {
 	public TowerSelectionManager() {
 		assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		redOverlay = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
-		redOverlay.setzIndex(30);
+		redOverlay.setzIndex(ZIndex.TOWER_OVERLAY);
 		blueOverlay = assetManager.createTexture(getClass().getResourceAsStream("/WhiteOverlay.png"));
-		blueOverlay.setzIndex(30);
+		blueOverlay.setzIndex(ZIndex.TOWER_OVERLAY);
 	}
 
 	public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
@@ -38,7 +38,7 @@ public class TowerSelectionManager {
 		assetPart.setxOffset((64 - assetPart.getWidth()) / 2);
 		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
 
-		assetPart.setzIndex(29);
+		assetPart.setzIndex(ZIndex.TOWER_PREVIEW);
 
 		previewTower.addPart(positionPart);
 		previewTower.addPart(assetPart);

@@ -204,26 +204,26 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         });
 
         LabelPart btnDescription = new LabelPart("",14);
-        btnDescription.setzIndex(6);
+        btnDescription.setzIndex(ZIndex.GUI_PANELS);
         sellTowerLabel = new Entity();
         sellTowerLabel.addPart(btnDescription);
         sellTowerLabel.addPart(new AbsolutePositionPart(653, 590));
 
         AssetPart sellBtnImg = assetManager.createTexture(getClass().getResourceAsStream("/WoodSign.png"));
-        sellBtnImg.setzIndex(5);
+        sellBtnImg.setzIndex(ZIndex.GUI_PANELS);
         sellTowerButton = new Entity();
         sellTowerButton.addPart(sellBtnImg);
         sellTowerButton.addPart(new AbsolutePositionPart(630, 552));
         sellTowerButton.addPart(new BoundingBoxPart(130,80));
 
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
-        towerPanel.setzIndex(5);
+        towerPanel.setzIndex(ZIndex.GUI_PANELS);
         towerMenuBackground = new Entity();
         towerMenuBackground.addPart(towerPanel);
         towerMenuBackground.addPart(new AbsolutePositionPart(768, 128));
 
         AssetPart upgradePanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
-        upgradePanel.setzIndex(5);
+        upgradePanel.setzIndex(ZIndex.GUI_PANELS);
         upgradeMenuBackground = new Entity();
         upgradeMenuBackground.addPart(upgradePanel);
         upgradeMenuBackground.addPart(new AbsolutePositionPart(768, 384));
@@ -263,7 +263,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
         IAsset iAsset = tower.getAsset();
         AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
-        assetPart.setzIndex(30);
+        assetPart.setzIndex(ZIndex.TOWER_BASE);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
         towerEntity.addPart(assetPart);

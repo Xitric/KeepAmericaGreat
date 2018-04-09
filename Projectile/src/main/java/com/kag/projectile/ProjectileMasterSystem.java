@@ -2,6 +2,7 @@ package com.kag.projectile;
 
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
@@ -52,7 +53,7 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 
         BoundingBoxPart boundingBoxPart = new BoundingBoxPart(asset.getWidth(), asset.getHeight());
         DamagePart damagePart = new DamagePart(damage, movingSpeed);
-        asset.setzIndex(10);
+        asset.setzIndex(ZIndex.TOWER_PROJECTILES);
 
         projectile.addPart(positionPart);
         projectile.addPart(boundingBoxPart);
