@@ -20,7 +20,7 @@ public class WaveGenerator {
 		List<Double> spawnChances = new ArrayList<>();
 		double range = 100;
 		for (IEnemy enemyType: possibleEnemyTypes) {
-			double spawnChance = range / (Math.random() * 0.4 + 1.7);
+			double spawnChance = range / (Math.random() * 0.4 + 10.7);
 			spawnChances.add(spawnChance);
 			range -= spawnChance;
 		}

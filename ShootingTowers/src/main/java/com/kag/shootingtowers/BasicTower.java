@@ -25,11 +25,11 @@ public class BasicTower implements ITower {
 
 		return new ShootingTowerBuilder()
 				.setName("Basic Tower")
-				.setDamage(2)
+				.setDamage(1)
 				.setRange(100)
 				.setAttackSpeed(0.25f)
 				.setProjectileSpeed(200)
-				.setCost(10)
+				.setCost(20)
 				.setRotationSpeed((float) Math.PI / 4)
 				.setBaseAsset(baseAsset)
 				.setTurretAsset(turretAsset)

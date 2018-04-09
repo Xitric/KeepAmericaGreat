@@ -17,6 +17,6 @@ public class SpeedEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(7, 300, 25, 3);
+		return EnemyFactory.createEnemy(7, 300, 6, 5);
 	}
 }
