@@ -7,17 +7,12 @@ package com.kag.towercontroller;
 
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
-import com.kag.towerparts.CostPart;
-import com.kag.towerparts.TowerPart;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -36,16 +31,9 @@ import java.util.function.Consumer;
 })
 public class TowerMasterSystem implements ISystem, IComponentLoader {
 
-    private Family towerFamily = Family.forAll(TowerPart.class);
-
     private Lookup lookup;
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
-    private Entity sellTowerButton;
-    private Entity sellTowerLabel;
-    private Entity tempTower;//TODO works, but might not be a good idea
-    private float xTilePositionOnMap;//TODO works, but might not be a good idea
-    private float yTilePositionOnMap;//TODO works, but might not be a good idea
     private List<ITower> towerImple;
     private Lookup.Result<ITower> towerImpleLookupResult;
     private List<Entity> towersToBeDrawn;
@@ -89,57 +77,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             }
         }
 
-        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)){
-            Entity tower = getMouseSelectedTower(gameData, world);
-            double sellingPrice;
-            if (tower != null && towerFamily.matches(tower.getBits())){
-                xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
-                yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
-                //Save a reference to the tower, so the tower can be removed
-                tempTower = tower;
-                sellingPrice = tower.getPart(CostPart.class).getCost()*0.75;
-                sellTowerLabel.getPart(LabelPart.class).setLabel("Sell for\n" + sellingPrice);
-                world.addEntity(sellTowerButton);
-                world.addEntity(sellTowerLabel);
-            } else {
-                world.removeEntity(sellTowerLabel);
-                world.removeEntity(sellTowerButton);
-            }
-            if(isSellBtnPressed(world, gameData, sellTowerButton)){
-                world.removeEntity(tempTower);
-                world.removeEntity(sellTowerLabel);
-                world.removeEntity(sellTowerButton);
-                //Give player sellingPrice currencies
-                sellingPrice = 0;
-                Tile hoverTile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
-                hoverTile.setWalkable(true);
-            }
+        if (isMouseOnGameMap(gameData)) {
+            towerSelectionManager.handleSellTower(world, gameData);
         }
-    }
-
-    private Entity getMouseSelectedTower (GameData gameData, World world){
-        if(!isMouseOnGameMap(gameData)){
-            System.out.println("!isMouseOnGameMap");
-            return null;
-        }
-        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
-        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
-        Entity entity = world.getEntityAt(xTilePositionOnMap,yTilePositionOnMap);
-        if(entity == null){
-            System.out.println("no entity");
-            return null;
-        }
-        if(towerFamily.matches(entity.getBits())){
-            System.out.println("found a tower");
-            return entity;
-        } else {
-            System.out.println("found a non-tower");
-        }
-        return null;
-    }
-
-    private boolean isSellBtnPressed(World world, GameData gameData, Entity sellTowerButton) {
-        return world.isEntityLeftPressed(gameData, sellTowerButton);
     }
 
     private boolean isMouseOnGameMap(GameData gameData) {
@@ -203,19 +143,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
             addTowerToList(new TowerModel(entity, e));
         });
 
-        LabelPart btnDescription = new LabelPart("",14);
-        btnDescription.setzIndex(6);
-        sellTowerLabel = new Entity();
-        sellTowerLabel.addPart(btnDescription);
-        sellTowerLabel.addPart(new AbsolutePositionPart(653, 590));
-
-        AssetPart sellBtnImg = assetManager.createTexture(getClass().getResourceAsStream("/WoodSign.png"));
-        sellBtnImg.setzIndex(5);
-        sellTowerButton = new Entity();
-        sellTowerButton.addPart(sellBtnImg);
-        sellTowerButton.addPart(new AbsolutePositionPart(630, 552));
-        sellTowerButton.addPart(new BoundingBoxPart(130,80));
-
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
         towerPanel.setzIndex(5);
         towerMenuBackground = new Entity();
@@ -236,13 +163,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void dispose(World world) {
         world.removeEntity(towerMenuBackground);
         world.removeEntity(upgradeMenuBackground);
-        world.removeEntity(sellTowerButton);
-        world.removeEntity(sellTowerLabel);
-        world.removeEntity(tempTower);
         for(TowerModel model : towerModels){
             world.removeEntity(model.getTowerEntity());
         }
-        towerSelectionManager.dispose();
+        towerSelectionManager.dispose(world);
     }
 
 
