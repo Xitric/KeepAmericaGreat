@@ -1,5 +1,6 @@
 package com.kag.common.entities.parts;
 
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.IPart;
 
 /**
@@ -23,8 +24,8 @@ public abstract class AssetPart implements IPart {
 		return zIndex;
 	}
 
-	public void setzIndex(int zIndex) {
-		this.zIndex = zIndex;
+	public void setzIndex(ZIndex zIndex) {
+		this.zIndex = zIndex.value;
 	}
 
 	public int getxOffset() {

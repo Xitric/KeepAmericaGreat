@@ -2,6 +2,7 @@ package com.kag.player;
 
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
@@ -61,7 +62,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		AssetPart trumpTower = assetManager.createTexture(getClass().getResourceAsStream("/trumpTower.png"));
 		trumpTower.setxOffset(-64);
 		trumpTower.setyOffset(-64);
-		trumpTower.setzIndex(4);
+		trumpTower.setzIndex(ZIndex.TRUMP_TOWER);
 
 		player.addPart(new PositionPart(world.getGameMap().getPlayerX() * world.getGameMap().getTileWidth(),
 				world.getGameMap().getPlayerY() * world.getGameMap().getTileHeight()));
@@ -75,9 +76,9 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		AssetPart healthIcon = assetManager.createTexture(getClass().getResourceAsStream("/health.png"));
 		healthIcon.setxOffset(-40);
 		healthIcon.setyOffset(-16);
-		healthIcon.setzIndex(10);
+		healthIcon.setzIndex(ZIndex.GUI_HEALTH_ICON);
 		LabelPart healthLabel = new LabelPart("Health: " + String.valueOf(lifePart.getHealth()));
-		healthLabel.setzIndex(10);
+		healthLabel.setzIndex(ZIndex.GUI_HEALTH_LABEL);
 
 		playerHealthGui.addPart(new AbsolutePositionPart(66 + 768, 42));
 		playerHealthGui.addPart(healthIcon);
@@ -86,16 +87,16 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		AssetPart currencyIcon = assetManager.createTexture(getClass().getResourceAsStream("/coin.png"));
 		currencyIcon.setxOffset(-40);
 		currencyIcon.setyOffset(-16);
-		currencyIcon.setzIndex(10);
+		currencyIcon.setzIndex(ZIndex.GUI_CURRENCY_ICON);
 		LabelPart currencyLabel = new LabelPart("C-Fire: " + String.valueOf(currencyPart.getCurrencyAmount()));
-		currencyLabel.setzIndex(10);
+		currencyLabel.setzIndex(ZIndex.GUI_CURRENCY_LABEL);
 
 		playerCurrencyGui.addPart(new AbsolutePositionPart(66 + 768, 86));
 		playerCurrencyGui.addPart(currencyIcon);
 		playerCurrencyGui.addPart(currencyLabel);
 
 		AssetPart playerPanel = assetManager.createTexture(getClass().getResourceAsStream("/PlayerPanel.png"));
-		playerPanel.setzIndex(5);
+		playerPanel.setzIndex(ZIndex.GUI_PLAYER_PANEL);
 
 		playerMenuBackground.addPart(new AbsolutePositionPart(768, 0));
 		playerMenuBackground.addPart(playerPanel);

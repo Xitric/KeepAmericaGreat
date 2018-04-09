@@ -2,6 +2,7 @@ package com.kag.basicenemies;
 
 import com.kag.common.data.IAsset;
 import com.kag.common.data.World;
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
@@ -26,7 +27,7 @@ public class EnemyFactory implements IComponentLoader {
 		hatPart.setHeight(48);
 		hatPart.setxOffset(-hatPart.getWidth() / 2);
 		hatPart.setyOffset(-hatPart.getHeight() / 2);
-		hatPart.setzIndex(4);
+		hatPart.setzIndex(ZIndex.ENEMY_HATPART);
 
 		Entity enemy = new Entity();
 		enemy.addPart(hatPart);
@@ -40,7 +41,7 @@ public class EnemyFactory implements IComponentLoader {
 		AssetPart animationPart = assetManager.createAnimation(EnemyFactory.class.getResourceAsStream("/EnemyWalking.png"), 48, 52, (int) (60.0f * 100 / speed));
 		animationPart.setxOffset(-24);
 		animationPart.setyOffset(-26);
-		animationPart.setzIndex(3);
+		animationPart.setzIndex(ZIndex.ENEMY_ANIMATIONPART);
 		enemy.addPart(animationPart);
 
 		return enemy;

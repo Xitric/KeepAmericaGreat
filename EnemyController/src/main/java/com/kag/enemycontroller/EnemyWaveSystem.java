@@ -1,9 +1,6 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.Mouse;
-import com.kag.common.data.ServiceManager;
-import com.kag.common.data.World;
+import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
@@ -53,14 +50,14 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 		nextWaveButton.addPart(new AbsolutePositionPart(15, 570));
 		nextWaveButton.addPart(new BoundingBoxPart(45, 32));
 		AssetPart waveImage = assetManager.createTexture(getClass().getResourceAsStream("/next.png"));
-		waveImage.setzIndex(10);
+		waveImage.setzIndex(ZIndex.WAVE_IMAGE);
 		nextWaveButton.addPart(waveImage);
 
 		countDownLabel = new Entity();
 		LabelPart labelPart = new LabelPart("Wave " + waveNumber + " in " + String.valueOf(Math.round(nextWaveCountdown)), 13);
 		countDownLabel.addPart(new AbsolutePositionPart(15, 620));
 		countDownLabel.addPart(labelPart);
-		labelPart.setzIndex(10);
+		labelPart.setzIndex(ZIndex.WAVE_COUNTDOWN);
 
 		enemyTypes = new CopyOnWriteArrayList<>();
 		enemyServiceManager = new ServiceManager<>(IEnemy.class, enemyTypes::add, enemyTypes::remove);
