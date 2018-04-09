@@ -1,5 +1,6 @@
 package com.kag.shootingtowers;
 
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.towerparts.CostPart;
@@ -99,13 +100,13 @@ public class ShootingTowerBuilder {
 
 		baseAsset.setxOffset(-baseAsset.getWidth() / 2);
 		baseAsset.setyOffset(-baseAsset.getWidth() / 2);
-		baseAsset.setzIndex(30);
+		baseAsset.setzIndex(ZIndex.TOWER_BASE);
 
 		turretAsset.setxOffset(-turretAxisX);
 		turretAsset.setyOffset(-turretAxisY);
 		turretAsset.setOriginX(turretAxisX);
 		turretAsset.setOriginY(turretAxisY);
-		turretAsset.setzIndex(31);
+		turretAsset.setzIndex(ZIndex.TOWER_TURRET);
 
 		Entity tower = new Entity();
 		tower.addPart(towerPart);

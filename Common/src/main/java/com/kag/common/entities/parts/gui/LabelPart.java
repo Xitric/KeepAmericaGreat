@@ -1,5 +1,6 @@
 package com.kag.common.entities.parts.gui;
 
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.IPart;
 
 /**
@@ -43,7 +44,7 @@ public class LabelPart implements IPart {
 		return zIndex;
 	}
 
-	public void setzIndex(int zIndex) {
-		this.zIndex = zIndex;
+	public void setzIndex(ZIndex zIndex) {
+		this.zIndex = zIndex.value;
 	}
 }
