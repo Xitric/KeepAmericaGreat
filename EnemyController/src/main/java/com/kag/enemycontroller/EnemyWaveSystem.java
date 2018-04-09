@@ -33,7 +33,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
 
-	private static final float spawnDelay = 1f; //The delay between spawning two enemies
+	private static final float spawnDelay = 0.3f; //The delay between spawning two enemies
 	private static final float waveDelay = 30f; //The delay between waves
 
 	private ServiceManager<IEnemy> enemyServiceManager;
@@ -128,7 +128,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	private int getWaveStrength(int waveNumber) {
 		float linear = 2 * waveNumber + 10;
-		float exp = (float) Math.exp(0.06 * waveNumber);
+		float exp = (float) Math.exp(0.12 * waveNumber);
 		return (int) (linear + exp);
 	}
 
@@ -141,7 +141,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 		Entity trump = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 		if (trump != null) {
 			CurrencyPart money = trump.getPart(CurrencyPart.class);
-			money.setCurrencyAmount(money.getCurrencyAmount() + 250);
+			money.setCurrencyAmount(money.getCurrencyAmount() + 30);
 		}
 	}
 }

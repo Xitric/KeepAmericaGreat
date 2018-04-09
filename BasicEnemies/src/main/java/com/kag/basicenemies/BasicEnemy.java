@@ -17,6 +17,6 @@ public class BasicEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(0, 40, 10, 1);
+		return EnemyFactory.createEnemy(0, 40, 2, 2);
 	}
 }

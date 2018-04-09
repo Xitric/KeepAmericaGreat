@@ -17,6 +17,6 @@ public class BlackEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(3, 90, 10, 1);
+		return EnemyFactory.createEnemy(3, 90, 10, 10);
 	}
 }

@@ -17,6 +17,6 @@ public class SandEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(4, 90, 10, 1);
+		return EnemyFactory.createEnemy(4, 90, 4, 4);
 	}
 }

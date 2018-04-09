@@ -17,6 +17,6 @@ public class MoneyEnemy implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(5, 90, 500, 1);
+		return EnemyFactory.createEnemy(5, 90, 30, 6);
 	}
 }

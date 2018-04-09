@@ -11,21 +11,30 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = ITower.class)
 public class BasicTower implements ITower {
 
+	@Override
+	public IAsset getAsset() {
+		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+		return assetManager.loadAsset(getClass().getResourceAsStream("/towerTest.png"));
+	}
 
-    @Override
-    public IAsset getAsset() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/towerTest.png"));
-    }
+	@Override
+	public Entity create() {
+		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+		AssetPart baseAsset = assetManager.createTexture(getClass().getResourceAsStream("/YellowBase.png"));
+		AssetPart turretAsset = assetManager.createTexture(getClass().getResourceAsStream("/YellowTurret.png"));
 
-    @Override
-    public Entity create() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/towerTest.png"));
-        assetPart.setzIndex(30);
-
-        Entity newTower = ShootingTowerFactory.getInstance().createTower("Basic Tower", 2, 96, 1000, 0.03f, 10, (float) (Math.PI / 4), assetPart);
-
-        return newTower;
-    }
+		return new ShootingTowerBuilder()
+				.setName("Basic Tower")
+				.setDamage(1)
+				.setRange(100)
+				.setAttackSpeed(0.25f)
+				.setProjectileSpeed(200)
+				.setCost(20)
+				.setRotationSpeed((float) Math.PI / 4)
+				.setBaseAsset(baseAsset)
+				.setTurretAsset(turretAsset)
+				.setTurretAxisX(turretAsset.getHeight() / 2)
+				.setTurretAxisY(turretAsset.getHeight() / 2)
+				.getResult();
+	}
 }
