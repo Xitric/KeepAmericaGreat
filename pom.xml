@@ -83,6 +83,7 @@
         <module>ShootingTowers</module>
         <module>CameraController</module>
         <module>BasicEnemies</module>
+        <module>PassiveTowers</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package com.kag.shootingtowers;
+package com.kag.passivetowers;
 
 import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
@@ -9,22 +9,19 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = ITower.class)
-public class BasicTower implements ITower {
+public class BasicCrateTower implements ITower {
 
     @Override
     public IAsset getAsset() {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/towerTest.png"));
+        return assetManager.loadAsset(getClass().getResourceAsStream("/Crate.png"));
     }
 
     @Override
     public Entity create() {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/towerTest.png"));
+        AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Crate.png"));
         assetPart.setzIndex(30);
-
-        Entity newTower = ShootingTowerFactory.getInstance().createTower("Basic Tower", 2, 96, 1000, 0.03f, 10, (float) (Math.PI / 4), assetPart);
-
-        return newTower;
+        return PassiveTowerFactory.getInstance().createPassiveTower(5, assetPart);
     }
 }
