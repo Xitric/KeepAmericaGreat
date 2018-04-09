@@ -126,7 +126,9 @@ public class TowerSelectionManager {
 		if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
 			Entity newTower = getSelectedTower().getITower().create();
 
-			resetTowerSelection(world);
+			if(!gameData.getKeyboard().isKeyDown(Keyboard.KEY_LSHIFT)){
+				resetTowerSelection(world);
+			}
 
 			Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 
