@@ -49,12 +49,11 @@ public class CircleRenderer implements IEntitySystem {
 					.rotate(Vector3.Z, position.getRotation())
 					.translate(circlePart.getxOffset(), circlePart.getyOffset(), 0);
 
-			RenderItem renderItem = new RenderItem(circlePart.getzIndex(), cam, (sb, sr) -> {
+			ShapeRenderItem renderItem = new ShapeRenderItem(circlePart.getzIndex(), cam, ShapeRenderer.ShapeType.Filled, sr -> {
 				Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
 				Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
 
 				sr.setTransformMatrix(transform);
-				sr.set(ShapeRenderer.ShapeType.Filled);
 				sr.setColor(circlePart.getColor().getRed() / 255.0f, circlePart.getColor().getGreen() / 255.0f, circlePart.getColor().getBlue() / 255.0f, circlePart.getColor().getAlpha() / 255.0f);
 				sr.circle(0, 0, circlePart.getRadius());
 			});

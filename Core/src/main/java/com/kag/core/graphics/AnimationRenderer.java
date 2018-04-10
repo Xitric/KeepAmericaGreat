@@ -42,7 +42,7 @@ public class AnimationRenderer implements IEntitySystem {
 					.rotate(Vector3.Z, position.getRotation())
 					.translate(animationPart.getxOffset(), animationPart.getyOffset(), 0);
 
-			RenderItem renderItem = new RenderItem(animationPart.getzIndex(), cam, (sb, sr) -> {
+			SpriteRenderItem renderItem = new SpriteRenderItem(animationPart.getzIndex(), cam, sb -> {
 				sb.setTransformMatrix(transform);
 				sb.draw(stateTexture,
 						0, 0,

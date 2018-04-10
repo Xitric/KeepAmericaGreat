@@ -49,7 +49,7 @@ public class TextureRenderer implements IEntitySystem {
 					.rotate(Vector3.Z, position.getRotation())
 					.translate(texturePart.getxOffset(), texturePart.getyOffset(), 0);
 
-			RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, (sb, sr) -> {
+			SpriteRenderItem renderItem = new SpriteRenderItem(texturePart.getzIndex(), cam, sb -> {
 				sb.setTransformMatrix(transform);
 				sb.draw(texture,
 						0, 0,
