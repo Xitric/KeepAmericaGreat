@@ -104,7 +104,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		PositionPart enemyPositionPart = enemy.getPart(PositionPart.class);
 		PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
-		Collection<AssetPart> assetParts = tower.getParts(AssetPart.class);
+		Collection<? extends AssetPart> assetParts = tower.getPartsDeep(AssetPart.class);
 		AssetPart turretAsset = null;
 
 

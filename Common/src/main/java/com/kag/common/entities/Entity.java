@@ -87,6 +87,22 @@ public class Entity {
 		return (Set<T>) parts.getOrDefault(partClass, new HashSet<>());
 	}
 
+	public <T extends IPart> Collection<? extends T> getPartsDeep(Class<T> superClass) {
+		Collection<T> returnParts = new ArrayList<>();
+
+		for (Class<? extends IPart> clazz : parts.keySet()) {
+			if (superClass.isAssignableFrom(clazz)) {
+				Collection<? extends IPart> parts = getParts(clazz);
+
+				for (IPart c : parts) {
+					returnParts.add((T) c);
+				}
+			}
+		}
+
+		return returnParts;
+	}
+
 	/**
 	 * Test if this entity contains at least one part of the specified type.
 	 *
