@@ -93,6 +93,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>PassiveTowers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>Projectile</artifactId>
             <version>${project.version}</version>
         </dependency>
