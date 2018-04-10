@@ -7,7 +7,8 @@ import com.kag.common.entities.IPart;
  * An entity part that represents a graphical element such as a texture, or an animation, which can be rendered by the
  * core module. Instances of this interface should be created using the
  * {@link com.kag.common.spinterfaces.IAssetManager}. Assets should always be disposed again when they are no longer
- * needed, to prevent memory leaks.
+ * needed, to prevent memory leaks. This class is an abstract supertype, and thus all actual asset objects will be more
+ * specific classes, some of which are concealed in the core module.
  *
  * @author Kasper
  */
