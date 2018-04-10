@@ -36,13 +36,13 @@ public class TowerSelectionManager {
 		blueOverlay.setzIndex(ZIndex.TOWER_OVERLAY);
 
 		LabelPart btnDescription = new LabelPart("",14);
-		btnDescription.setzIndex(6);
+		btnDescription.setzIndex(ZIndex.GUI_CURRENCY_ICON);
 		sellTowerLabel = new Entity();
 		sellTowerLabel.addPart(btnDescription);
 		sellTowerLabel.addPart(new AbsolutePositionPart(653, 590));
 
 		AssetPart sellBtnImg = assetManager.createTexture(getClass().getResourceAsStream("/WoodSign.png"));
-		sellBtnImg.setzIndex(5);
+		sellBtnImg.setzIndex(ZIndex.GUI_SELLLABEL);
 		sellTowerButton = new Entity();
 		sellTowerButton.addPart(sellBtnImg);
 		sellTowerButton.addPart(new AbsolutePositionPart(630, 552));
