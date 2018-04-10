@@ -45,8 +45,9 @@ public class AssetManager implements IAssetManager {
 		}
 
 		Texture texture = new Texture(new Pixmap(pixmap));
-		IAsset asset = new CoreAsset(this, texture.getWidth(), texture.getHeight());
+		texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
+		IAsset asset = new CoreAsset(this, texture.getWidth(), texture.getHeight());
 		assets.put(asset, texture);
 
 		return asset;
