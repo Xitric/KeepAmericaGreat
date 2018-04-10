@@ -1,6 +1,5 @@
 package com.kag.core.graphics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
@@ -52,10 +51,6 @@ public class CircleRenderer extends AbstractRenderer implements IEntitySystem {
 					.translate(circlePart.getxOffset(), circlePart.getyOffset(), 0);
 
 			ShapeRenderItem renderItem = new ShapeRenderItem(circlePart.getzIndex(), cam, ShapeRenderer.ShapeType.Filled, sr -> {
-				//Enable blending if the circle is translucent
-				Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-				Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-
 				sr.setTransformMatrix(transform);
 				sr.setColor(circlePart.getColor().getRed() / 255.0f,
 						circlePart.getColor().getGreen() / 255.0f,

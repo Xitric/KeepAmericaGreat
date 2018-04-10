@@ -108,8 +108,11 @@ public class QueuedRenderer {
 
 			//Render one layer of sprites
 			while (!spriteRenderItems.isEmpty() && spriteRenderItems.peek().getzIndex() == zIndex) {
-				//Ensure that we are not using both the sprite batch and shape renderer ate the same time
-				if (sr.isDrawing()) sr.end();
+				//Ensure that we are not using both the sprite batch and shape renderer at the same time
+				if (sr.isDrawing()) {
+					sr.end();
+					Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
+				}
 
 				SpriteRenderItem spriteRenderItem = spriteRenderItems.poll();
 
@@ -127,7 +130,7 @@ public class QueuedRenderer {
 
 			//Render the same layer of geometric shapes
 			while (!shapeRenderItems.isEmpty() && shapeRenderItems.peek().getzIndex() == zIndex) {
-				//Ensure that we are not using both the sprite batch and shape renderer ate the same time
+				//Ensure that we are not using both the sprite batch and shape renderer at the same time
 				if (sb.isDrawing()) sb.end();
 
 				ShapeRenderItem shapeRenderItem = shapeRenderItems.poll();
@@ -146,7 +149,13 @@ public class QueuedRenderer {
 
 				//Begin shape renderer if not already begun. Important to do this after setting states to prevent
 				//flushing nothing
-				if (!sr.isDrawing()) sr.begin(shapeRenderItem.getDrawType());
+				if (!sr.isDrawing()) {
+					sr.begin(shapeRenderItem.getDrawType());
+
+					//Enable blending (this is done differently for sprite batches and shape renderers)
+					Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+					Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+				}
 				shapeRenderItem.doOperation(sr);
 			}
 
