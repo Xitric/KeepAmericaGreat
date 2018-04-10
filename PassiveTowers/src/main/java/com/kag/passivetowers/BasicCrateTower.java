@@ -12,6 +12,8 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = ITower.class)
 public class BasicCrateTower implements ITower {
 
+    private ITower iTower;
+
     @Override
     public IAsset getAsset() {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
@@ -23,6 +25,11 @@ public class BasicCrateTower implements ITower {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Crate.png"));
         assetPart.setzIndex(ZIndex.TOWER_BASE);
-        return PassiveTowerFactory.getInstance().createPassiveTower(5, assetPart);
+        return PassiveTowerFactory.getInstance().createPassiveTower(5, assetPart, iTower);
+    }
+
+    @Override
+    public IAsset getProjectileAsset() {
+        return null;
     }
 }

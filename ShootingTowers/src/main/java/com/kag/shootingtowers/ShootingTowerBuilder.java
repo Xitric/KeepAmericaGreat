@@ -3,6 +3,7 @@ package com.kag.shootingtowers;
 import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
+import com.kag.interfaces.ITower;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
@@ -21,6 +22,7 @@ public class ShootingTowerBuilder {
 	private int damage;
 	private int range;
 	private int cost;
+	private ITower iTower;
 	private float attackSpeed;
 	private float projectileSpeed;
 	private float rotationSpeed;
@@ -88,8 +90,13 @@ public class ShootingTowerBuilder {
 		return this;
 	}
 
+	public ShootingTowerBuilder setiTower(ITower iTower) {
+		this.iTower = iTower;
+		return this;
+	}
+
 	public Entity getResult() {
-		TowerPart towerPart = new TowerPart();
+		TowerPart towerPart = new TowerPart(iTower);
 		NamePart namePart = new NamePart(name);
 		CostPart costPart = new CostPart(cost);
 		PositionPart positionPart = new PositionPart(0, 0);
