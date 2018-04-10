@@ -24,6 +24,7 @@ public class BasicTower implements ITower {
 		AssetPart turretAsset = assetManager.createTexture(getClass().getResourceAsStream("/YellowTurret.png"));
 
 		return new ShootingTowerBuilder()
+				.setiTower(this)
 				.setName("Basic Tower")
 				.setDamage(1)
 				.setRange(100)
@@ -36,5 +37,12 @@ public class BasicTower implements ITower {
 				.setTurretAxisX(turretAsset.getHeight() / 2)
 				.setTurretAxisY(turretAsset.getHeight() / 2)
 				.getResult();
+	}
+
+	@Override
+	public IAsset getProjectileAsset() {
+		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+		return assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
+
 	}
 }

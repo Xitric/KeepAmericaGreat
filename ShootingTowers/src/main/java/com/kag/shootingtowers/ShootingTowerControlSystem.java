@@ -14,6 +14,7 @@ import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IProjectile;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
+import com.kag.towerparts.TowerPart;
 import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
@@ -30,12 +31,10 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
 	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
 	private IProjectile projectileImplementation;
-	private IAsset projectileAsset;
 
 	@Override
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-		projectileAsset = assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
 	}
 
 	@Override
@@ -43,7 +42,6 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		for (Entity entity : ShootingTowerBuilder.getAllTowers()) {
 			world.removeEntity(entity);
 		}
-		projectileAsset.dispose();
 	}
 
 	@Override
@@ -100,6 +98,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 	private void shootAt(World world, Entity enemy, Entity tower) {
 		projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
 
+        TowerPart towerPart = tower.getPart(TowerPart.class);
 		WeaponPart weaponPart = tower.getPart(WeaponPart.class);
 		PositionPart enemyPositionPart = enemy.getPart(PositionPart.class);
 		PositionPart towerPositionPart = tower.getPart(PositionPart.class);
@@ -121,7 +120,8 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		float rotationResult = -(float) (rotationPi / (2 * Math.PI) * 360);
 
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-		AssetPart pAsset = assetManager.createTexture(projectileAsset, 0, 0, projectileAsset.getWidth(), projectileAsset.getHeight());
+        AssetPart pAsset = assetManager.createTexture(towerPart.getiTower().getProjectileAsset(),0,0,towerPart.getiTower().getProjectileAsset().getWidth(),towerPart.getiTower().getProjectileAsset().getHeight());
+
 		if(turretAsset != null) {
 			turretAsset.setRotation(rotationResult);
 		}
