@@ -9,10 +9,12 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
+import com.kag.towerparts.CostPart;
 import org.openide.util.Lookup;
 import org.openide.util.LookupEvent;
 import org.openide.util.LookupListener;
@@ -139,8 +141,12 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
         lookup.lookupAll(ITower.class).forEach((e) -> {
             Entity entity = addNewTowerToMenu(e);
+            LabelPart priceLabel = new LabelPart(String.valueOf(new TowerModel(entity, e).getITower().create().getPart(CostPart.class).getCost()));
+            
+            priceLabel.setzIndex(ZIndex.TOWER_TURRET);
+            entity.addPart(priceLabel);
             world.addEntity(entity);
-            addTowerToList(new TowerModel(entity, e));
+            addTowerToList(new TowerModel(entity,e));
         });
 
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
