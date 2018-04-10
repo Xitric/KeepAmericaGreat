@@ -17,9 +17,9 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IComponentLoader.class)
 public class EnemyFactory implements IComponentLoader {
 
-	private IAsset hatSpriteSheet;
+	private static IAsset hatSpriteSheet;
 
-	public Entity createEnemy(int imageOffset, float speed, int money, int life) {
+	public static Entity createEnemy(int imageOffset, float speed, int money, int life) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
 		AssetPart hatPart = assetManager.createTexture(hatSpriteSheet, imageOffset * 128, 0, 128, 128);
