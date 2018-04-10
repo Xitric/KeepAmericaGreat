@@ -180,13 +180,25 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         int menuX = index % 3;
         int menuY = index / 3;
 
-        int menuStartX = 788 + 4 + menuX * 52;
-        int menuStartY = 154 + 1 + menuY * 52;
+        int menuStartX = 788 + menuX * 52;
+        int menuStartY = 154 + menuY * 52;
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         IAsset iAsset = tower.getAsset();
-        AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, 40, 46);
+	    AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
+        float aspectRatio = (float)iAsset.getWidth() / iAsset.getHeight();
+        if(iAsset.getWidth() > iAsset.getHeight()) {
+        	assetPart.setWidth(48);
+        	assetPart.setHeight((int)(48 / aspectRatio));
+        } else {
+	        assetPart.setHeight(48);
+	        assetPart.setWidth((int)(48 * aspectRatio));
+        }
+        int dx = (48 - assetPart.getWidth()) / 2;
+        int dy = (48 - assetPart.getHeight()) / 2;
+        menuStartX += dx;
+        menuStartY += dy;
         assetPart.setzIndex(30);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
