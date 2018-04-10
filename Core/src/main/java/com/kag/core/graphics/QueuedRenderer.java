@@ -3,6 +3,7 @@ package com.kag.core.graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.PriorityQueue;
 
@@ -18,12 +19,15 @@ public class QueuedRenderer {
 	private static QueuedRenderer instance;
 	private PriorityQueue<RenderItem> renderItems;
 	private SpriteBatch sb;
+	private ShapeRenderer sr;
 	private OrthographicCamera staticCamera;
 	private OrthographicCamera dynamicCamera;
 
 	private QueuedRenderer() {
 		renderItems = new PriorityQueue<>();
 		sb = new SpriteBatch();
+		sr = new ShapeRenderer();
+		sr.setAutoShapeType(true);
 
 		staticCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		staticCamera.setToOrtho(true);
@@ -64,8 +68,11 @@ public class QueuedRenderer {
 			RenderItem renderItem = renderItems.poll();
 			
 			sb.setProjectionMatrix(renderItem.getCamera().combined);
+			sr.setProjectionMatrix(renderItem.getCamera().combined);
 			sb.begin();
-			renderItem.doOperation(sb);
+			sr.begin();
+			renderItem.doOperation(sb, sr);
+			sr.end();
 			sb.end();
 		}
 		renderItems.clear();
@@ -73,5 +80,6 @@ public class QueuedRenderer {
 
 	public void dispose() {
 		sb.dispose();
+		sr.dispose();
 	}
 }

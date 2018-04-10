@@ -1,7 +1,8 @@
 package com.kag.core.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.kag.common.data.GameData;
@@ -9,9 +10,9 @@ import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
+import com.kag.common.entities.parts.CirclePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.core.graphics.parts.TexturePart;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;
@@ -20,14 +21,14 @@ import java.util.Collection;
  * @author Kasper
  */
 @ServiceProvider(service = IEntitySystem.class)
-public class TextureRenderer implements IEntitySystem {
+public class CircleRenderer implements IEntitySystem {
 
-	private static final Family FAMILY = Family.forAll(TexturePart.class)
+	private static final Family FAMILY = Family.forAll(CirclePart.class)
 			.includingAny(PositionPart.class, AbsolutePositionPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
-		Collection<TexturePart> textureParts = entity.getParts(TexturePart.class);
+		Collection<CirclePart> circleParts = entity.getParts(CirclePart.class);
 		PositionPart position;
 		OrthographicCamera cam;
 
@@ -41,22 +42,21 @@ public class TextureRenderer implements IEntitySystem {
 			cam = QueuedRenderer.getInstance().getStaticCamera();
 		}
 
-		for (TexturePart texturePart : textureParts) {
-			TextureRegion texture = texturePart.getTexture();
+		for (CirclePart circlePart : circleParts) {
 			Matrix4 transform = new Matrix4();
 			transform.idt()
 					.translate(position.getX(), position.getY(), 0)
 					.rotate(Vector3.Z, position.getRotation())
-					.translate(texturePart.getxOffset(), texturePart.getyOffset(), 0);
+					.translate(circlePart.getxOffset(), circlePart.getyOffset(), 0);
 
-			RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, (sb, sr) -> {
-				sb.setTransformMatrix(transform);
-				sb.draw(texture,
-						0, 0,
-						texturePart.getOriginX(), texturePart.getOriginY(),
-						texturePart.getWidth(), texturePart.getHeight(),
-						1, 1,
-						texturePart.getRotation());
+			RenderItem renderItem = new RenderItem(circlePart.getzIndex(), cam, (sb, sr) -> {
+				Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+				Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+
+				sr.setTransformMatrix(transform);
+				sr.set(ShapeRenderer.ShapeType.Filled);
+				sr.setColor(circlePart.getColor().getRed() / 255.0f, circlePart.getColor().getGreen() / 255.0f, circlePart.getColor().getBlue() / 255.0f, circlePart.getColor().getAlpha() / 255.0f);
+				sr.circle(0, 0, circlePart.getRadius());
 			});
 
 			QueuedRenderer.getInstance().enqueue(renderItem);

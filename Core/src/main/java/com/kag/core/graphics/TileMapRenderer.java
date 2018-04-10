@@ -29,7 +29,7 @@ public class TileMapRenderer implements IEntitySystem {
 		TileMapPart tileMap = entity.getPart(TileMapPart.class);
 
 		OrthographicCamera cam = QueuedRenderer.getInstance().getDynamicCamera();
-		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, sb -> {
+		RenderItem renderItem = new RenderItem(texturePart.getzIndex(), cam, (sb, sr) -> {
 			sb.setTransformMatrix(new Matrix4().idt());
 			renderTileMap(sb, texture, cam, tileMap);
 		});

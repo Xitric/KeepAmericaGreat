@@ -83,7 +83,7 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
 
 		for (LabelPart label : labelParts) {
-			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, (sb, sr) -> {
 				sb.setTransformMatrix(new Matrix4().idt());
 				BitmapFont font = getFontForSize(label.getFontSize());
 				glyphLayout.setText(font, label.getLabel());

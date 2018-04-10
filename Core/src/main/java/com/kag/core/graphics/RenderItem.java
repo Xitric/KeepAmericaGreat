@@ -2,8 +2,9 @@ package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * Representation of a rendering operation with LibGDX which can be queued up. The point of queuing render operations is
@@ -15,10 +16,10 @@ import java.util.function.Consumer;
 public class RenderItem implements Comparable<RenderItem> {
 
 	private int zIndex;
-	private Consumer<SpriteBatch> operation;
+	private BiConsumer<SpriteBatch, ShapeRenderer> operation;
 	private OrthographicCamera camera;
 
-	public RenderItem(int zIndex, OrthographicCamera camera, Consumer<SpriteBatch> operation) {
+	public RenderItem(int zIndex, OrthographicCamera camera, BiConsumer<SpriteBatch, ShapeRenderer> operation) {
 		this.zIndex = zIndex;
 		this.camera = camera;
 		this.operation = operation;
@@ -28,8 +29,8 @@ public class RenderItem implements Comparable<RenderItem> {
 		return camera;
 	}
 
-	public void doOperation(SpriteBatch sb) {
-		operation.accept(sb);
+	public void doOperation(SpriteBatch sb, ShapeRenderer sr) {
+		operation.accept(sb, sr);
 	}
 
 	@Override
