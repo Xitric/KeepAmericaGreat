@@ -56,10 +56,13 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		WeaponPart weaponPart = entity.getPart(WeaponPart.class);
 		weaponPart.addDelta(delta);
 
+		Entity enemy = getNearestEnemy(world, entity);
+		if (enemy != null){
+			rotateTower(entity, calculateRotation(enemy, entity));
+		}
+
 		float timeBetweenShot = 1 / weaponPart.getAttackSpeed();
 		if (weaponPart.getTimeSinceLast() > timeBetweenShot) {
-			Entity enemy = getNearestEnemy(world, entity);
-
 			if (enemy != null) {
 				shootAt(world, enemy, entity);
 				weaponPart.addDelta(-timeBetweenShot);
@@ -101,31 +104,36 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
 
 		WeaponPart weaponPart = tower.getPart(WeaponPart.class);
-		PositionPart enemyPositionPart = enemy.getPart(PositionPart.class);
 		PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
-		Collection<? extends AssetPart> assetParts = tower.getPartsDeep(AssetPart.class);
-		AssetPart turretAsset = null;
-
-
-		for(AssetPart assetPart : assetParts){
-			if(assetPart.getzIndex() == ZIndex.TOWER_TURRET.value){
-				turretAsset = assetPart;
-			}
-		}
-
 		//Calculate rotation
-		Vector2f move = new Vector2f(enemyPositionPart.getX() - towerPositionPart.getX(), enemyPositionPart.getY() - towerPositionPart.getY());
-		Vector2f lookDir = move.normalize();
-		float rotationPi = (float) Math.atan2(lookDir.det(Vector2f.AXIS_X), lookDir.dot(Vector2f.AXIS_X));
-		float rotationResult = -(float) (rotationPi / (2 * Math.PI) * 360);
+		float rotationResult = calculateRotation(enemy, tower);
+
 
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		AssetPart pAsset = assetManager.createTexture(projectileAsset, 0, 0, projectileAsset.getWidth(), projectileAsset.getHeight());
-		if(turretAsset != null) {
-			turretAsset.setRotation(rotationResult);
-		}
+
 		projectileImplementation.createProjectile(towerPositionPart.getX(), towerPositionPart.getY(), weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
+	}
+
+	private void rotateTower(Entity tower, float rotationResult) {
+		Collection<? extends AssetPart> assetParts = tower.getPartsDeep(AssetPart.class);
+
+		for(AssetPart assetPart : assetParts){
+			if(assetPart.getzIndex() == ZIndex.TOWER_TURRET.value){
+				assetPart.setRotation(rotationResult);
+			}
+		}
+	}
+
+	private float calculateRotation(Entity enemy, Entity tower) {
+		PositionPart enemyPositionPart = enemy.getPart(PositionPart.class);
+		PositionPart towerPositionPart = tower.getPart(PositionPart.class);
+
+		Vector2f move = new Vector2f(enemyPositionPart.getX() - towerPositionPart.getX(), enemyPositionPart.getY() - towerPositionPart.getY());
+		Vector2f lookDir = move.normalize();
+		float rotationPi = (float) Math.atan2(lookDir.det(Vector2f.AXIS_X), lookDir.dot(Vector2f.AXIS_X));
+		return -(float) (rotationPi / (2 * Math.PI) * 360);
 	}
 
 	@Override
