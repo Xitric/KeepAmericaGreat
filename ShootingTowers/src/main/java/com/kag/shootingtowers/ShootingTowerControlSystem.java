@@ -3,6 +3,7 @@ package com.kag.shootingtowers;
 import com.kag.common.data.GameData;
 import com.kag.common.data.IAsset;
 import com.kag.common.data.World;
+import com.kag.common.data.ZIndex;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -17,6 +18,8 @@ import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+
+import java.util.Collection;
 
 @ServiceProviders(value = {
 		@ServiceProvider(service = IEntitySystem.class),
@@ -101,6 +104,16 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		PositionPart enemyPositionPart = enemy.getPart(PositionPart.class);
 		PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
+		Collection<AssetPart> assetParts = tower.getParts(AssetPart.class);
+		AssetPart turretAsset = null;
+
+
+		for(AssetPart assetPart : assetParts){
+			if(assetPart.getzIndex() == ZIndex.TOWER_TURRET.value){
+				turretAsset = assetPart;
+			}
+		}
+
 		//Calculate rotation
 		Vector2f move = new Vector2f(enemyPositionPart.getX() - towerPositionPart.getX(), enemyPositionPart.getY() - towerPositionPart.getY());
 		Vector2f lookDir = move.normalize();
@@ -109,6 +122,9 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		AssetPart pAsset = assetManager.createTexture(projectileAsset, 0, 0, projectileAsset.getWidth(), projectileAsset.getHeight());
+		if(turretAsset != null) {
+			turretAsset.setRotation(rotationResult);
+		}
 		projectileImplementation.createProjectile(towerPositionPart.getX(), towerPositionPart.getY(), weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
 	}
 
