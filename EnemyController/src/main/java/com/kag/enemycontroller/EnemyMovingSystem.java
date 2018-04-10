@@ -1,6 +1,8 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.*;
+import com.kag.common.data.GameData;
+import com.kag.common.data.Node;
+import com.kag.common.data.World;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -41,18 +43,11 @@ public class EnemyMovingSystem implements IEntitySystem {
 	}
 
 	private void generateNewPath(Entity entity, World world) {
-		//TODO: Just look it up in the game map when Dijkstra has been implemented
-		IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
-		if (pathFinder == null) return;
-
-		GameMap map = world.getGameMap();
-
 		PositionPart positionPart = entity.getPart(PositionPart.class);
-		int tileX = (int) (positionPart.getX() / map.getTileWidth());
-		int tileY = (int) (positionPart.getY() / map.getTileHeight());
+		int tileX = (int) (positionPart.getX() / world.getGameMap().getTileWidth());
+		int tileY = (int) (positionPart.getY() / world.getGameMap().getTileHeight());
 
-		Node nextNode = pathFinder.getPath(tileX, tileY, map.getPlayerX(), map.getPlayerY(), world);
-		entity.getPart(EnemyPart.class).setNextNode(nextNode);
+		entity.getPart(EnemyPart.class).setNextNode(world.getGameMap().getPathNodes()[tileY][tileX]);
 	}
 
 	private void move(Entity entity, float dt, World world, int tileWidth, int tileHeight) {
@@ -63,6 +58,14 @@ public class EnemyMovingSystem implements IEntitySystem {
 		if(world.getGameMap().doesCollideWithTile(nextNode.getTile(), entity)) {
 			if(!nextNode.getTile().isWalkable()) {
 				entity.getPart(EnemyPart.class).setNextNode(null);
+
+				//Recalculate node map - it has become invalid
+				IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
+				if (pathFinder == null) return;
+
+				Node[][] nodeMap = pathFinder.getPath(world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world);
+				world.getGameMap().setPathNodes(nodeMap);
+
 				return;
 			}
 		}

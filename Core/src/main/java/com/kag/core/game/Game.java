@@ -18,35 +18,27 @@ import com.kag.core.input.GdxInputProcessor;
 import com.kag.core.input.GdxKeyboard;
 import com.kag.core.input.GdxMouse;
 import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
  * @author niels
  */
 public class Game implements ApplicationListener {
 
-	private final Lookup lookup;
-	private List<IComponentLoader> gameComponents;
-	private List<ISystem> systems;
-	private List<IEntitySystem> entitySystems;
-	private Lookup.Result<IComponentLoader> componentLoaderLookupResult;
-	private Lookup.Result<ISystem> systemLookupResult;
-	private Lookup.Result<IEntitySystem> entitySystemLookupResult;
+	private final List<ISystem> systems;
+	private final List<IEntitySystem> entitySystems;
+	private ServiceManager<IComponentLoader> componentManager;
+	private ServiceManager<ISystem> systemManager;
+	private ServiceManager<IEntitySystem> entitySystemManager;
 	private World world;
 	private GameData gameData;
 	private GdxKeyboard keyboard;
 	private GdxMouse mouse;
 
 	public Game() {
-		lookup = Lookup.getDefault();
-		gameComponents = new CopyOnWriteArrayList<>();
 		systems = new CopyOnWriteArrayList<>();
 		entitySystems = new CopyOnWriteArrayList<>();
 	}
@@ -58,31 +50,16 @@ public class Game implements ApplicationListener {
 		camera.setY(Gdx.graphics.getHeight() / 2);
 
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
-		world = new World(mapGenerator.generateMap(12,36));
+		world = new World(mapGenerator.generateMap(12, 36));
 
 		gameData = new GameData(new Keyboard(), new Mouse(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		keyboard = new GdxKeyboard(gameData.getKeyboard());
 		mouse = new GdxMouse(gameData.getMouse());
 		Gdx.input.setInputProcessor(new GdxInputProcessor(keyboard, mouse));
-		
-		componentLoaderLookupResult = lookup.lookupResult(IComponentLoader.class);
-		componentLoaderLookupResult.addLookupListener(componentLoaderLookupListener);
 
-		systemLookupResult = lookup.lookupResult(ISystem.class);
-		systemLookupResult.addLookupListener(systemLookupListener);
-
-		entitySystemLookupResult = lookup.lookupResult(IEntitySystem.class);
-		entitySystemLookupResult.addLookupListener(entitySystemLookupListener);
-
-		for (IComponentLoader componentLoader : lookup.lookupAll(IComponentLoader.class)) {
-			componentLoader.load(world);
-			gameComponents.add(componentLoader);
-		}
-
-		systems.addAll(lookup.lookupAll(ISystem.class));
-		systems.sort(systemComparator);
-		entitySystems.addAll(lookup.lookupAll(IEntitySystem.class));
-		entitySystems.sort(systemComparator);
+		componentManager = new ServiceManager<>(IComponentLoader.class, this::addComponent, this::removeComponent);
+		systemManager = new ServiceManager<>(ISystem.class, this::addSystem, this::removeSystem);
+		entitySystemManager = new ServiceManager<>(IEntitySystem.class, this::addEntitySystem, this::removeEntitySystem);
 	}
 
 	@Override
@@ -90,17 +67,16 @@ public class Game implements ApplicationListener {
 
 	}
 
-	//Render also acts as our update
 	@Override
 	public void render() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = QueuedRenderer.getInstance().getDynamicCamera();
-		camera.position.x = (int)gameData.getCamera().getX();
-		camera.position.y = (int)gameData.getCamera().getY();
+		camera.position.x = (int) gameData.getCamera().getX();
+		camera.position.y = (int) gameData.getCamera().getY();
 		camera.update();
-		
+
 		for (ISystem system : systems) {
 			system.update(Gdx.graphics.getDeltaTime(), world, gameData);
 		}
@@ -138,70 +114,32 @@ public class Game implements ApplicationListener {
 		}
 
 		//Dispose plugins
-		gameComponents.forEach(c -> c.dispose(world));
+		componentManager.getServiceProviders().forEach(c -> c.dispose(world));
 	}
 
-	private <T extends IPrioritizable> boolean refreshSystems(Collection<? extends T> actualComponents, Collection<T> localComponents) {
-		boolean added = false;
-
-		for (T component : actualComponents) {
-			// Newly installed modules
-			if (!localComponents.contains(component)) {
-				localComponents.add(component);
-				added = true;
-			}
-		}
-
-		for (T component : localComponents) {
-			//Removed modules
-			if (!actualComponents.contains(component)) {
-				localComponents.remove(component);
-			}
-		}
-
-		return added;
+	private void addComponent(IComponentLoader component) {
+		component.load(world);
 	}
 
-	private final LookupListener componentLoaderLookupListener = new LookupListener() {
-		@Override
-		public void resultChanged(LookupEvent ev) {
-			Collection<? extends IComponentLoader> actualComponents = componentLoaderLookupResult.allInstances();
+	private void removeComponent(IComponentLoader component) {
+		component.dispose(world);
+	}
 
-			for (IComponentLoader component : actualComponents) {
-				// Newly installed modules
-				if (!gameComponents.contains(component)) {
-					component.load(world);
-					gameComponents.add(component);
-				}
-			}
-			// Stop and remove module
-			for (IComponentLoader component : gameComponents) {
-				if (!actualComponents.contains(component)) {
-					component.dispose(world);
-					gameComponents.remove(component);
-				}
-			}
-		}
-	};
+	private void addSystem(ISystem system) {
+		systems.add(system);
+		systems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
+	}
 
-	private final LookupListener systemLookupListener = new LookupListener() {
-		@Override
-		public void resultChanged(LookupEvent ev) {
-			if (refreshSystems(systemLookupResult.allInstances(), systems)) {
-				systems.sort(systemComparator);
-			}
-		}
-	};
+	private void removeSystem(ISystem system) {
+		systems.remove(system);
+	}
 
-	private final LookupListener entitySystemLookupListener = new LookupListener() {
-		@Override
-		public void resultChanged(LookupEvent ev) {
-			if (refreshSystems(entitySystemLookupResult.allInstances(), entitySystems)) {
-				entitySystems.sort(systemComparator);
-			}
-		}
-	};
+	private void addEntitySystem(IEntitySystem system) {
+		entitySystems.add(system);
+		entitySystems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
+	}
 
-	private final Comparator<IPrioritizable> systemComparator
-			= (IPrioritizable o1, IPrioritizable o2) -> Integer.compare(o1.getPriority(), o2.getPriority());
+	private void removeEntitySystem(IEntitySystem system) {
+		entitySystems.remove(system);
+	}
 }

@@ -26,7 +26,7 @@ public interface IEntitySystem extends IPrioritizable {
 	 * they are allowed to have more.
 	 *
 	 * @return family describing the parts that entities must contain to be
-	 *         processed
+	 * processed
 	 */
 	Family getFamily();
 
@@ -46,11 +46,12 @@ public interface IEntitySystem extends IPrioritizable {
 	 * <li>Post-conditions: The entity has been processed.</li>
 	 * </ul>
 	 *
-	 * @param delta  the time in milliseconds since the last iteration of the
-	 *               game loop. This is the time span that must be simulated by
-	 *               this method invocation
-	 * @param entity the entity to process
-	 * @param world  the game world
+	 * @param delta    the time in milliseconds since the last iteration of the
+	 *                 game loop. This is the time span that must be simulated by
+	 *                 this method invocation
+	 * @param entity   the entity to process
+	 * @param world    the game world
+	 * @param gameData container for input devices and window information
 	 */
 	void update(float delta, Entity entity, World world, GameData gameData);
 }

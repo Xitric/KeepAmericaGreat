@@ -17,9 +17,9 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IComponentLoader.class)
 public class EnemyFactory implements IComponentLoader {
 
-	private static IAsset hatSpriteSheet;
+	private IAsset hatSpriteSheet;
 
-	public static Entity createEnemy(int imageOffset, float speed, int money, int life) {
+	public Entity createEnemy(int imageOffset, float speed, int money, int life) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
 		AssetPart hatPart = assetManager.createTexture(hatSpriteSheet, imageOffset * 128, 0, 128, 128);
@@ -37,6 +37,7 @@ public class EnemyFactory implements IComponentLoader {
 		enemy.addPart(new BlockingPart());
 		enemy.addPart(new CurrencyPart(money));
 		enemy.addPart(new LifePart(life));
+		enemy.addPart(new BasicEnemyPart());
 
 		AssetPart animationPart = assetManager.createAnimation(EnemyFactory.class.getResourceAsStream("/EnemyWalking.png"), 48, 52, (int) (60.0f * 100 / speed));
 		animationPart.setxOffset(-24);
@@ -56,5 +57,11 @@ public class EnemyFactory implements IComponentLoader {
 	@Override
 	public void dispose(World world) {
 		hatSpriteSheet.dispose();
+
+		for (Entity e: world.getAllEntities()) {
+			if (e.hasPart(BasicEnemyPart.class)) {
+				world.removeEntity(e);
+			}
+		}
 	}
 }

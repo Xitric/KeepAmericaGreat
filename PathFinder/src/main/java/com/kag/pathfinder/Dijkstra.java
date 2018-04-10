@@ -23,7 +23,7 @@ public class Dijkstra {
 	public Node[][] constructNodeMap(int endX, int endY, World world) {
 		Node[][] nodeMap = new Node[world.getGameMap().getHeight()][world.getGameMap().getWidth()];
 
-		Queue<EvaluatedNode> open = new PriorityQueue<>(new GScoreComparator());
+		Queue<EvaluatedNode> open = new PriorityQueue<>(Comparator.comparingInt(EvaluatedNode::getgValue));
 		Map<EvaluatedNode, Integer> costMap = new HashMap<>();
 
 		EvaluatedNode endNode = new EvaluatedNode(world.getGameMap().getTile(endX, endY));
@@ -35,6 +35,8 @@ public class Dijkstra {
 			EvaluatedNode current = open.poll();
 
 			for (EvaluatedNode neighbor : getNeighborsFromTile(current, world)) {
+				neighbor.setgValue(current.getgValue() + 1);
+
 				if (neighbor.getgValue() < costMap.getOrDefault(neighbor, Integer.MAX_VALUE)) {
 					costMap.put(neighbor, neighbor.getgValue());
 					neighbor.setNext(current);
@@ -82,13 +84,5 @@ public class Dijkstra {
 		}
 
 		return nodes;
-	}
-
-	private static class GScoreComparator implements Comparator<EvaluatedNode> {
-
-		@Override
-		public int compare(EvaluatedNode a, EvaluatedNode b) {
-			return Float.compare(a.getgValue(), b.getgValue());
-		}
 	}
 }
