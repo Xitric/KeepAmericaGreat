@@ -22,9 +22,9 @@ public class TowerSelectionManager {
 	private Entity previewTower;
 	private AssetPart redOverlay;
 	private AssetPart blueOverlay;
-	private Entity tempTower;//TODO works, but might not be a good idea
-	private float xTilePositionOnMap;//TODO works, but might not be a good idea
-	private float yTilePositionOnMap;//TODO works, but might not be a good idea
+	private Entity tempTower;
+	private float xTilePositionOnMap;
+	private float yTilePositionOnMap;
 	private Entity sellTowerButton;
 	private Entity sellTowerLabel;
 	private int sellingPrice;
