@@ -228,9 +228,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 // Newly installed modules
                 if (!towerImple.contains(tower)) {
                     towerImple.add(tower);
-                    Entity entity = addNewTowerToMenu(tower);
-                    addTowerToList(new TowerModel(entity, tower));
                     towerConsumer.add(world -> {
+                        Entity entity = addNewTowerToMenu(tower);
+                        addTowerToList(new TowerModel(entity, tower));
                         world.addEntity(entity);
                     });
                 }

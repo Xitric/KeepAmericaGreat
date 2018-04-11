@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class WaveGenerator {
 
-	public List<Entity> generateWave(int strength, List<IEnemy> enemyTypes) {
+	public List<Entity> generateWave(int strength, Collection<? extends IEnemy> enemyTypes) {
 		List<Entity> wave = new ArrayList<>();
 
 		List<IEnemy> possibleEnemyTypes = new ArrayList<>(enemyTypes);
