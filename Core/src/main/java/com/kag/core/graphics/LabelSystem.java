@@ -23,14 +23,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * System for rendering labels that are part of the graphical user interface.
- * This system must be placed in the core module, since this is the only module
- * that is able to use LibGDX. Labels are strings of text that have a position
- * on the screen Thus this system only processes entities with the following
- * parts:
+ * System for rendering labels that are part of the graphical user interface. This system must be placed in the core
+ * module, since this is the only module that is able to use LibGDX. Labels are strings of text that have a position on
+ * the screen. Thus this system only processes entities with the following parts:
  * <ul>
  * <li>{@link LabelPart}</li>
+ * </ul>
+ * And at least one of these parts:
+ * <ul>
  * <li>{@link PositionPart}</li>
+ * <li>{@link AbsolutePositionPart}</li>
  * </ul>
  *
  * @author Kasper
@@ -39,9 +41,10 @@ import java.util.Map;
 		@ServiceProvider(service = IEntitySystem.class),
 		@ServiceProvider(service = IComponentLoader.class)
 })
-public class LabelSystem implements IEntitySystem, IComponentLoader {
+public class LabelSystem extends AbstractRenderer implements IEntitySystem, IComponentLoader {
 
-	private static final Family FAMILY = Family.forAll(LabelPart.class, AbsolutePositionPart.class);
+	private static final Family FAMILY = Family.forAll(LabelPart.class)
+			.includingAny(PositionPart.class, AbsolutePositionPart.class);
 
 	private FreeTypeFontGenerator fontGenerator;
 	private Map<Integer, BitmapFont> fonts;
@@ -54,6 +57,13 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 		glyphLayout = new GlyphLayout();
 	}
 
+	/**
+	 * Get a bitmap font for the specified font size. If such a font does not yet exist, it will be generated and stored
+	 * for later use.
+	 *
+	 * @param size the font size to get a font for
+	 * @return the font for the specified size
+	 */
 	private BitmapFont getFontForSize(int size) {
 		BitmapFont font = fonts.get(size);
 
@@ -78,12 +88,11 @@ public class LabelSystem implements IEntitySystem, IComponentLoader {
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
 		Collection<LabelPart> labelParts = entity.getParts(LabelPart.class);
-		AbsolutePositionPart position = entity.getPart(AbsolutePositionPart.class);
-
-		OrthographicCamera cam = QueuedRenderer.getInstance().getStaticCamera();
+		PositionPart position = getPosition(entity);
+		OrthographicCamera cam = getCamera(entity);
 
 		for (LabelPart label : labelParts) {
-			RenderItem renderItem = new RenderItem(label.getzIndex(), cam, sb -> {
+			SpriteRenderItem renderItem = new SpriteRenderItem(label.getzIndex(), cam, sb -> {
 				sb.setTransformMatrix(new Matrix4().idt());
 				BitmapFont font = getFontForSize(label.getFontSize());
 				glyphLayout.setText(font, label.getLabel());

@@ -9,6 +9,7 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.TowerPart;
+import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {
@@ -61,6 +62,16 @@ public class TowerSelectionManager {
 		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
 
 		assetPart.setzIndex(ZIndex.TOWER_PREVIEW);
+
+		Entity tower = selectedTower.getITower().create();
+		WeaponPart weaponPart = tower.getPart(WeaponPart.class);
+		if (weaponPart != null) {
+			CirclePart rangeCircle = new CirclePart(weaponPart.getRange(), new Color(0x55ADD8E6));
+			rangeCircle.setxOffset(32);
+			rangeCircle.setyOffset(32);
+			rangeCircle.setzIndex(ZIndex.TOWER_RANGE_PREVIEW);
+			previewTower.addPart(rangeCircle);
+		}
 
 		previewTower.addPart(positionPart);
 		previewTower.addPart(assetPart);

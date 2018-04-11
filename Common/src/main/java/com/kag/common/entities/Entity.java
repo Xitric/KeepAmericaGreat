@@ -77,16 +77,25 @@ public class Entity {
 	}
 
 	/**
-	 * Get all the parts of the specified type from this entity.
+	 * Get all the parts of exactly the specified type from this entity. This method does not consider subtypes.
 	 *
 	 * @param <T>       the type of part to retrieve
 	 * @param partClass the class describing what type of part to retrieve
-	 * @return the parts of the specified type. Will be empty if the entity has no such parts
+	 * @return the parts of exactly the specified type. Will be empty if the entity has no such parts
+	 * @see Entity#getPartsDeep(Class)
 	 */
 	public <T extends IPart> Collection<T> getParts(Class<T> partClass) {
 		return (Set<T>) parts.getOrDefault(partClass, new HashSet<>());
 	}
 
+	/**
+	 * Get all the parts of the specified type or any of its subtypes from this entity.
+	 *
+	 * @param <T>        the super type of the parts to retrieve
+	 * @param superClass the class describing the super type of the parts to retrieve
+	 * @return the parts of the specified type or any of its subtypes. Will be empty if the entity has no such parts
+	 * @see Entity#getParts(Class)
+	 */
 	public <T extends IPart> Collection<? extends T> getPartsDeep(Class<T> superClass) {
 		Collection<T> returnParts = new ArrayList<>();
 
