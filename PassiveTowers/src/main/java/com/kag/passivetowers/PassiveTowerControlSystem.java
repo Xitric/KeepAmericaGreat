@@ -1,13 +1,14 @@
 package com.kag.passivetowers;
 
-import com.kag.common.data.GameData;
+import com.kag.common.data.Tile;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.Family;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IEntitySystem;
+import org.openide.util.lookup.ServiceProvider;
 
-public class PassiveTowerControlSystem implements IEntitySystem, IComponentLoader {
+@ServiceProvider(service = IComponentLoader.class)
+public class PassiveTowerControlSystem implements IComponentLoader {
 
     @Override
     public void load(World world) {
@@ -16,23 +17,13 @@ public class PassiveTowerControlSystem implements IEntitySystem, IComponentLoade
 
     @Override
     public void dispose(World world) {
-        for(Entity entity : PassiveTowerFactory.getInstance().getTowersCreated()){
+        for(Entity entity : PassiveTowerFactory.getTowersCreated()){
+            float xTilePositionOnMap = (entity.getPart(PositionPart.class).getX()) / 64;
+            float yTilePositionOnMap = (entity.getPart(PositionPart.class).getY()) / 64;
+            Tile tile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
+            tile.setWalkable(true);
             world.removeEntity(entity);
         }
     }
 
-    @Override
-    public Family getFamily() {
-        return null;
-    }
-
-    @Override
-    public void update(float delta, Entity entity, World world, GameData gameData) {
-
-    }
-
-    @Override
-    public int getPriority() {
-        return 0;
-    }
 }

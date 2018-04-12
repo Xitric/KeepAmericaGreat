@@ -56,6 +56,11 @@
             <artifactId>PathFinder</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>PassiveTowers</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

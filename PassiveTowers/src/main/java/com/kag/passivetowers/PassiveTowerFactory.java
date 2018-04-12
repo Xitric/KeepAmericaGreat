@@ -17,11 +17,7 @@ import java.util.List;
 public class PassiveTowerFactory  {
 
     private static PassiveTowerFactory INSTANCE = null;
-    private static List<Entity> listOfTowers;
-
-    private PassiveTowerFactory() {
-        listOfTowers = new ArrayList<>();
-    }
+    private static List<Entity> listOfTowers = new ArrayList<>();
 
     public static PassiveTowerFactory getInstance() {
         if (INSTANCE == null) {
@@ -49,7 +45,7 @@ public class PassiveTowerFactory  {
         newTowerEntity.addPart(assetPart);
         newTowerEntity.addPart(boundingBoxPart);
         newTowerEntity.addPart(towerPart);
-
+        listOfTowers.add(newTowerEntity);
         return newTowerEntity;
     }
 
