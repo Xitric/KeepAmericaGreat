@@ -8,6 +8,7 @@ import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
 import com.kag.towerparts.WeaponPart;
+import parts.ShootingTowerPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,7 @@ public class ShootingTowerBuilder {
 		turretAsset.setzIndex(ZIndex.TOWER_TURRET);
 
 		Entity tower = new Entity();
+		tower.addPart(new ShootingTowerPart());
 		tower.addPart(towerPart);
 		tower.addPart(namePart);
 		tower.addPart(costPart);
