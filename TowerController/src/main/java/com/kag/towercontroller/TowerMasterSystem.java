@@ -69,6 +69,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 entity.addPart(priceLabel);
                 world.addEntity(entity);
             }
+            towerSelectionManager.resetTowerSelection(world);
             updateBuyMenu = false;
         }
 
