@@ -18,15 +18,11 @@ import com.kag.interfaces.ITower;
 import com.kag.towerparts.CostPart;
 import javafx.geometry.Pos;
 import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 @ServiceProviders(value = {
@@ -35,14 +31,12 @@ import java.util.function.Consumer;
 })
 public class TowerMasterSystem implements ISystem, IComponentLoader {
 
-    private Lookup lookup;
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
-    private List<ITower> towerImple;
-    private Lookup.Result<ITower> towerImpleLookupResult;
     private List<Entity> towersToBeDrawn;
     private List<Consumer<World>> towerConsumer;
     private List<TowerModel> towerModels;
+    private ServiceManager<ITower> towerServiceManager;
     private IAssetManager assetManager;
     private TowerSelectionManager towerSelectionManager;
 
@@ -132,24 +126,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     @Override
     public void load(World world) {
-	    towerSelectionManager = new TowerSelectionManager();
-        lookup = Lookup.getDefault();
-
+    	towerSelectionManager = new TowerSelectionManager();
         towersToBeDrawn = new ArrayList<>();
 
-        towerImple = new CopyOnWriteArrayList<>();
-        towerImpleLookupResult = lookup.lookupResult(ITower.class);
-        towerImpleLookupResult.addLookupListener(iTowerLookupListener);
-
-        lookup.lookupAll(ITower.class).forEach((e) -> {
-            Entity entity = addNewTowerToMenu(e);
-            LabelPart priceLabel = new LabelPart(String.valueOf(new TowerModel(entity, e).getITower().create().getPart(CostPart.class).getCost()));
-            
-            priceLabel.setzIndex(ZIndex.TOWER_TURRET);
-            entity.addPart(priceLabel);
-            world.addEntity(entity);
-            addTowerToList(new TowerModel(entity,e));
-        });
+	    towerServiceManager = new ServiceManager<>(ITower.class, this::onTowerAdded, this::onTowerRemoved);
 
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
         towerPanel.setzIndex(ZIndex.GUI_PANELS);
@@ -216,35 +196,29 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         return towerEntity;
     }
 
-    private void addTowerToList(TowerModel towerModel) {
-        towerModels.add(towerModel);
+    private void onTowerAdded(ITower tower) {
+	    towerConsumer.add(world -> {
+		    Entity entity = addNewTowerToMenu(tower);
+		    towerModels.add(new TowerModel(entity, tower));
+
+		    LabelPart priceLabel = new LabelPart(String.valueOf(tower.create().getPart(CostPart.class).getCost()));
+		    priceLabel.setzIndex(ZIndex.TOWER_TURRET);
+		    entity.addPart(priceLabel);
+
+		    world.addEntity(entity);
+	    });
     }
 
-    private final LookupListener iTowerLookupListener = new LookupListener() {
-        @Override
-        public void resultChanged(LookupEvent ev) {
-
-            Collection<? extends ITower> actualTowers = towerImpleLookupResult.allInstances();
-
-            for (ITower tower : actualTowers) {
-                // Newly installed modules
-                if (!towerImple.contains(tower)) {
-                    towerImple.add(tower);
-                    towerConsumer.add(world -> {
-                        Entity entity = addNewTowerToMenu(tower);
-                        addTowerToList(new TowerModel(entity, tower));
-                        world.addEntity(entity);
-                    });
-                }
-            }
-            // Stop and remove module
-            for (ITower tower : towerImple) {
-                if (!actualTowers.contains(tower)) {
-                    towerImple.remove(tower);
-                }
-            }
-        }
-
-    };
-
+    private void onTowerRemoved(ITower tower) {
+	    towerConsumer.add(world -> {
+	    	for (TowerModel model : towerModels) {
+	    		if (model.getITower() == tower) {
+	    			towerModels.remove(model);
+	    			towersToBeDrawn.remove(model.getTowerEntity());
+	    			world.removeEntity(model.getTowerEntity());
+	    			return;
+			    }
+		    }
+	    });
+    }
 }
