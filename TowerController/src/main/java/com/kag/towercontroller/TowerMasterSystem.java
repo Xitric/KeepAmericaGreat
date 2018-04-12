@@ -169,7 +169,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         towerSelectionManager.dispose(world);
     }
 
-
     private Entity addNewTowerToMenu(ITower tower) {
         //Create Entity from tower and return
         Entity towerEntity = new Entity();

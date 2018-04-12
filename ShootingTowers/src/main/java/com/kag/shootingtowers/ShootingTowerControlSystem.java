@@ -63,7 +63,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
         float timeBetweenShot = 1 / weaponPart.getAttackSpeed();
         if (weaponPart.getTimeSinceLast() > timeBetweenShot) {
-            if (enemy != null) {
+            if (enemy != null && Math.abs(rotationDifference(entity, enemy)) < 25) {
                 shootAt(world, enemy, entity);
                 weaponPart.addDelta(-timeBetweenShot);
             } else {
@@ -107,8 +107,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
         //Calculate rotation
-        float rotationResult = calculateRotation(enemy, tower);
-
+        float rotationResult = getTurretPart(tower).getRotation();
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart pAsset = assetManager.createTexture(projectileAsset, 0, 0, projectileAsset.getWidth(), projectileAsset.getHeight());
@@ -142,14 +141,23 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         return -(float) (rotationPi / (2 * Math.PI) * 360);
     }
 
+    private float rotationDifference(Entity tower, Entity enemy) {
+	    float towerRotation = getTurretPart(tower).getRotation();
+	    float rotationToEnemy = calculateRotation(enemy, tower);
+
+	    return rotationToEnemy - towerRotation;
+    }
+
     private float calculateRotationForTower(Entity enemy, Entity tower, float dt) {
         float rotationSpeed = tower.getPart(RotationSpeedPart.class).getRotationSpeed();
         float towerRotation = getTurretPart(tower).getRotation();
-        float rotationToEnemy = calculateRotation(enemy, tower);
 
-        float difference = rotationToEnemy - towerRotation;
-        float toRotate = Math.min(rotationSpeed * dt, difference);
-
+        float difference = rotationDifference(tower, enemy);
+	    System.out.println("Rotation difference abs: " + Math.abs(difference));
+	    if(Math.abs(difference) > 180) {
+        	difference -= 360;
+        }
+        float toRotate = Math.max(Math.min(rotationSpeed * dt, difference), -rotationSpeed*dt);
         System.out.println(towerRotation + toRotate);
         return towerRotation + toRotate;
     }
