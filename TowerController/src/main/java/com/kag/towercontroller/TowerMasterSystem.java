@@ -9,22 +9,22 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
 import com.kag.towerparts.CostPart;
+import javafx.geometry.Pos;
 import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 @ServiceProviders(value = {
@@ -33,22 +33,21 @@ import java.util.function.Consumer;
 })
 public class TowerMasterSystem implements ISystem, IComponentLoader {
 
-    private Lookup lookup;
     private Entity towerMenuBackground;
     private Entity upgradeMenuBackground;
-    private List<ITower> towerImple;
-    private Lookup.Result<ITower> towerImpleLookupResult;
-    private List<Entity> towersToBeDrawn;
     private List<Consumer<World>> towerConsumer;
     private List<TowerModel> towerModels;
+    private ServiceManager<ITower> towerServiceManager;
     private IAssetManager assetManager;
     private TowerSelectionManager towerSelectionManager;
+    private boolean updateBuyMenu;
 
 
     public TowerMasterSystem() {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+        updateBuyMenu = false;
     }
 
     @Override
@@ -59,6 +58,19 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
                 consumer.accept(world);
             }
             towerConsumer.clear();
+        }
+
+        if (updateBuyMenu) {
+            Collection<? extends ITower> tower = towerServiceManager.getServiceProviders();
+            for (ITower iTower : tower) {
+                Entity entity = addNewTowerToMenu(iTower);
+                LabelPart priceLabel = new LabelPart(String.valueOf(iTower.create().getPart(CostPart.class).getCost()));
+                priceLabel.setzIndex(ZIndex.TOWER_TURRET);
+                entity.addPart(priceLabel);
+                world.addEntity(entity);
+            }
+            towerSelectionManager.resetTowerSelection(world);
+            updateBuyMenu = false;
         }
 
         //Handle tower selection on buy menu.
@@ -101,8 +113,8 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private void handleBuyMenu(GameData gameData, World world) {
         int mouseX = gameData.getMouse().getX();
         int mouseY = gameData.getMouse().getY();
-        for (Entity tower : towersToBeDrawn) {
-
+        for (TowerModel towerModel : towerModels) {
+            Entity tower = towerModel.getTowerEntity();
             AbsolutePositionPart absolutePositionPart = tower.getPart(AbsolutePositionPart.class);
             float towerXStart = absolutePositionPart.getX();
             float towerXEnd = absolutePositionPart.getX() + 48;
@@ -130,24 +142,9 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
     @Override
     public void load(World world) {
-	    towerSelectionManager = new TowerSelectionManager();
-        lookup = Lookup.getDefault();
+        towerSelectionManager = new TowerSelectionManager();
 
-        towersToBeDrawn = new ArrayList<>();
-
-        towerImple = new CopyOnWriteArrayList<>();
-        towerImpleLookupResult = lookup.lookupResult(ITower.class);
-        towerImpleLookupResult.addLookupListener(iTowerLookupListener);
-
-        lookup.lookupAll(ITower.class).forEach((e) -> {
-            Entity entity = addNewTowerToMenu(e);
-            LabelPart priceLabel = new LabelPart(String.valueOf(new TowerModel(entity, e).getITower().create().getPart(CostPart.class).getCost()));
-            
-            priceLabel.setzIndex(ZIndex.TOWER_TURRET);
-            entity.addPart(priceLabel);
-            world.addEntity(entity);
-            addTowerToList(new TowerModel(entity,e));
-        });
+        towerServiceManager = new ServiceManager<>(ITower.class, this::onTowerAdded, this::onTowerRemoved);
 
         AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
         towerPanel.setzIndex(ZIndex.GUI_PANELS);
@@ -169,7 +166,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public void dispose(World world) {
         world.removeEntity(towerMenuBackground);
         world.removeEntity(upgradeMenuBackground);
-        for(TowerModel model : towerModels){
+        for (TowerModel model : towerModels) {
             world.removeEntity(model.getTowerEntity());
         }
         towerSelectionManager.dispose(world);
@@ -179,9 +176,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private Entity addNewTowerToMenu(ITower tower) {
         //Create Entity from tower and return
         Entity towerEntity = new Entity();
-        towersToBeDrawn.add(towerEntity);
+        towerModels.add(new TowerModel(towerEntity, tower));
 
-        int index = towersToBeDrawn.indexOf(towerEntity);
+        int index = towerModels.size() - 1;
+        System.out.println("Index of new tower added to menu: " + index);
 
         int menuX = index % 3;
         int menuY = index / 3;
@@ -192,14 +190,14 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         IAsset iAsset = tower.getAsset();
-	    AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
-        float aspectRatio = (float)iAsset.getWidth() / iAsset.getHeight();
-        if(iAsset.getWidth() > iAsset.getHeight()) {
-        	assetPart.setWidth(48);
-        	assetPart.setHeight((int)(48 / aspectRatio));
+        AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
+        float aspectRatio = (float) iAsset.getWidth() / iAsset.getHeight();
+        if (iAsset.getWidth() > iAsset.getHeight()) {
+            assetPart.setWidth(48);
+            assetPart.setHeight((int) (48 / aspectRatio));
         } else {
-	        assetPart.setHeight(48);
-	        assetPart.setWidth((int)(48 * aspectRatio));
+            assetPart.setHeight(48);
+            assetPart.setWidth((int) (48 * aspectRatio));
         }
         int dx = (48 - assetPart.getWidth()) / 2;
         int dy = (48 - assetPart.getHeight()) / 2;
@@ -214,35 +212,19 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         return towerEntity;
     }
 
-    private void addTowerToList(TowerModel towerModel) {
-        towerModels.add(towerModel);
+    private void removeTowerPreviews(World world) {
+        for (TowerModel towerModel : towerModels) {
+            world.removeEntity(towerModel.getTowerEntity());
+        }
+        towerModels.clear();
+        updateBuyMenu = true;
     }
 
-    private final LookupListener iTowerLookupListener = new LookupListener() {
-        @Override
-        public void resultChanged(LookupEvent ev) {
+    private void onTowerAdded(ITower tower) {
+        towerConsumer.add(this::removeTowerPreviews);
+    }
 
-            Collection<? extends ITower> actualTowers = towerImpleLookupResult.allInstances();
-
-            for (ITower tower : actualTowers) {
-                // Newly installed modules
-                if (!towerImple.contains(tower)) {
-                    towerImple.add(tower);
-                    towerConsumer.add(world -> {
-                        Entity entity = addNewTowerToMenu(tower);
-                        addTowerToList(new TowerModel(entity, tower));
-                        world.addEntity(entity);
-                    });
-                }
-            }
-            // Stop and remove module
-            for (ITower tower : towerImple) {
-                if (!actualTowers.contains(tower)) {
-                    towerImple.remove(tower);
-                }
-            }
-        }
-
-    };
-
+    private void onTowerRemoved(ITower tower) {
+        towerConsumer.add(this::removeTowerPreviews);
+    }
 }

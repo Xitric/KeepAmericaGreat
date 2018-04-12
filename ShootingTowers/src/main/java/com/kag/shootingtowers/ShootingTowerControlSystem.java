@@ -1,9 +1,6 @@
 package com.kag.shootingtowers;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.IAsset;
-import com.kag.common.data.World;
-import com.kag.common.data.ZIndex;
+import com.kag.common.data.*;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -19,6 +16,7 @@ import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+import parts.ShootingTowerPart;
 
 import java.util.Collection;
 
@@ -30,6 +28,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
 	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
 	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
+	private static final Family SHOOTINGTOWER_FAMILY = Family.forAll(ShootingTowerPart.class);
 	private IProjectile projectileImplementation;
 
 	@Override
@@ -39,8 +38,13 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
 	@Override
 	public void dispose(World world) {
-		for (Entity entity : ShootingTowerBuilder.getAllTowers()) {
+		for(Entity entity : world.getEntitiesByFamily(SHOOTINGTOWER_FAMILY)){
+			PositionPart towerPositionPart = entity.getPart(PositionPart.class);
+			Tile hoverTile = world.getGameMap().getTile((int) towerPositionPart.getX() / world.getGameMap().getTileWidth() , (int) towerPositionPart.getY() / world.getGameMap().getTileWidth());
+			System.out.println("Hovertile: " + hoverTile);
+			hoverTile.setWalkable(true);
 			world.removeEntity(entity);
+
 		}
 	}
 
