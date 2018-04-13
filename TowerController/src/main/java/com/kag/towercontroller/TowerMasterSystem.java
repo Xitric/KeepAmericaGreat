@@ -9,21 +9,18 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
 import com.kag.towerparts.CostPart;
-import javafx.geometry.Pos;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -42,12 +39,42 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     private TowerSelectionManager towerSelectionManager;
     private boolean updateBuyMenu;
 
-
     public TowerMasterSystem() {
         towerConsumer = new ArrayList<>();
         towerModels = new ArrayList<>();
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        updateBuyMenu = false;
+    }
+
+    @Override
+    public void load(World world) {
+        towerSelectionManager = new TowerSelectionManager();
+
+        towerServiceManager = new ServiceManager<>(ITower.class, this::onTowersChanged, this::onTowersChanged);
+
+        AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+        towerPanel.setzIndex(ZIndex.GUI_PANELS);
+        towerMenuBackground = new Entity();
+        towerMenuBackground.addPart(towerPanel);
+        towerMenuBackground.addPart(new AbsolutePositionPart(768, 128));
+
+        AssetPart upgradePanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
+        upgradePanel.setzIndex(ZIndex.GUI_PANELS);
+        upgradeMenuBackground = new Entity();
+        upgradeMenuBackground.addPart(upgradePanel);
+        upgradeMenuBackground.addPart(new AbsolutePositionPart(768, 384));
+
+        world.addEntity(towerMenuBackground);
+        world.addEntity(upgradeMenuBackground);
+    }
+
+    @Override
+    public void dispose(World world) {
+        world.removeEntity(towerMenuBackground);
+        world.removeEntity(upgradeMenuBackground);
+        for (TowerModel model : towerModels) {
+            world.removeEntity(model.getTowerEntity());
+        }
+        towerSelectionManager.dispose(world);
     }
 
     @Override
@@ -100,7 +127,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         return gameData.getMouse().getX() < 768;
     }
 
-
     private void handleMouseInput(World world, GameData gameData) {
         if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
             handleBuyMenu(gameData, world);
@@ -139,39 +165,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public int getPriority() {
         return UPDATE_PASS_1;
     }
-
-    @Override
-    public void load(World world) {
-        towerSelectionManager = new TowerSelectionManager();
-
-        towerServiceManager = new ServiceManager<>(ITower.class, this::onTowerAdded, this::onTowerRemoved);
-
-        AssetPart towerPanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
-        towerPanel.setzIndex(ZIndex.GUI_PANELS);
-        towerMenuBackground = new Entity();
-        towerMenuBackground.addPart(towerPanel);
-        towerMenuBackground.addPart(new AbsolutePositionPart(768, 128));
-
-        AssetPart upgradePanel = assetManager.createTexture(getClass().getResourceAsStream("/TowerPanel.png"));
-        upgradePanel.setzIndex(ZIndex.GUI_PANELS);
-        upgradeMenuBackground = new Entity();
-        upgradeMenuBackground.addPart(upgradePanel);
-        upgradeMenuBackground.addPart(new AbsolutePositionPart(768, 384));
-
-        world.addEntity(towerMenuBackground);
-        world.addEntity(upgradeMenuBackground);
-    }
-
-    @Override
-    public void dispose(World world) {
-        world.removeEntity(towerMenuBackground);
-        world.removeEntity(upgradeMenuBackground);
-        for (TowerModel model : towerModels) {
-            world.removeEntity(model.getTowerEntity());
-        }
-        towerSelectionManager.dispose(world);
-    }
-
 
     private Entity addNewTowerToMenu(ITower tower) {
         //Create Entity from tower and return
@@ -220,11 +213,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
         updateBuyMenu = true;
     }
 
-    private void onTowerAdded(ITower tower) {
-        towerConsumer.add(this::removeTowerPreviews);
-    }
-
-    private void onTowerRemoved(ITower tower) {
+    private void onTowersChanged(ITower tower) {
         towerConsumer.add(this::removeTowerPreviews);
     }
 }

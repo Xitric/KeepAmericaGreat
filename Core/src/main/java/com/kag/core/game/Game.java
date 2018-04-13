@@ -72,7 +72,7 @@ public class Game implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {
+	public synchronized void render() {
 		//Run jobs that were scheduled for the OpenGL thread
 		if (!scheduledJobs.isEmpty()) {
 			for (Runnable job : scheduledJobs) {
@@ -129,29 +129,29 @@ public class Game implements ApplicationListener {
 		componentManager.getServiceProviders().forEach(c -> c.dispose(world));
 	}
 
-	private void addComponent(IComponentLoader component) {
+	private synchronized void addComponent(IComponentLoader component) {
 		scheduledJobs.add(() -> component.load(world));
 	}
 
-	private void removeComponent(IComponentLoader component) {
+	private synchronized void removeComponent(IComponentLoader component) {
 		scheduledJobs.add(() -> component.dispose(world));
 	}
 
-	private void addSystem(ISystem system) {
+	private synchronized void addSystem(ISystem system) {
 		systems.add(system);
 		systems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
 	}
 
-	private void removeSystem(ISystem system) {
+	private synchronized void removeSystem(ISystem system) {
 		systems.remove(system);
 	}
 
-	private void addEntitySystem(IEntitySystem system) {
+	private synchronized void addEntitySystem(IEntitySystem system) {
 		entitySystems.add(system);
 		entitySystems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
 	}
 
-	private void removeEntitySystem(IEntitySystem system) {
+	private synchronized void removeEntitySystem(IEntitySystem system) {
 		entitySystems.remove(system);
 	}
 }

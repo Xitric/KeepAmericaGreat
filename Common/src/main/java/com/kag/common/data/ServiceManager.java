@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 /**
  * A class for maintaining a list of service providers in memory. Instances of this class will provide callbacks when
- * service providers appear or disappear.
+ * service providers are loaded and unloaded.
  *
  * @param <T> the type of service to manage
  * @author Kasper
@@ -24,7 +24,8 @@ public class ServiceManager<T> {
 	private Consumer<T> deletionCallback;
 
 	private final LookupListener lookupListener = ev -> {
-		System.out.println("Lookup listener for " + serviceProviderClass.getName() + " called");
+		System.out.println("Lookup listener for " + serviceProviderClass.getName() + " called on thread");
+		System.out.println("\tThread: " + Thread.currentThread().getName());
 		Collection<? extends T> actualServiceProviders = lookupResult.allInstances();
 
 		for (T serviceProvider : actualServiceProviders) {
@@ -35,7 +36,7 @@ public class ServiceManager<T> {
 				if (additionCallback != null) additionCallback.accept(serviceProvider);
 			}
 		}
-
+		System.out.println("Ehello!");
 		for (T serviceProvider : serviceProviders) {
 			//Removed service provider
 			if (!actualServiceProviders.contains(serviceProvider)) {
@@ -46,10 +47,26 @@ public class ServiceManager<T> {
 		}
 	};
 
+	/**
+	 * Constructs a new service manager for maintaining a list of service providers of the specified type in memory.
+	 * This service manager will not provide any callbacks.
+	 *
+	 * @param serviceProviderClass the class of the service providers to track
+	 */
 	public ServiceManager(Class<T> serviceProviderClass) {
 		this(serviceProviderClass, null, null);
 	}
 
+	/**
+	 * Constructs a new service manager for maintaining a list of service providers of the specified type in memory.
+	 * This service manager will use the specified callback methods when new service providers are loaded and unloaded.
+	 * The service provider makes no guarantee as to which thread these callback methods are invoked on.
+	 * TODO: Does blocking the callback postpone the unloading / loading of a module? That would be nice
+	 *
+	 * @param serviceProviderClass the class of the service providers to track
+	 * @param additionCallback the method to invoke when a new service provider is loaded
+	 * @param deletionCallback the method to invoke when a service provider is unloaded
+	 */
 	public ServiceManager(Class<T> serviceProviderClass, Consumer<T> additionCallback, Consumer<T> deletionCallback) {
 		this.serviceProviderClass = serviceProviderClass;
 		this.additionCallback = additionCallback;
@@ -60,14 +77,19 @@ public class ServiceManager<T> {
 		lookupResult.addLookupListener(lookupListener);
 		lookupResult.allItems();
 
+		//Lookup all service providers that are already loaded. The lookup listener handles the rest
 		for (T serviceProvider : lookupResult.allInstances()) {
 			serviceProviders.add(serviceProvider);
 			System.out.println("Found existing service: " + serviceProvider.getClass().getName());
 			if (additionCallback != null) additionCallback.accept(serviceProvider);
 		}
-
 	}
 
+	/**
+	 * Get all loaded service providers currently tracked by this service manager.
+	 *
+	 * @return all service providers currently tracked
+	 */
 	public Collection<? extends T> getServiceProviders() {
 		return lookupResult.allInstances();
 	}
