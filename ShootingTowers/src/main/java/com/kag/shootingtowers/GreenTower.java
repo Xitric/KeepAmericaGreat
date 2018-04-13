@@ -31,7 +31,7 @@ public class GreenTower implements ITower {
                 .setAttackSpeed(2f)
                 .setProjectileSpeed(400)
                 .setCost(75)
-                .setRotationSpeed((float) Math.PI / 4)
+                .setRotationSpeed(90)
                 .setBaseAsset(basePart)
                 .setTurretAsset(turretPart)
                 .setTurretAxisX(turretPart.getHeight() / 2)

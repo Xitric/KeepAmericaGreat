@@ -165,7 +165,6 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
     public int getPriority() {
         return UPDATE_PASS_1;
     }
-
     private Entity addNewTowerToMenu(ITower tower) {
         //Create Entity from tower and return
         Entity towerEntity = new Entity();

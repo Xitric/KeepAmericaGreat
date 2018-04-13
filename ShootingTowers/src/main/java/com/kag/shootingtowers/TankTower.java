@@ -31,7 +31,7 @@ public class TankTower implements ITower {
                 .setAttackSpeed(0.10f)
                 .setProjectileSpeed(200)
                 .setCost(30)
-                .setRotationSpeed((float) Math.PI / 4)
+                .setRotationSpeed(45)
                 .setBaseAsset(basePart)
                 .setTurretAsset(turretPart)
                 .setTurretAxisX(turretPart.getHeight() / 2)
