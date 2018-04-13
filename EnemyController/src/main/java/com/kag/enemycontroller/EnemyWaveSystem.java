@@ -1,9 +1,6 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.ServiceManager;
-import com.kag.common.data.World;
-import com.kag.common.data.ZIndex;
+import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
@@ -76,7 +73,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
 	@Override
 	public synchronized void update(float dt, World world, GameData gameData) {
-		if (isNextWavePressed(world, gameData, nextWaveButton)) {
+		if (isNextWavePressed(world, gameData, nextWaveButton) || gameData.getKeyboard().isKeyPressed(Keyboard.KEY_SPACE)) {
 			nextWaveCountdown = 0;
 		}
 

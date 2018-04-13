@@ -56,31 +56,6 @@
             <artifactId>PathFinder</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>PassiveTowers</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>TowerController</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ShootingTowers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>EnemyController</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Projectile</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
