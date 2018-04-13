@@ -1,9 +1,6 @@
 package com.kag.shootingtowers;
 
-import com.kag.common.data.GameData;
-import com.kag.common.data.IAsset;
-import com.kag.common.data.World;
-import com.kag.common.data.ZIndex;
+import com.kag.common.data.*;
 import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
@@ -14,10 +11,12 @@ import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IProjectile;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
+import com.kag.towerparts.TowerPart;
 import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+import parts.ShootingTowerPart;
 
 import java.util.Collection;
 
@@ -27,24 +26,27 @@ import java.util.Collection;
 })
 public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoader {
 
-    private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
-    private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
-    private IProjectile projectileImplementation;
-    private IAsset projectileAsset;
+	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
+	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
+	private static final Family SHOOTINGTOWER_FAMILY = Family.forAll(ShootingTowerPart.class);
+	private IProjectile projectileImplementation;
 
-    @Override
-    public void load(World world) {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        projectileAsset = assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
-    }
+	@Override
+	public void load(World world) {
+		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+	}
 
-    @Override
-    public void dispose(World world) {
-        for (Entity entity : ShootingTowerBuilder.getAllTowers()) {
-            world.removeEntity(entity);
-        }
-        projectileAsset.dispose();
-    }
+	@Override
+	public void dispose(World world) {
+		for(Entity entity : world.getEntitiesByFamily(SHOOTINGTOWER_FAMILY)){
+			PositionPart towerPositionPart = entity.getPart(PositionPart.class);
+			Tile hoverTile = world.getGameMap().getTile((int) towerPositionPart.getX() / world.getGameMap().getTileWidth() , (int) towerPositionPart.getY() / world.getGameMap().getTileWidth());
+			System.out.println("Hovertile: " + hoverTile);
+			hoverTile.setWalkable(true);
+			world.removeEntity(entity);
+
+		}
+	}
 
     @Override
     public Family getFamily() {
@@ -103,6 +105,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
     private void shootAt(World world, Entity enemy, Entity tower) {
         projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
 
+        TowerPart towerPart = tower.getPart(TowerPart.class);
         WeaponPart weaponPart = tower.getPart(WeaponPart.class);
         PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
@@ -110,7 +113,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float rotationResult = getTurretPart(tower).getRotation();
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart pAsset = assetManager.createTexture(projectileAsset, 0, 0, projectileAsset.getWidth(), projectileAsset.getHeight());
+        AssetPart pAsset = assetManager.createTexture(towerPart.getiTower().getProjectileAsset(),0,0,towerPart.getiTower().getProjectileAsset().getWidth(),towerPart.getiTower().getProjectileAsset().getHeight());
 
         projectileImplementation.createProjectile(towerPositionPart.getX(), towerPositionPart.getY(), weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
     }

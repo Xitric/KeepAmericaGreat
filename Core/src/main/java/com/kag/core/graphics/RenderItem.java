@@ -1,9 +1,6 @@
 package com.kag.core.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import java.util.function.Consumer;
 
 /**
  * Representation of a rendering operation with LibGDX which can be queued up. The point of queuing render operations is
@@ -12,28 +9,42 @@ import java.util.function.Consumer;
  *
  * @author Kasper
  */
-public class RenderItem implements Comparable<RenderItem> {
+public abstract class RenderItem implements Comparable<RenderItem> {
 
-	private int zIndex;
-	private Consumer<SpriteBatch> operation;
-	private OrthographicCamera camera;
+	private final int zIndex;
+	private int insertionIndex;
+	private final OrthographicCamera camera;
 
-	public RenderItem(int zIndex, OrthographicCamera camera, Consumer<SpriteBatch> operation) {
+	public RenderItem(int zIndex, OrthographicCamera camera) {
 		this.zIndex = zIndex;
 		this.camera = camera;
-		this.operation = operation;
+	}
+
+	public int getzIndex() {
+		return zIndex;
+	}
+
+	public int getInsertionIndex() {
+		return insertionIndex;
+	}
+
+	public void setInsertionIndex(int insertionIndex) {
+		this.insertionIndex = insertionIndex;
 	}
 
 	public OrthographicCamera getCamera() {
 		return camera;
 	}
 
-	public void doOperation(SpriteBatch sb) {
-		operation.accept(sb);
-	}
-
 	@Override
 	public int compareTo(RenderItem that) {
-		return Integer.compare(this.zIndex, that.zIndex);
+		int result = Integer.compare(this.zIndex, that.zIndex);
+
+		//If on the same layer, sort by insertion index to prevent flickering
+		if (result == 0) {
+			result = Integer.compare(this.insertionIndex, that.insertionIndex);
+		}
+
+		return result;
 	}
 }

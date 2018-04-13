@@ -16,4 +16,5 @@ import com.kag.common.entities.parts.AssetPart;
 public interface ITower {
     IAsset getAsset();
     Entity create();
+    IAsset getProjectileAsset();
 }

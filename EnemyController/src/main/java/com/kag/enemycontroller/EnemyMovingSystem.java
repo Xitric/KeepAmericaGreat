@@ -17,8 +17,6 @@ import com.kag.enemycontroller.parts.EnemyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-import java.util.List;
-
 /**
  * @author Kasper
  */
@@ -38,8 +36,9 @@ public class EnemyMovingSystem implements IEntitySystem {
 
 		if (enemyPart.getNextNode() != null) {
 			move(entity, delta, world, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
-			checkReachedGoal(entity, world);
 		}
+
+		checkReachedGoal(entity, world);
 	}
 
 	private void generateNewPath(Entity entity, World world) {

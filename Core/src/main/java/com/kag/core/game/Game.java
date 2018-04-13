@@ -19,6 +19,8 @@ import com.kag.core.input.GdxKeyboard;
 import com.kag.core.input.GdxMouse;
 import org.openide.util.Lookup;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -33,6 +35,7 @@ public class Game implements ApplicationListener {
 	private ServiceManager<IComponentLoader> componentManager;
 	private ServiceManager<ISystem> systemManager;
 	private ServiceManager<IEntitySystem> entitySystemManager;
+	private Collection<Runnable> scheduledJobs;
 	private World world;
 	private GameData gameData;
 	private GdxKeyboard keyboard;
@@ -41,6 +44,7 @@ public class Game implements ApplicationListener {
 	public Game() {
 		systems = new CopyOnWriteArrayList<>();
 		entitySystems = new CopyOnWriteArrayList<>();
+		scheduledJobs = new ArrayList<>();
 	}
 
 	@Override
@@ -68,7 +72,15 @@ public class Game implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {
+	public synchronized void render() {
+		//Run jobs that were scheduled for the OpenGL thread
+		if (!scheduledJobs.isEmpty()) {
+			for (Runnable job : scheduledJobs) {
+				job.run();
+			}
+			scheduledJobs.clear();
+		}
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
 
@@ -117,29 +129,29 @@ public class Game implements ApplicationListener {
 		componentManager.getServiceProviders().forEach(c -> c.dispose(world));
 	}
 
-	private void addComponent(IComponentLoader component) {
-		component.load(world);
+	private synchronized void addComponent(IComponentLoader component) {
+		scheduledJobs.add(() -> component.load(world));
 	}
 
-	private void removeComponent(IComponentLoader component) {
-		component.dispose(world);
+	private synchronized void removeComponent(IComponentLoader component) {
+		scheduledJobs.add(() -> component.dispose(world));
 	}
 
-	private void addSystem(ISystem system) {
+	private synchronized void addSystem(ISystem system) {
 		systems.add(system);
 		systems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
 	}
 
-	private void removeSystem(ISystem system) {
+	private synchronized void removeSystem(ISystem system) {
 		systems.remove(system);
 	}
 
-	private void addEntitySystem(IEntitySystem system) {
+	private synchronized void addEntitySystem(IEntitySystem system) {
 		entitySystems.add(system);
 		entitySystems.sort(Comparator.comparingInt(IPrioritizable::getPriority));
 	}
 
-	private void removeEntitySystem(IEntitySystem system) {
+	private synchronized void removeEntitySystem(IEntitySystem system) {
 		entitySystems.remove(system);
 	}
 }

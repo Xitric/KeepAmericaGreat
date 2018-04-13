@@ -52,53 +52,23 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>Player</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>TowerController</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>EnemyController</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>PathFinder</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.kag</groupId>
-            <artifactId>CameraController</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>Collision</artifactId>
+            <artifactId>PassiveTowers</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>BasicEnemies</artifactId>
+            <artifactId>TowerController</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ShootingTowers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>PassiveTowers</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Projectile</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

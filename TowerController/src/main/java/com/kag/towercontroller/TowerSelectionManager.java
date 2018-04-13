@@ -9,6 +9,7 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.TowerPart;
+import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {
@@ -21,9 +22,9 @@ public class TowerSelectionManager {
 	private Entity previewTower;
 	private AssetPart redOverlay;
 	private AssetPart blueOverlay;
-	private Entity tempTower;//TODO works, but might not be a good idea
-	private float xTilePositionOnMap;//TODO works, but might not be a good idea
-	private float yTilePositionOnMap;//TODO works, but might not be a good idea
+	private Entity tempTower;
+	private float xTilePositionOnMap;
+	private float yTilePositionOnMap;
 	private Entity sellTowerButton;
 	private Entity sellTowerLabel;
 	private int sellingPrice;
@@ -61,6 +62,16 @@ public class TowerSelectionManager {
 		assetPart.setyOffset((64 - assetPart.getHeight()) / 2);
 
 		assetPart.setzIndex(ZIndex.TOWER_PREVIEW);
+
+		Entity tower = selectedTower.getITower().create();
+		WeaponPart weaponPart = tower.getPart(WeaponPart.class);
+		if (weaponPart != null) {
+			CirclePart rangeCircle = new CirclePart(weaponPart.getRange(), new Color(0x55ADD8E6));
+			rangeCircle.setxOffset(32);
+			rangeCircle.setyOffset(32);
+			rangeCircle.setzIndex(ZIndex.TOWER_RANGE_PREVIEW);
+			previewTower.addPart(rangeCircle);
+		}
 
 		previewTower.addPart(positionPart);
 		previewTower.addPart(assetPart);

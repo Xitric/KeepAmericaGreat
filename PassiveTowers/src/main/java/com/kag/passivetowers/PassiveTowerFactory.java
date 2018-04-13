@@ -6,6 +6,7 @@ import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
+import com.kag.interfaces.ITower;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.TowerPart;
 import org.openide.util.Lookup;
@@ -16,11 +17,7 @@ import java.util.List;
 public class PassiveTowerFactory  {
 
     private static PassiveTowerFactory INSTANCE = null;
-    private static List<Entity> listOfTowers;
-
-    private PassiveTowerFactory() {
-        listOfTowers = new ArrayList<>();
-    }
+    private static List<Entity> listOfTowers = new ArrayList<>();
 
     public static PassiveTowerFactory getInstance() {
         if (INSTANCE == null) {
@@ -29,12 +26,12 @@ public class PassiveTowerFactory  {
         return INSTANCE;
     }
 
-    public Entity createPassiveTower(int cost, AssetPart assetPart) {
+    public Entity createPassiveTower(int cost, AssetPart assetPart, ITower iTower) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         PositionPart positionPart = new PositionPart(0, 0);
         CostPart costPart = new CostPart(cost);
         BlockingPart blockingPart = new BlockingPart();
-        TowerPart towerPart = new TowerPart();
+        TowerPart towerPart = new TowerPart(iTower);
         BoundingBoxPart boundingBoxPart = new BoundingBoxPart(assetPart.getWidth(), assetPart.getHeight());
 
         assetPart.setxOffset(- assetPart.getWidth() / 2);
@@ -48,7 +45,7 @@ public class PassiveTowerFactory  {
         newTowerEntity.addPart(assetPart);
         newTowerEntity.addPart(boundingBoxPart);
         newTowerEntity.addPart(towerPart);
-
+        listOfTowers.add(newTowerEntity);
         return newTowerEntity;
     }
 

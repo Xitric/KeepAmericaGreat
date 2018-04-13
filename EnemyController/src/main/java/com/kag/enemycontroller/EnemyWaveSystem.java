@@ -1,6 +1,9 @@
 package com.kag.enemycontroller;
 
-import com.kag.common.data.*;
+import com.kag.common.data.GameData;
+import com.kag.common.data.ServiceManager;
+import com.kag.common.data.World;
+import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
@@ -15,9 +18,6 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import static com.kag.common.data.Mouse.BUTTON_LEFT;
 
 /**
  * @author Kasper
@@ -34,9 +34,9 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	private static final float waveDelay = 30f; //The delay between waves
 
 	private ServiceManager<IEnemy> enemyServiceManager;
-	private List<IEnemy> enemyTypes;
 	private List<Entity> wave;
 	private WaveGenerator waveGenerator;
+	private boolean waveInvalidated;
 	private int waveNumber;
 	private float nextWaveCountdown;
 	private float nextSpawnCountdown;
@@ -59,12 +59,13 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 		countDownLabel.addPart(labelPart);
 		labelPart.setzIndex(ZIndex.WAVE_COUNTDOWN);
 
-		enemyTypes = new CopyOnWriteArrayList<>();
-		enemyServiceManager = new ServiceManager<>(IEnemy.class, enemyTypes::add, enemyTypes::remove);
-
+		enemyServiceManager = new ServiceManager<>(IEnemy.class, null, this::removeEnemyType);
 		waveGenerator = new WaveGenerator();
 		world.addEntity(countDownLabel);
-		//world.addEntity(nextWaveButton);
+	}
+
+	private synchronized void removeEnemyType(IEnemy enemyType) {
+		waveInvalidated = true;
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	}
 
 	@Override
-	public void update(float dt, World world, GameData gameData) {
+	public synchronized void update(float dt, World world, GameData gameData) {
 		if (isNextWavePressed(world, gameData, nextWaveButton)) {
 			nextWaveCountdown = 0;
 		}
@@ -83,13 +84,24 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 			nextWaveCountdown -= dt;
 			countDownLabel.getPart(LabelPart.class).setLabel("Wave " + waveNumber + " in " + String.valueOf(Math.round(nextWaveCountdown)));
 
+			//If we are counting down to a wave when enemies were unloaded, just regenerate the next wave
+			if (waveInvalidated) {
+				wave = waveGenerator.generateWave(getWaveStrength(waveNumber), enemyServiceManager.getServiceProviders());
+				waveInvalidated = false;
+			}
 		} else {
+			//If we are currently running a wave when enemies were unloaded, just clear the wave and move to the next
+			if (waveInvalidated) {
+				wave.clear();
+				waveInvalidated = false;
+			}
+
 			if (wave == null || wave.size() == 0) {
 				if (wave != null) {
 					rewardPlayer(world);
 				}
-				System.out.println("Generated wave: " + getWaveStrength(waveNumber));
-				wave = waveGenerator.generateWave(getWaveStrength(waveNumber), enemyTypes);
+
+				wave = waveGenerator.generateWave(getWaveStrength(waveNumber), enemyServiceManager.getServiceProviders());
 				nextWaveCountdown = waveDelay;
 				waveNumber++;
 
