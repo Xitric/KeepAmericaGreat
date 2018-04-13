@@ -31,7 +31,7 @@ public class BasicTower implements ITower {
 				.setAttackSpeed(0.25f)
 				.setProjectileSpeed(200)
 				.setCost(20)
-				.setRotationSpeed((float) Math.PI / 4)
+				.setRotationSpeed(90)
 				.setBaseAsset(baseAsset)
 				.setTurretAsset(turretAsset)
 				.setTurretAxisX(turretAsset.getHeight() / 2)
