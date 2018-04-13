@@ -75,7 +75,6 @@
         <module>MapGenerator</module>
         <module>EnemyController</module>
         <module>PathFinder</module>
-        <module>Sound</module>
         <module>TowerController</module>
         <module>Core</module>
         <module>ModuleUpdateManager</module>

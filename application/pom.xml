@@ -71,6 +71,16 @@
             <artifactId>ShootingTowers</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>EnemyController</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Projectile</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

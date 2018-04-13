@@ -5,10 +5,7 @@ import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
-import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.IProjectile;
+import com.kag.common.spinterfaces.*;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
@@ -41,7 +38,6 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		for(Entity entity : world.getEntitiesByFamily(SHOOTINGTOWER_FAMILY)){
 			PositionPart towerPositionPart = entity.getPart(PositionPart.class);
 			Tile hoverTile = world.getGameMap().getTile((int) towerPositionPart.getX() / world.getGameMap().getTileWidth() , (int) towerPositionPart.getY() / world.getGameMap().getTileWidth());
-			System.out.println("Hovertile: " + hoverTile);
 			hoverTile.setWalkable(true);
 			world.removeEntity(entity);
 
@@ -118,9 +114,6 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         pAsset.setyOffset(- pAsset.getHeight() / 2);
 
         int turretLength = turretPart.getWidth() + turretPart.getxOffset();
-	    System.out.println("Width: " + turretPart.getWidth());
-	    System.out.println("Offset: " + turretPart.getxOffset());
-	    System.out.println("Length: " + turretLength);
         float turretEndX = (float) (Math.cos(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getX();
         float turretEndY = (float) (Math.sin(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getY();
 
