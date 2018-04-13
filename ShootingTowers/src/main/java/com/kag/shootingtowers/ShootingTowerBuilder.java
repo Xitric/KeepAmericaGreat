@@ -7,7 +7,7 @@ import com.kag.interfaces.ITower;
 import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
-import com.kag.towerparts.WeaponPart;
+import com.kag.common.entities.parts.WeaponPart;
 import parts.ShootingTowerPart;
 
 import java.util.ArrayList;

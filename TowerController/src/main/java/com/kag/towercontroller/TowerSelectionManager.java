@@ -9,7 +9,6 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.TowerPart;
-import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {

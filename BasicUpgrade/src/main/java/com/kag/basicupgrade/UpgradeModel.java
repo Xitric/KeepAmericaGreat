@@ -7,8 +7,8 @@ public class UpgradeModel {
     private Entity upgradeEntity;
     private IUpgrade iUpgrade;
 
-    public UpgradeModel(Entity towerEntity, IUpgrade iUpgrade) {
-        this.upgradeEntity = towerEntity;
+    public UpgradeModel(Entity upgradeEntity, IUpgrade iUpgrade) {
+        this.upgradeEntity = upgradeEntity;
         this.iUpgrade = iUpgrade;
     }
 

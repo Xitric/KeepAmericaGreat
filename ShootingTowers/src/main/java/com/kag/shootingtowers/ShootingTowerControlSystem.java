@@ -12,7 +12,7 @@ import com.kag.common.spinterfaces.IProjectile;
 import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
-import com.kag.towerparts.WeaponPart;
+import com.kag.common.entities.parts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
