@@ -110,12 +110,21 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
         //Calculate rotation
-        float rotationResult = getTurretPart(tower).getRotation();
+	    AssetPart turretPart = getTurretPart(tower);
+        float rotationResult = turretPart.getRotation();
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart pAsset = assetManager.createTexture(towerPart.getiTower().getProjectileAsset(),0,0,towerPart.getiTower().getProjectileAsset().getWidth(),towerPart.getiTower().getProjectileAsset().getHeight());
+        pAsset.setyOffset(- pAsset.getHeight() / 2);
 
-        projectileImplementation.createProjectile(towerPositionPart.getX(), towerPositionPart.getY(), weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
+        int turretLength = turretPart.getWidth() + turretPart.getxOffset();
+	    System.out.println("Width: " + turretPart.getWidth());
+	    System.out.println("Offset: " + turretPart.getxOffset());
+	    System.out.println("Length: " + turretLength);
+        float turretEndX = (float) (Math.cos(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getX();
+        float turretEndY = (float) (Math.sin(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getY();
+
+        projectileImplementation.createProjectile(turretEndX, turretEndY, weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
     }
 
     private AssetPart getTurretPart(Entity tower) {
@@ -148,7 +157,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 	    float towerRotation = getTurretPart(tower).getRotation();
 	    float rotationToEnemy = calculateRotation(enemy, tower);
 
-	    return rotationToEnemy - towerRotation;
+	    return (rotationToEnemy - towerRotation) % 360;
     }
 
     private float calculateRotationForTower(Entity enemy, Entity tower, float dt) {
@@ -156,17 +165,16 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float towerRotation = getTurretPart(tower).getRotation();
 
         float difference = rotationDifference(tower, enemy);
-	    System.out.println("Rotation difference abs: " + Math.abs(difference));
 	    if(Math.abs(difference) > 180) {
         	difference -= 360;
         }
         float toRotate = Math.max(Math.min(rotationSpeed * dt, difference), -rotationSpeed*dt);
-        System.out.println(towerRotation + toRotate);
+
         return towerRotation + toRotate;
     }
 
     @Override
     public int getPriority() {
-        return 0;
+        return UPDATE_PASS_2;
     }
 }
