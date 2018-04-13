@@ -132,6 +132,7 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	}
 
 	private boolean isNextWavePressed(World world, GameData gameData, Entity nextWaveButton) {
+		System.out.println(Thread.currentThread().getName());
 		return world.isEntityLeftPressed(gameData, nextWaveButton);
 	}
 

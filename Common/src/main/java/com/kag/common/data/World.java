@@ -79,9 +79,14 @@ public class World {
 	}
 
 	public Entity getEntityAt(float worldX, float worldY) {
-		Family targetFamily = Family.forAll(PositionPart.class, BoundingBoxPart.class);
+		Family targetFamily = Family.forAll(BoundingBoxPart.class).includingAny(PositionPart.class, AbsolutePositionPart.class);
 		for (Entity entity : getEntitiesByFamily(targetFamily)) {
-			PositionPart ePos = entity.getPart(PositionPart.class);
+			PositionPart ePos;
+			if (entity.hasPart(PositionPart.class)) {
+				ePos = entity.getPart(PositionPart.class);
+			} else {
+				ePos = entity.getPart(AbsolutePositionPart.class);
+			}
 			BoundingBoxPart eBox = entity.getPart(BoundingBoxPart.class);
 
 			float eX = ePos.getX();

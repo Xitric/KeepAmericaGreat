@@ -31,12 +31,14 @@ import java.util.function.Consumer;
 public class BasicUpgradeController implements ISystem, IComponentLoader {
 
     private static final Family towerFamily = Family.forAll(CostPart.class, PositionPart.class, WeaponPart.class);
+    private static final Family upgradeFamily = Family.forAll(UpgradePart.class);
 
     private ServiceManager<IUpgrade> towerServiceManager;
     private List<UpgradeModel> upgradeModels;
     private List<Consumer<World>> upgradeConsumer;
     private boolean updateUpgradeMenu;
     private IAssetManager assetManager;
+    private Entity towerToUpgrade;
 
     public BasicUpgradeController() {
         assetManager = Lookup.getDefault().lookup(IAssetManager.class);
@@ -56,22 +58,38 @@ public class BasicUpgradeController implements ISystem, IComponentLoader {
     @Override
     public void update(float dt, World world, GameData gameData) {
 
-        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() < 768) {
 
-            if(getMouseSelectedTower(gameData,world) != null){
+            if (getMouseSelectedTower(gameData, world) != null) {
                 removeUpgradePreviews(world);
 
-                Entity tempTower = getMouseSelectedTower(gameData, world);
+                towerToUpgrade = getMouseSelectedTower(gameData, world);
                 Collection<? extends IUpgrade> upgrades = Lookup.getDefault().lookupAll(IUpgrade.class);
                 for (IUpgrade upgrade : upgrades) {
-                    if (upgrade.isTowerCompatible(tempTower)) {
+                    if (upgrade.isTowerCompatible(towerToUpgrade)) {
                         world.addEntity(addNewUpgradeToMenu(upgrade));
+
                     }
                 }
-            } else{
+            } else {
                 removeUpgradePreviews(world);
             }
         }
+
+        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+            if (getUpgradeEntity(gameData, world) != null) {
+                System.out.println("Kommer du herind?");
+
+                for (UpgradeModel upgradeModel : upgradeModels) {
+                    if (upgradeModel.getUpgradeEntity() == getUpgradeEntity(gameData, world)) {
+                        upgradeModel.getiUpgrade().upgrade(towerToUpgrade);
+                        System.out.println("Tower has been upgraded");
+                    }
+                }
+
+            }
+        }
+
     }
 
     public Entity addNewUpgradeToMenu(IUpgrade upgrade) {
@@ -109,6 +127,7 @@ public class BasicUpgradeController implements ISystem, IComponentLoader {
 
         upgradeEntity.addPart(assetPart);
         upgradeEntity.addPart(positionPart);
+        upgradeEntity.addPart(new UpgradePart());
 
         return upgradeEntity;
     }
@@ -127,6 +146,27 @@ public class BasicUpgradeController implements ISystem, IComponentLoader {
         }
         if (towerFamily.matches(entity.getBits())) {
             System.out.println("upgrade: found a tower");
+            return entity;
+        }
+        return null;
+    }
+
+    private Entity getUpgradeEntity(GameData gameData, World world) {
+        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
+        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
+
+        System.out.println(xTilePositionOnMap);
+        System.out.println(yTilePositionOnMap);
+
+        Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
+        System.out.println(entity);
+        System.out.println("Listen af " + upgradeModels.size());
+
+        if (entity == null) {
+            return null;
+        }
+        if (upgradeFamily.matches(entity.getBits())) {
+            System.out.println("upgrade: found a upgrade");
             return entity;
         }
         return null;
