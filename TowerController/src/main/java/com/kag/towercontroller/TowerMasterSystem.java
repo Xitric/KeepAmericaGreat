@@ -14,7 +14,7 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.interfaces.ITower;
-import com.kag.towerparts.CostPart;
+import com.kag.common.entities.parts.CostPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

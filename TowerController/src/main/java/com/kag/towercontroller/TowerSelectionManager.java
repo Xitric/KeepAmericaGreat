@@ -7,7 +7,7 @@ import com.kag.common.entities.parts.*;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.towerparts.CostPart;
+import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.TowerPart;
 import com.kag.towerparts.WeaponPart;
 import org.openide.util.Lookup;

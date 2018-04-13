@@ -9,7 +9,7 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IProjectile;
-import com.kag.towerparts.CostPart;
+import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
 import com.kag.towerparts.WeaponPart;

@@ -85,6 +85,7 @@
         <module>BasicEnemies</module>
         <module>PassiveTowers</module>
         <module>Projectile</module>
+        <module>BasicUpgrade</module>
     </modules>
 
     <properties>

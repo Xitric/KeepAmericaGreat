@@ -1,4 +1,4 @@
-package com.kag.towerparts;
+package com.kag.common.entities.parts;
 
 import com.kag.common.entities.IPart;
 

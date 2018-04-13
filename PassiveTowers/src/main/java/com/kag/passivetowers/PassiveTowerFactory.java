@@ -1,13 +1,10 @@
 package com.kag.passivetowers;
 
-import com.kag.common.data.IAsset;
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.interfaces.ITower;
-import com.kag.towerparts.CostPart;
+import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.TowerPart;
 import org.openide.util.Lookup;
 
