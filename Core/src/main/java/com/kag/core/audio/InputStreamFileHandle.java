@@ -26,4 +26,9 @@ public class InputStreamFileHandle extends FileHandle {
 	public String extension() {
 		return extension;
 	}
+
+	@Override
+	public String toString() {
+		return "File with ext: " + extension;
+	}
 }

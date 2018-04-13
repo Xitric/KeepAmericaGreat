@@ -26,11 +26,15 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
 	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
 	private static final Family SHOOTINGTOWER_FAMILY = Family.forAll(ShootingTowerPart.class);
-	private IProjectile projectileImplementation;
+
+	private ISound shootingSound;
 
 	@Override
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+
+		IAudioManager audioManager = Lookup.getDefault().lookup(IAudioManager.class);
+		shootingSound = audioManager.loadSound(getClass().getResourceAsStream("/shooting.wav"), "wav");
 	}
 
 	@Override
@@ -40,8 +44,9 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 			Tile hoverTile = world.getGameMap().getTile((int) towerPositionPart.getX() / world.getGameMap().getTileWidth() , (int) towerPositionPart.getY() / world.getGameMap().getTileWidth());
 			hoverTile.setWalkable(true);
 			world.removeEntity(entity);
-
 		}
+
+		shootingSound.dispose();
 	}
 
     @Override
@@ -62,7 +67,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float timeBetweenShot = 1 / weaponPart.getAttackSpeed();
         if (weaponPart.getTimeSinceLast() > timeBetweenShot) {
             if (enemy != null && Math.abs(rotationDifference(entity, enemy)) < 25) {
-                shootAt(world, enemy, entity);
+                shootAt(world, entity);
                 weaponPart.addDelta(-timeBetweenShot);
             } else {
                 weaponPart.addDelta(timeBetweenShot - weaponPart.getTimeSinceLast());
@@ -98,8 +103,8 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         return nearest;
     }
 
-    private void shootAt(World world, Entity enemy, Entity tower) {
-        projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
+    private void shootAt(World world, Entity tower) {
+	    IProjectile projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
 
         TowerPart towerPart = tower.getPart(TowerPart.class);
         WeaponPart weaponPart = tower.getPart(WeaponPart.class);
@@ -116,6 +121,8 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         int turretLength = turretPart.getWidth() + turretPart.getxOffset();
         float turretEndX = (float) (Math.cos(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getX();
         float turretEndY = (float) (Math.sin(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getY();
+
+        shootingSound.play();
 
         projectileImplementation.createProjectile(turretEndX, turretEndY, weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
     }
