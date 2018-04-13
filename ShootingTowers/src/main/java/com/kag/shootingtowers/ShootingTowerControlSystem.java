@@ -5,10 +5,7 @@ import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
-import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.IProjectile;
+import com.kag.common.spinterfaces.*;
 import com.kag.towerparts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
@@ -29,11 +26,15 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
 	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
 	private static final Family SHOOTINGTOWER_FAMILY = Family.forAll(ShootingTowerPart.class);
-	private IProjectile projectileImplementation;
+
+	private ISound shootingSound;
 
 	@Override
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+
+		IAudioManager audioManager = Lookup.getDefault().lookup(IAudioManager.class);
+		shootingSound = audioManager.loadSound(getClass().getResourceAsStream("/shooting.wav"), "wav");
 	}
 
 	@Override
@@ -41,11 +42,11 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 		for(Entity entity : world.getEntitiesByFamily(SHOOTINGTOWER_FAMILY)){
 			PositionPart towerPositionPart = entity.getPart(PositionPart.class);
 			Tile hoverTile = world.getGameMap().getTile((int) towerPositionPart.getX() / world.getGameMap().getTileWidth() , (int) towerPositionPart.getY() / world.getGameMap().getTileWidth());
-			System.out.println("Hovertile: " + hoverTile);
 			hoverTile.setWalkable(true);
 			world.removeEntity(entity);
-
 		}
+
+		shootingSound.dispose();
 	}
 
     @Override
@@ -66,7 +67,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float timeBetweenShot = 1 / weaponPart.getAttackSpeed();
         if (weaponPart.getTimeSinceLast() > timeBetweenShot) {
             if (enemy != null && Math.abs(rotationDifference(entity, enemy)) < 25) {
-                shootAt(world, enemy, entity);
+                shootAt(world, entity);
                 weaponPart.addDelta(-timeBetweenShot);
             } else {
                 weaponPart.addDelta(timeBetweenShot - weaponPart.getTimeSinceLast());
@@ -102,8 +103,8 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         return nearest;
     }
 
-    private void shootAt(World world, Entity enemy, Entity tower) {
-        projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
+    private void shootAt(World world, Entity tower) {
+	    IProjectile projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
 
         TowerPart towerPart = tower.getPart(TowerPart.class);
         WeaponPart weaponPart = tower.getPart(WeaponPart.class);
@@ -118,11 +119,10 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         pAsset.setyOffset(- pAsset.getHeight() / 2);
 
         int turretLength = turretPart.getWidth() + turretPart.getxOffset();
-	    System.out.println("Width: " + turretPart.getWidth());
-	    System.out.println("Offset: " + turretPart.getxOffset());
-	    System.out.println("Length: " + turretLength);
         float turretEndX = (float) (Math.cos(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getX();
         float turretEndY = (float) (Math.sin(rotationResult / 360 * 2 * Math.PI) * turretLength) + towerPositionPart.getY();
+
+        shootingSound.play();
 
         projectileImplementation.createProjectile(turretEndX, turretEndY, weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
     }

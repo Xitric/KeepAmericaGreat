@@ -99,13 +99,6 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
                 LifePart enemyLifePart = closestEntity.getPart(LifePart.class);
                 enemyLifePart.setHealth(enemyLifePart.getHealth() - towerDamagePart.getDamage());
 
-                if (enemyLifePart.getHealth() <= 0) {
-                    world.removeEntity(closestEntity);
-                    CurrencyPart enemyCurrencyPart = closestEntity.getPart(CurrencyPart.class);
-                    CurrencyPart playerCurrencyPart = getPlayer(world).getPart(CurrencyPart.class);
-                    playerCurrencyPart.setCurrencyAmount(playerCurrencyPart.getCurrencyAmount() + enemyCurrencyPart.getCurrencyAmount());
-                }
-
                 world.removeEntity(entity);
             }
         }
