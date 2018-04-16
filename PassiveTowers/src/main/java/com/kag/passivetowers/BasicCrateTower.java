@@ -13,17 +13,23 @@ import org.openide.util.lookup.ServiceProvider;
 public class BasicCrateTower implements ITower {
 
     private ITower iTower;
+    private IAsset crateAsset;
 
     @Override
     public IAsset getAsset() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/Crate.png"));
+
+        if (crateAsset == null) {
+            IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+            crateAsset = assetManager.loadAsset(getClass().getResourceAsStream("/Crate.png"));
+        }
+        return crateAsset;
     }
 
     @Override
     public Entity create() {
+
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart assetPart = assetManager.createTexture(getClass().getResourceAsStream("/Crate.png"));
+        AssetPart assetPart = assetManager.createTexture(getAsset(), 0, 0, 58, 58);
         assetPart.setzIndex(ZIndex.TOWER_BASE);
         return PassiveTowerFactory.getInstance().createPassiveTower(5, assetPart, iTower);
     }

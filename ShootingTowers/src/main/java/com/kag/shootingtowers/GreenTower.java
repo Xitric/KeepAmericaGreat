@@ -10,18 +10,34 @@ import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = ITower.class)
 public class GreenTower implements ITower {
+
+    private IAsset projectileAsset;
+    private IAsset greenTowerAsset;
+    private IAsset genericBaseBAsset;
+    private IAsset greenTurretAsset;
+
     @Override
     public IAsset getAsset() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/GreenTower.png"));
+
+        if (greenTowerAsset == null) {
+            IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+            greenTowerAsset = assetManager.loadAsset(getClass().getResourceAsStream("/GreenTower.png"));
+        }
+        return greenTowerAsset;
     }
 
     @Override
     public Entity create() {
 
+        if (genericBaseBAsset == null && greenTurretAsset == null) {
+            IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+            genericBaseBAsset = assetManager.loadAsset(getClass().getResourceAsStream("/GenericBaseB.png"));
+            greenTurretAsset = assetManager.loadAsset(getClass().getResourceAsStream("/GreenTurret.png"));
+        }
+
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart basePart = assetManager.createTexture(getClass().getResourceAsStream("/GenericBaseB.png"));
-        AssetPart turretPart = assetManager.createTexture(getClass().getResourceAsStream("/GreenTurret.png"));
+        AssetPart basePart = assetManager.createTexture(genericBaseBAsset,0,0,58,58);
+        AssetPart turretPart = assetManager.createTexture(greenTurretAsset,0,0,63,48);
 
         return new ShootingTowerBuilder()
                 .setiTower(this)
@@ -41,7 +57,11 @@ public class GreenTower implements ITower {
 
     @Override
     public IAsset getProjectileAsset() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
+
+        if (projectileAsset == null) {
+            IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+            projectileAsset = assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
+        }
+        return projectileAsset;
     }
 }
