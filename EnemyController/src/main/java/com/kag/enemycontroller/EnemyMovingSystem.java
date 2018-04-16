@@ -7,13 +7,13 @@ import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.CurrencyPart;
-import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.enemycontroller.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.LifePart;
+import com.kag.tdcommon.entities.parts.PlayerPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -24,7 +24,7 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyMovingSystem implements IEntitySystem {
 
 	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class, BoundingBoxPart.class);
-	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {

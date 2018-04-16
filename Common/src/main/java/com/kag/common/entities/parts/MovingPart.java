@@ -4,5 +4,17 @@ import com.kag.common.entities.IPart;
 
 public class MovingPart implements IPart {
 
-	public float movementSpeed;
+	private float movementSpeed;
+
+	public MovingPart(float movementSpeed) {
+		this.movementSpeed = movementSpeed;
+	}
+
+	public float getMovementSpeed() {
+		return movementSpeed;
+	}
+
+	public void setMovementSpeed(float movementSpeed) {
+		this.movementSpeed = movementSpeed;
+	}
 }

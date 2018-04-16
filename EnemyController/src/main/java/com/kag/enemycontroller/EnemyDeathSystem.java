@@ -6,13 +6,13 @@ import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.CurrencyPart;
-import com.kag.common.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAudioManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.enemycontroller.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.LifePart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -27,7 +27,7 @@ import org.openide.util.lookup.ServiceProviders;
 public class EnemyDeathSystem implements IEntitySystem, IComponentLoader {
 
 	private static final Family FAMILY = Family.forAll(EnemyPart.class, LifePart.class);
-	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(MoneyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
 
 	private ISound[] deathSounds;
 
@@ -60,9 +60,9 @@ public class EnemyDeathSystem implements IEntitySystem, IComponentLoader {
 
 			//Give money to player
 			Entity trump = getPlayer(world);
-			if (trump != null && entity.hasPart(CurrencyPart.class)) {
-				CurrencyPart money = trump.getPart(CurrencyPart.class);
-				money.setCurrencyAmount(money.getCurrencyAmount() + entity.getPart(CurrencyPart.class).getCurrencyAmount());
+			if (trump != null && entity.hasPart(MoneyPart.class)) {
+				MoneyPart money = trump.getPart(MoneyPart.class);
+				money.setMoney(money.getMoney() + entity.getPart(MoneyPart.class).getMoney());
 			}
 
 			deathSounds[(int) (Math.random() * deathSounds.length)].play();
@@ -73,7 +73,7 @@ public class EnemyDeathSystem implements IEntitySystem, IComponentLoader {
 	private Entity getPlayer(World world) {
 		for (Entity entity : world.getAllEntities()) {
 			if (PLAYER_FAMILY.matches(entity.getBits())) {
-				entity.getPart(CurrencyPart.class);
+				entity.getPart(MoneyPart.class);
 				return entity;
 			}
 		}

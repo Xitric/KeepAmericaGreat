@@ -1,7 +1,7 @@
 package com.kag.towercontroller;
 
 import com.kag.common.entities.Entity;
-import com.kag.interfaces.ITower;
+import com.kag.tdcommon.spinterfaces.ITower;
 
 public class TowerModel {
 

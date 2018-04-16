@@ -7,12 +7,14 @@ import com.kag.common.entities.parts.*;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.common.entities.parts.CostPart;
-import com.kag.towerparts.TowerPart;
+import com.kag.tdcommon.entities.parts.LifePart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.TowerPart;
+import com.kag.tdcommon.entities.parts.WeaponPart;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {
-	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(BlockingPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(MoneyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(BlockingPart.class);
 	private static final Family towerFamily = Family.forAll(TowerPart.class);
 
 	private TowerModel selectedTower;
@@ -35,7 +37,7 @@ public class TowerSelectionManager {
 		blueOverlay = assetManager.createTexture(getClass().getResourceAsStream("/WhiteOverlay.png"));
 		blueOverlay.setzIndex(ZIndex.TOWER_OVERLAY);
 
-		LabelPart btnDescription = new LabelPart("",14);
+		LabelPart btnDescription = new LabelPart("", 14);
 		btnDescription.setzIndex(ZIndex.GUI_CURRENCY_ICON);
 		sellTowerLabel = new Entity();
 		sellTowerLabel.addPart(btnDescription);
@@ -46,7 +48,7 @@ public class TowerSelectionManager {
 		sellTowerButton = new Entity();
 		sellTowerButton.addPart(sellBtnImg);
 		sellTowerButton.addPart(new AbsolutePositionPart(630, 552));
-		sellTowerButton.addPart(new BoundingBoxPart(130,80));
+		sellTowerButton.addPart(new BoundingBoxPart(130, 80));
 	}
 
 	public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
@@ -133,19 +135,19 @@ public class TowerSelectionManager {
 	}
 
 	private boolean canAffordTower(Entity player, Entity tower) {
-		int playerMoney = player.getPart(CurrencyPart.class).getCurrencyAmount();
-		int cost = tower.getPart(CostPart.class).getCost();
+		int playerMoney = player.getPart(MoneyPart.class).getMoney();
+		int cost = tower.getPart(MoneyPart.class).getMoney();
 
 		return cost <= playerMoney;
 	}
 
 	private void buyTower(Entity player, Entity tower) {
-		CurrencyPart playerCurrencyPart = player.getPart(CurrencyPart.class);
+		MoneyPart playerCurrencyPart = player.getPart(MoneyPart.class);
 
-		int playerMoney = playerCurrencyPart.getCurrencyAmount();
-		int cost = tower.getPart(CostPart.class).getCost();
+		int playerMoney = playerCurrencyPart.getMoney();
+		int cost = tower.getPart(MoneyPart.class).getMoney();
 
-		playerCurrencyPart.setCurrencyAmount(playerMoney - cost);
+		playerCurrencyPart.setMoney(playerMoney - cost);
 	}
 
 	public void placeTowerOnGameMap(World world, GameData gameData) {
@@ -158,7 +160,7 @@ public class TowerSelectionManager {
 		if (!world.isOccupied(hoverTile.getX(), hoverTile.getY())) {
 			Entity newTower = getSelectedTower().getITower().create();
 
-			if(!gameData.getKeyboard().isKeyDown(Keyboard.KEY_LSHIFT)){
+			if (!gameData.getKeyboard().isKeyDown(Keyboard.KEY_LSHIFT)) {
 				resetTowerSelection(world);
 			}
 
@@ -242,14 +244,14 @@ public class TowerSelectionManager {
 	}
 
 	public void handleSellTower(World world, GameData gameData) {
-		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)){
-			if(isSellBtnPressed(world, gameData, sellTowerButton) && world.getAllEntities().contains(sellTowerButton)){
+		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+			if (isSellBtnPressed(world, gameData, sellTowerButton) && world.getAllEntities().contains(sellTowerButton)) {
 				world.removeEntity(tempTower);
 				world.removeEntity(sellTowerLabel);
 				world.removeEntity(sellTowerButton);
 				//Give player sellingPrice currencies
 				world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().ifPresent(trumpTower ->
-						trumpTower.getPart(CurrencyPart.class).setCurrencyAmount(trumpTower.getPart(CurrencyPart.class).getCurrencyAmount() + sellingPrice));
+						trumpTower.getPart(MoneyPart.class).setMoney(trumpTower.getPart(MoneyPart.class).getMoney() + sellingPrice));
 
 				sellingPrice = 0;
 
@@ -258,12 +260,12 @@ public class TowerSelectionManager {
 			}
 
 			Entity tower = getMouseSelectedTower(gameData, world);
-			if (tower != null && towerFamily.matches(tower.getBits())){
+			if (tower != null && towerFamily.matches(tower.getBits())) {
 				xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
 				yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 				//Save a reference to the tower, so the tower can be removed
 				tempTower = tower;
-				sellingPrice = (int) (tower.getPart(CostPart.class).getCost()*0.75);
+				sellingPrice = (int) (tower.getPart(MoneyPart.class).getMoney() * 0.75);
 				sellTowerLabel.getPart(LabelPart.class).setLabel("Sell for\n" + sellingPrice);
 				world.addEntity(sellTowerButton);
 				world.addEntity(sellTowerLabel);
@@ -274,15 +276,15 @@ public class TowerSelectionManager {
 		}
 	}
 
-	private Entity getMouseSelectedTower (GameData gameData, World world){
+	private Entity getMouseSelectedTower(GameData gameData, World world) {
 		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
 		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
-		Entity entity = world.getEntityAt(xTilePositionOnMap,yTilePositionOnMap);
-		if(entity == null){
+		Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
+		if (entity == null) {
 			System.out.println("no entity");
 			return null;
 		}
-		if(towerFamily.matches(entity.getBits())){
+		if (towerFamily.matches(entity.getBits())) {
 			System.out.println("found a tower");
 			return entity;
 		} else {

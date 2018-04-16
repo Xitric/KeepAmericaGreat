@@ -10,7 +10,7 @@ import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.spinterfaces.IMenuItem;
+import com.kag.tdcommon.spinterfaces.IMenuItem;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

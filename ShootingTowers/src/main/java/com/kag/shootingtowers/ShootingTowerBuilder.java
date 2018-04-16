@@ -3,11 +3,11 @@ package com.kag.shootingtowers;
 import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
-import com.kag.interfaces.ITower;
-import com.kag.common.entities.parts.CostPart;
-import com.kag.towerparts.RotationSpeedPart;
-import com.kag.towerparts.TowerPart;
-import com.kag.common.entities.parts.WeaponPart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.TowerPart;
+import com.kag.tdcommon.entities.parts.WeaponPart;
+import com.kag.tdcommon.spinterfaces.ITower;
+import parts.RotationSpeedPart;
 import parts.ShootingTowerPart;
 
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public class ShootingTowerBuilder {
 	public Entity getResult() {
 		TowerPart towerPart = new TowerPart(iTower);
 		NamePart namePart = new NamePart(name);
-		CostPart costPart = new CostPart(cost);
+		MoneyPart costPart = new MoneyPart(cost);
 		PositionPart positionPart = new PositionPart(0, 0);
 		WeaponPart weaponPart = new WeaponPart(damage, range, attackSpeed, projectileSpeed);
 		RotationSpeedPart rotationSpeedPart = new RotationSpeedPart(rotationSpeed);

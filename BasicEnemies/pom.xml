@@ -40,6 +40,11 @@
         </dependency>
         <dependency>
             <groupId>com.kag</groupId>
+            <artifactId>TDCommon</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
             <artifactId>EnemyController</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

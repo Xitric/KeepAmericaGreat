@@ -1,13 +1,16 @@
 package com.kag.gamespeedmenu;
 
-import com.kag.common.data.*;
+import com.kag.common.data.GameData;
+import com.kag.common.data.IAsset;
+import com.kag.common.data.Keyboard;
+import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.spinterfaces.IMenuItem;
+import com.kag.tdcommon.spinterfaces.IMenuItem;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

@@ -1,9 +1,12 @@
 package com.kag.enemycontroller;
 
 import com.kag.common.entities.Entity;
-import com.kag.enemycontroller.interfaces.IEnemy;
+import com.kag.tdcommon.spinterfaces.IEnemy;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Kasper

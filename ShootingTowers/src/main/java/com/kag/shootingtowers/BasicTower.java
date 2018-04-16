@@ -4,7 +4,7 @@ import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.interfaces.ITower;
+import com.kag.tdcommon.spinterfaces.ITower;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 

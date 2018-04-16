@@ -1,11 +1,14 @@
 package com.kag.passivetowers;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.*;
+import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BlockingPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.interfaces.ITower;
-import com.kag.common.entities.parts.CostPart;
-import com.kag.towerparts.TowerPart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.TowerPart;
+import com.kag.tdcommon.spinterfaces.ITower;
 import org.openide.util.Lookup;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class PassiveTowerFactory  {
     public Entity createPassiveTower(int cost, AssetPart assetPart, ITower iTower) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         PositionPart positionPart = new PositionPart(0, 0);
-        CostPart costPart = new CostPart(cost);
+        MoneyPart costPart = new MoneyPart(cost);
         BlockingPart blockingPart = new BlockingPart();
         TowerPart towerPart = new TowerPart(iTower);
         BoundingBoxPart boundingBoxPart = new BoundingBoxPart(assetPart.getWidth(), assetPart.getHeight());

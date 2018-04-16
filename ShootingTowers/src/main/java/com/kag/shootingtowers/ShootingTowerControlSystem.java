@@ -5,12 +5,19 @@ import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
-import com.kag.common.spinterfaces.*;
-import com.kag.towerparts.RotationSpeedPart;
-import com.kag.towerparts.TowerPart;
+import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.common.spinterfaces.IAudioManager;
+import com.kag.common.spinterfaces.IComponentLoader;
+import com.kag.common.spinterfaces.IEntitySystem;
+import com.kag.tdcommon.entities.parts.LifePart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.TowerPart;
+import com.kag.tdcommon.entities.parts.WeaponPart;
+import com.kag.tdcommon.spinterfaces.IProjectile;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
+import parts.RotationSpeedPart;
 import parts.ShootingTowerPart;
 
 import java.util.Collection;
@@ -21,7 +28,7 @@ import java.util.Collection;
 })
 public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoader {
 
-	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, CostPart.class, WeaponPart.class);
+	private static final Family FAMILY = Family.forAll(NamePart.class, PositionPart.class, BlockingPart.class, RotationSpeedPart.class, MoneyPart.class, WeaponPart.class);
 	private static final Family ENEMY_FAMILY = Family.forAll(LifePart.class, PositionPart.class, BoundingBoxPart.class, BlockingPart.class);
 	private static final Family SHOOTINGTOWER_FAMILY = Family.forAll(ShootingTowerPart.class);
 

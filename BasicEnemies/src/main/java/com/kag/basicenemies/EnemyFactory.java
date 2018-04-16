@@ -4,10 +4,15 @@ import com.kag.common.data.IAsset;
 import com.kag.common.data.World;
 import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.*;
+import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BlockingPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.enemycontroller.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.LifePart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -35,7 +40,7 @@ public class EnemyFactory implements IComponentLoader {
 		enemy.addPart(new EnemyPart(speed));
 		enemy.addPart(new BoundingBoxPart(hatPart.getWidth(), hatPart.getHeight()));
 		enemy.addPart(new BlockingPart());
-		enemy.addPart(new CurrencyPart(money));
+		enemy.addPart(new MoneyPart(money));
 		enemy.addPart(new LifePart(life));
 		enemy.addPart(new BasicEnemyPart());
 

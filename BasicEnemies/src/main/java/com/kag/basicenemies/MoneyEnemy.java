@@ -1,8 +1,7 @@
 package com.kag.basicenemies;
 
 import com.kag.common.entities.Entity;
-import com.kag.enemycontroller.interfaces.IEnemy;
-import org.openide.util.Lookup;
+import com.kag.tdcommon.spinterfaces.IEnemy;
 import org.openide.util.lookup.ServiceProvider;
 
 /**

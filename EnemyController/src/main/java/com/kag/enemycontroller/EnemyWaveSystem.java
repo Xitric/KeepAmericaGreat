@@ -3,13 +3,17 @@ package com.kag.enemycontroller;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
-import com.kag.common.entities.parts.*;
+import com.kag.common.entities.parts.AbsolutePositionPart;
+import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
-import com.kag.enemycontroller.interfaces.IEnemy;
-import com.kag.enemycontroller.parts.EnemyPart;
+import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.PlayerPart;
+import com.kag.tdcommon.spinterfaces.IEnemy;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -25,7 +29,7 @@ import java.util.List;
 })
 public class EnemyWaveSystem implements ISystem, IComponentLoader {
 
-	private static final Family PLAYER_FAMILY = Family.forAll(CurrencyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(EnemyPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class);
 
 	private static final float spawnDelay = 0.3f; //The delay between spawning two enemies
 	private static final float waveDelay = 30f; //The delay between waves
@@ -147,8 +151,8 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	private void rewardPlayer(World world) {
 		Entity trump = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 		if (trump != null) {
-			CurrencyPart money = trump.getPart(CurrencyPart.class);
-			money.setCurrencyAmount(money.getCurrencyAmount() + 30);
+			MoneyPart money = trump.getPart(MoneyPart.class);
+			money.setMoney(money.getMoney() + 30);
 		}
 	}
 }
