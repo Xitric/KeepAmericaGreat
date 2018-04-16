@@ -7,6 +7,7 @@ public class GameData {
 	private final int width;
 	private final int height;
 	private final Camera camera;
+	private int speedMultiplier;
 
 	public GameData(Keyboard keyboard, Mouse mouse, int width, int height, Camera camera) {
 		this.keyboard = keyboard;
@@ -14,6 +15,7 @@ public class GameData {
 		this.width = width;
 		this.height = height;
 		this.camera = camera;
+		this.speedMultiplier = 1;
 	}
 
 	/**
@@ -49,5 +51,13 @@ public class GameData {
 	 */
 	public Keyboard getKeyboard() {
 		return keyboard;
+	}
+
+	public int getSpeedMultiplier() {
+		return speedMultiplier;
+	}
+
+	public void setSpeedMultiplier(int speedMultiplier) {
+		this.speedMultiplier = speedMultiplier;
 	}
 }

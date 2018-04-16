@@ -115,6 +115,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float rotationResult = turretPart.getRotation();
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+        //MAJOR MEMORY LEAK WTF!?
         AssetPart pAsset = assetManager.createTexture(towerPart.getiTower().getProjectileAsset(),0,0,towerPart.getiTower().getProjectileAsset().getWidth(),towerPart.getiTower().getProjectileAsset().getHeight());
         pAsset.setyOffset(- pAsset.getHeight() / 2);
 

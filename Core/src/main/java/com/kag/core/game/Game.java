@@ -90,14 +90,14 @@ public class Game implements ApplicationListener {
 		camera.update();
 
 		for (ISystem system : systems) {
-			system.update(Gdx.graphics.getDeltaTime(), world, gameData);
+			system.update(Gdx.graphics.getDeltaTime() * gameData.getSpeedMultiplier(), world, gameData);
 		}
 
 		for (IEntitySystem entitySystem : entitySystems) {
 			Family systemFamily = entitySystem.getFamily();
 
 			for (Entity entity : world.getEntitiesByFamily(systemFamily)) {
-				entitySystem.update(Gdx.graphics.getDeltaTime(), entity, world, gameData);
+				entitySystem.update(Gdx.graphics.getDeltaTime() * gameData.getSpeedMultiplier(), entity, world, gameData);
 			}
 		}
 

@@ -84,6 +84,8 @@
         <module>BasicEnemies</module>
         <module>PassiveTowers</module>
         <module>Projectile</module>
+        <module>GameMenu</module>
+        <module>GameSpeedMenu</module>
     </modules>
 
     <properties>
