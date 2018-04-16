@@ -4,10 +4,10 @@ import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.*;
 import com.kag.interfaces.ITower;
-import com.kag.towerparts.CostPart;
+import com.kag.common.entities.parts.CostPart;
 import com.kag.towerparts.RotationSpeedPart;
 import com.kag.towerparts.TowerPart;
-import com.kag.towerparts.WeaponPart;
+import com.kag.common.entities.parts.WeaponPart;
 import parts.ShootingTowerPart;
 
 import java.util.ArrayList;

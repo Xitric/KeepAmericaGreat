@@ -86,6 +86,7 @@
         <module>Projectile</module>
         <module>GameMenu</module>
         <module>GameSpeedMenu</module>
+        <module>BasicUpgrade</module>
     </modules>
 
     <properties>
