@@ -5,6 +5,7 @@ import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
@@ -77,7 +78,8 @@ public class UpgradeController implements ISystem, IComponentLoader {
 			}
 		}
 
-		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() > 750 && gameData.getMouse().getY() > 350) {
+			System.out.println("X: " + gameData.getMouse().getX() + " Y: " + gameData.getMouse().getY());
 			if (getUpgradeEntity(gameData, world) != null) {
 				System.out.println("Kommer du herind?");
 
@@ -126,10 +128,14 @@ public class UpgradeController implements ISystem, IComponentLoader {
 		assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
 		AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
+		UpgradePart upgradePart = new UpgradePart();
 		upgradeEntity.addPart(assetPart);
 		upgradeEntity.addPart(positionPart);
-		upgradeEntity.addPart(new UpgradePart());
+		upgradeEntity.addPart(upgradePart);
+		//upgradeEntity.addPart(new BoundingBoxPart(10, 10));
 
+		System.out.println(positionPart.getX() + " " + positionPart.getY());
+		System.out.println("New upgrade entity is: " + upgradeEntity);
 		return upgradeEntity;
 	}
 
@@ -146,7 +152,7 @@ public class UpgradeController implements ISystem, IComponentLoader {
 			return null;
 		}
 		if (towerFamily.matches(entity.getBits())) {
-			System.out.println("upgrade: found a tower");
+			//System.out.println("upgrade: found a tower");
 			return entity;
 		}
 		return null;
@@ -156,15 +162,18 @@ public class UpgradeController implements ISystem, IComponentLoader {
 		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
 		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
 
-		System.out.println(xTilePositionOnMap);
-		System.out.println(yTilePositionOnMap);
-
-		Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
-		System.out.println(entity);
-		System.out.println("Listen af " + upgradeModels.size());
+		Entity entity = world.getEntityAt(788, 410);
 
 		if (entity == null) {
+			System.out.println("No upgrade entity found!");
 			return null;
+		}
+		System.out.println(entity);
+
+		if(entity.hasPart(UpgradePart.class)){
+			System.out.println("Has upgrade part!");
+		} else {
+			System.out.println("Not upgrade part is found");
 		}
 		if (upgradeFamily.matches(entity.getBits())) {
 			System.out.println("upgrade: found a upgrade");

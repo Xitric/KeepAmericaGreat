@@ -111,6 +111,12 @@
             <artifactId>BasicEnemies</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>UpgradeController</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
