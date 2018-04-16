@@ -27,167 +27,173 @@ import java.util.function.Consumer;
  * @author Emil
  */
 @ServiceProviders(value = {
-		@ServiceProvider(service = ISystem.class),
-		@ServiceProvider(service = IComponentLoader.class)
+        @ServiceProvider(service = ISystem.class),
+        @ServiceProvider(service = IComponentLoader.class)
 })
 public class UpgradeController implements ISystem, IComponentLoader {
 
-	private static final Family towerFamily = Family.forAll(MoneyPart.class, PositionPart.class, WeaponPart.class);
-	private static final Family upgradeFamily = Family.forAll(UpgradePart.class);
+    private static final Family towerFamily = Family.forAll(MoneyPart.class, PositionPart.class, WeaponPart.class);
+    private static final Family upgradeFamily = Family.forAll(UpgradePart.class);
 
-	private ServiceManager<IUpgrade> towerServiceManager;
-	private List<UpgradeModel> upgradeModels;
-	private List<Consumer<World>> upgradeConsumer;
-	private boolean updateUpgradeMenu;
-	private IAssetManager assetManager;
-	private Entity towerToUpgrade;
+    private ServiceManager<IUpgrade> towerServiceManager;
+    private List<UpgradeModel> upgradeModels;
+    private List<Consumer<World>> upgradeConsumer;
+    private boolean updateUpgradeMenu;
+    private IAssetManager assetManager;
+    private Entity towerToUpgrade;
 
-	public UpgradeController() {
-		assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-		upgradeModels = new ArrayList<>();
-	}
+    public UpgradeController() {
+        assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+        upgradeModels = new ArrayList<>();
+    }
 
-	@Override
-	public void load(World world) {
+    @Override
+    public void load(World world) {
 
-	}
+    }
 
-	@Override
-	public void dispose(World world) {
+    @Override
+    public void dispose(World world) {
 
-	}
+    }
 
-	@Override
-	public void update(float dt, World world, GameData gameData) {
+    @Override
+    public void update(float dt, World world, GameData gameData) {
 
-		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() < 768) {
+        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() < 768) {
 
-			if (getMouseSelectedTower(gameData, world) != null) {
-				removeUpgradePreviews(world);
+            if (getMouseSelectedTower(gameData, world) != null) {
+                removeUpgradePreviews(world);
 
-				towerToUpgrade = getMouseSelectedTower(gameData, world);
-				Collection<? extends IUpgrade> upgrades = Lookup.getDefault().lookupAll(IUpgrade.class);
-				for (IUpgrade upgrade : upgrades) {
-					if (upgrade.isTowerCompatible(towerToUpgrade)) {
-						world.addEntity(addNewUpgradeToMenu(upgrade));
+                towerToUpgrade = getMouseSelectedTower(gameData, world);
+                Collection<? extends IUpgrade> upgrades = Lookup.getDefault().lookupAll(IUpgrade.class);
+                for (IUpgrade upgrade : upgrades) {
+                    if (upgrade.isTowerCompatible(towerToUpgrade)) {
+                        world.addEntity(addNewUpgradeToMenu(upgrade));
 
-					}
-				}
-			} else {
-				removeUpgradePreviews(world);
-			}
-		}
+                    }
+                }
+            } else {
+                removeUpgradePreviews(world);
+            }
+        }
 
-		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() > 750 && gameData.getMouse().getY() > 350) {
-			System.out.println("X: " + gameData.getMouse().getX() + " Y: " + gameData.getMouse().getY());
-			if (getUpgradeEntity(gameData, world) != null) {
-				System.out.println("Kommer du herind?");
+        if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) && gameData.getMouse().getX() > 750 && gameData.getMouse().getY() > 350) {
+            int mouseX = gameData.getMouse().getX();
+            int mouseY = gameData.getMouse().getY();
 
-				for (UpgradeModel upgradeModel : upgradeModels) {
-					if (upgradeModel.getUpgradeEntity() == getUpgradeEntity(gameData, world)) {
-						upgradeModel.getiUpgrade().upgrade(towerToUpgrade);
-						System.out.println("Tower has been upgraded");
-					}
-				}
+            for (UpgradeModel towerModel : upgradeModels) {
+                Entity upgrade = towerModel.getUpgradeEntity();
+                AbsolutePositionPart absolutePositionPart = upgrade.getPart(AbsolutePositionPart.class);
+                float towerXStart = absolutePositionPart.getX();
+                float towerXEnd = absolutePositionPart.getX() + 48;
+                float towerYStart = absolutePositionPart.getY();
+                float towerYEnd = absolutePositionPart.getY() + 48;
 
-			}
-		}
+                //If the mouse is hovering over an entity in the buy menu
+                //Find a tower at the position
+                if (mouseX >= towerXStart && mouseX <= towerXEnd && mouseY >= towerYStart && mouseY <= towerYEnd) {
+                    towerModel.getiUpgrade().upgrade(towerToUpgrade);
+                    System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage());
+                }
+            }
+        }
 
-	}
+    }
 
-	public Entity addNewUpgradeToMenu(IUpgrade upgrade) {
-		//Create Entity from tower and return
-		Entity upgradeEntity = new Entity();
-		upgradeModels.add(new UpgradeModel(upgradeEntity, upgrade));
+    public Entity addNewUpgradeToMenu(IUpgrade upgrade) {
+        //Create Entity from tower and return
+        Entity upgradeEntity = new Entity();
+        upgradeModels.add(new UpgradeModel(upgradeEntity, upgrade));
 
-		int index = upgradeModels.size() - 1;
-		System.out.println("Index of new tower added to menu: " + index);
+        int index = upgradeModels.size() - 1;
+        System.out.println("Index of new tower added to menu: " + index);
 
-		int menuX = index % 3;
-		int menuY = index / 3;
+        int menuX = index % 3;
+        int menuY = index / 3;
 
-		int menuStartX = 788 + menuX * 52;
-		int menuStartY = 410 + menuY * 52;
+        int menuStartX = 788 + menuX * 52;
+        int menuStartY = 410 + menuY * 52;
 
-		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
-		IAsset iAsset = upgrade.getAsset();
-		AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
-		float aspectRatio = (float) iAsset.getWidth() / iAsset.getHeight();
-		if (iAsset.getWidth() > iAsset.getHeight()) {
-			assetPart.setWidth(48);
-			assetPart.setHeight((int) (48 / aspectRatio));
-		} else {
-			assetPart.setHeight(48);
-			assetPart.setWidth((int) (48 * aspectRatio));
-		}
-		int dx = (48 - assetPart.getWidth()) / 2;
-		int dy = (48 - assetPart.getHeight()) / 2;
-		menuStartX += dx;
-		menuStartY += dy;
-		assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
-		AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
+        IAsset iAsset = upgrade.getAsset();
+        AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
+        float aspectRatio = (float) iAsset.getWidth() / iAsset.getHeight();
+        if (iAsset.getWidth() > iAsset.getHeight()) {
+            assetPart.setWidth(48);
+            assetPart.setHeight((int) (48 / aspectRatio));
+        } else {
+            assetPart.setHeight(48);
+            assetPart.setWidth((int) (48 * aspectRatio));
+        }
+        int dx = (48 - assetPart.getWidth()) / 2;
+        int dy = (48 - assetPart.getHeight()) / 2;
+        menuStartX += dx;
+        menuStartY += dy;
+        assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
+        AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
-		UpgradePart upgradePart = new UpgradePart();
-		upgradeEntity.addPart(assetPart);
-		upgradeEntity.addPart(positionPart);
-		upgradeEntity.addPart(upgradePart);
-		//upgradeEntity.addPart(new BoundingBoxPart(10, 10));
+        UpgradePart upgradePart = new UpgradePart();
+        upgradeEntity.addPart(assetPart);
+        upgradeEntity.addPart(positionPart);
+        upgradeEntity.addPart(upgradePart);
+        //upgradeEntity.addPart(new BoundingBoxPart(10, 10));
 
-		System.out.println(positionPart.getX() + " " + positionPart.getY());
-		System.out.println("New upgrade entity is: " + upgradeEntity);
-		return upgradeEntity;
-	}
+        System.out.println(positionPart.getX() + " " + positionPart.getY());
+        System.out.println("New upgrade entity is: " + upgradeEntity);
+        return upgradeEntity;
+    }
 
-	@Override
-	public int getPriority() {
-		return 0;
-	}
+    @Override
+    public int getPriority() {
+        return 0;
+    }
 
-	private Entity getMouseSelectedTower(GameData gameData, World world) {
-		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
-		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
-		Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
-		if (entity == null) {
-			return null;
-		}
-		if (towerFamily.matches(entity.getBits())) {
-			//System.out.println("upgrade: found a tower");
-			return entity;
-		}
-		return null;
-	}
+    private Entity getMouseSelectedTower(GameData gameData, World world) {
+        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
+        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
+        Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
+        if (entity == null) {
+            return null;
+        }
+        if (towerFamily.matches(entity.getBits())) {
+            //System.out.println("upgrade: found a tower");
+            return entity;
+        }
+        return null;
+    }
 
-	private Entity getUpgradeEntity(GameData gameData, World world) {
-		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
-		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
+    private Entity getUpgradeEntity(GameData gameData, World world) {
+        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
+        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
 
-		Entity entity = world.getEntityAt(788, 410);
+        Entity entity = world.getEntityAt(788, 410);
 
-		if (entity == null) {
-			System.out.println("No upgrade entity found!");
-			return null;
-		}
-		System.out.println(entity);
+        if (entity == null) {
+            System.out.println("No upgrade entity found!");
+            return null;
+        }
+        System.out.println(entity);
 
-		if(entity.hasPart(UpgradePart.class)){
-			System.out.println("Has upgrade part!");
-		} else {
-			System.out.println("Not upgrade part is found");
-		}
-		if (upgradeFamily.matches(entity.getBits())) {
-			System.out.println("upgrade: found a upgrade");
-			return entity;
-		}
-		return null;
-	}
+        if (entity.hasPart(UpgradePart.class)) {
+            System.out.println("Has upgrade part!");
+        } else {
+            System.out.println("Not upgrade part is found");
+        }
+        if (upgradeFamily.matches(entity.getBits())) {
+            System.out.println("upgrade: found a upgrade");
+            return entity;
+        }
+        return null;
+    }
 
-	private void removeUpgradePreviews(World world) {
-		for (UpgradeModel upgradeModel : upgradeModels) {
-			world.removeEntity(upgradeModel.getUpgradeEntity());
-			System.out.println("Upgrademodel is removed from the world! " + upgradeModel);
-		}
-		upgradeModels.clear();
-	}
+    private void removeUpgradePreviews(World world) {
+        for (UpgradeModel upgradeModel : upgradeModels) {
+            world.removeEntity(upgradeModel.getUpgradeEntity());
+            System.out.println("Upgrademodel is removed from the world! " + upgradeModel);
+        }
+        upgradeModels.clear();
+    }
 
 }
