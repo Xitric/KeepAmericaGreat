@@ -12,29 +12,29 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
-import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.common.spinterfaces.IMapGenerator;
-import com.kag.common.spinterfaces.ISystem;
+import com.kag.common.spinterfaces.*;
 import com.kag.core.graphics.AssetManager;
 import com.kag.core.graphics.QueuedRenderer;
 import com.kag.core.input.GdxInputProcessor;
 import com.kag.core.input.GdxKeyboard;
 import com.kag.core.input.GdxMouse;
 import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
 
 /**
  * @author niels
  */
-public class Game implements ApplicationListener {
+@ServiceProvider(service = IGame.class)
+public class Game implements ApplicationListener, IGame {
 
-	private final SystemManager systemManager;
+	private SystemManager systemManager;
 	private World world;
 	private GameData gameData;
 	private GdxKeyboard keyboard;
 	private GdxMouse mouse;
 
 	public Game() {
-		systemManager = new SystemManager();
+
 	}
 
 	@Override
@@ -43,13 +43,13 @@ public class Game implements ApplicationListener {
 		camera.setX(Gdx.graphics.getWidth() / 2);
 		camera.setY(Gdx.graphics.getHeight() / 2);
 
-		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
-		world = new World(mapGenerator.generateMap(12, 36));
-
 		gameData = new GameData(new Keyboard(), new Mouse(), Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 		keyboard = new GdxKeyboard(gameData.getKeyboard());
 		mouse = new GdxMouse(gameData.getMouse());
 		Gdx.input.setInputProcessor(new GdxInputProcessor(keyboard, mouse));
+		generateNewMap();
+		systemManager = new SystemManager();
+		notifyGameListeners();
 	}
 
 	@Override
@@ -112,5 +112,22 @@ public class Game implements ApplicationListener {
 		}
 
 		systemManager.dispose(world);
+	}
+
+	private void generateNewMap() {
+		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
+		world = new World(mapGenerator.generateMap(12, 36));
+	}
+
+	private void notifyGameListeners() {
+		for (IGameStateListener gameStateListener : Lookup.getDefault().lookupAll(IGameStateListener.class)) {
+			gameStateListener.newGame(world);
+		}
+	}
+
+	@Override
+	public void startNewGame() {
+		generateNewMap();
+		notifyGameListeners();
 	}
 }

@@ -89,6 +89,7 @@
         <module>BasicUpgrade</module>
         <module>TDCommon</module>
         <module>UpgradeController</module>
+        <module>MapMenu</module>
     </modules>
 
     <properties>

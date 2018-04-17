@@ -10,6 +10,7 @@ import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
+import com.kag.common.spinterfaces.IGameStateListener;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.tdcommon.entities.parts.MoneyPart;
 import com.kag.tdcommon.entities.parts.PlayerPart;
@@ -25,9 +26,10 @@ import java.util.List;
  */
 @ServiceProviders(value = {
 		@ServiceProvider(service = ISystem.class),
-		@ServiceProvider(service = IComponentLoader.class)
+		@ServiceProvider(service = IComponentLoader.class),
+		@ServiceProvider(service = IGameStateListener.class)
 })
-public class EnemyWaveSystem implements ISystem, IComponentLoader {
+public class EnemyWaveSystem implements ISystem, IComponentLoader, IGameStateListener {
 
 	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class);
 
@@ -156,5 +158,13 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 			MoneyPart money = trump.getPart(MoneyPart.class);
 			money.setMoney(money.getMoney() + 30);
 		}
+	}
+
+	@Override
+	public void newGame(World world) {
+		//Reset instance variables that result in the wave generator restarting
+		wave = null;
+		waveNumber = 0;
+		nextWaveCountdown = 0;
 	}
 }

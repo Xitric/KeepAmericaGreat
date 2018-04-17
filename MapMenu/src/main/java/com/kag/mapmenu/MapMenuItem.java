@@ -1,4 +1,4 @@
-package com.kag.gamemenu;
+package com.kag.mapmenu;
 
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
@@ -7,6 +7,7 @@ import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
+import com.kag.common.spinterfaces.IGame;
 import com.kag.tdcommon.spinterfaces.IMenuItem;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
@@ -58,6 +59,7 @@ public class MapMenuItem implements IMenuItem, IComponentLoader {
 
 	@Override
 	public void onAction(World world, GameData gameData) {
-		System.out.println("Activate map menu item");
+		//TODO: Show menu
+		Lookup.getDefault().lookup(IGame.class).startNewGame();
 	}
 }
