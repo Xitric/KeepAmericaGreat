@@ -15,6 +15,7 @@ public class TankTower implements ITower {
     private IAsset tankBaseAAsset;
     private IAsset tankBAsset;
     private IAsset cannonBallAsset;
+    private int cost = 30;
 
 
     @Override
@@ -47,7 +48,7 @@ public class TankTower implements ITower {
                 .setRange(200)
                 .setAttackSpeed(0.10f)
                 .setProjectileSpeed(200)
-                .setCost(30)
+                .setCost(cost)
                 .setRotationSpeed(45)
                 .setBaseAsset(basePart)
                 .setTurretAsset(turretPart)
@@ -65,5 +66,10 @@ public class TankTower implements ITower {
             cannonBallAsset = assetManager.loadAsset(getClass().getResourceAsStream("/cannonball.png"));
         }
         return cannonBallAsset;
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
     }
 }

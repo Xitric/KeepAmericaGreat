@@ -13,6 +13,7 @@ import org.openide.util.lookup.ServiceProvider;
 public class BasicCrateTower implements ITower {
 
     private IAsset crateAsset;
+    private int cost = 5;
 
     @Override
     public IAsset getAsset() {
@@ -30,11 +31,16 @@ public class BasicCrateTower implements ITower {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart assetPart = assetManager.createTexture(getAsset(), 0, 0, 58, 58);
         assetPart.setzIndex(ZIndex.TOWER_BASE);
-        return PassiveTowerFactory.getInstance().createPassiveTower(5, assetPart, this);
+        return PassiveTowerFactory.getInstance().createPassiveTower(cost, assetPart, iTower);
     }
 
     @Override
     public IAsset getProjectileAsset() {
         return null;
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
     }
 }

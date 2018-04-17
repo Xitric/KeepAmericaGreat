@@ -15,6 +15,7 @@ public class GreenTower implements ITower {
     private IAsset greenTowerAsset;
     private IAsset genericBaseBAsset;
     private IAsset greenTurretAsset;
+    private int cost = 75;
 
     @Override
     public IAsset getAsset() {
@@ -46,7 +47,7 @@ public class GreenTower implements ITower {
                 .setRange(300)
                 .setAttackSpeed(2f)
                 .setProjectileSpeed(400)
-                .setCost(75)
+                .setCost(cost)
                 .setRotationSpeed(90)
                 .setBaseAsset(basePart)
                 .setTurretAsset(turretPart)
@@ -63,5 +64,10 @@ public class GreenTower implements ITower {
             projectileAsset = assetManager.loadAsset(getClass().getResourceAsStream("/Missile.png"));
         }
         return projectileAsset;
+    }
+
+    @Override
+    public int getCost() {
+        return 75;
     }
 }

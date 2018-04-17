@@ -16,4 +16,5 @@ public interface ITower {
     IAsset getAsset();
     Entity create();
     IAsset getProjectileAsset();
+    int getCost();
 }
