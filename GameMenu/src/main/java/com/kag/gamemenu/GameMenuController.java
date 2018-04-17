@@ -2,8 +2,10 @@ package com.kag.gamemenu;
 
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
@@ -24,6 +26,7 @@ import java.util.List;
 })
 public class GameMenuController implements ISystem, IComponentLoader {
 
+	private static final Family MENU_ITEM_FAMILY = Family.forAll(MenuItemPart.class, BoundingBoxPart.class, AbsolutePositionPart.class);
 	private static final int menuBorderX = 4;
 	private static final int menuItemSpacingX = 32;
 
@@ -97,7 +100,20 @@ public class GameMenuController implements ISystem, IComponentLoader {
 			}
 		}
 
-		//TODO: Mouse press
+		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
+			for (Entity menuItem : world.getEntitiesByFamily(MENU_ITEM_FAMILY)) {
+				AbsolutePositionPart position = menuItem.getPart(AbsolutePositionPart.class);
+				BoundingBoxPart bbox = menuItem.getPart(BoundingBoxPart.class);
+
+				if (gameData.getMouse().getX() > position.getX() &&
+						gameData.getMouse().getX() < position.getX() + bbox.getWidth() &&
+						gameData.getMouse().getY() > position.getY() &&
+						gameData.getMouse().getY() < position.getY() + bbox.getHeight()) {
+					menuItem.getPart(MenuItemPart.class).getMenuItem().onAction(world, gameData);
+					break;
+				}
+			}
+		}
 	}
 
 	private void menuItemsChanged(IMenuItem menuItem) {
@@ -116,6 +132,8 @@ public class GameMenuController implements ISystem, IComponentLoader {
 		background.setzIndex(ZIndex.MENU_BACKGROUND);
 		background.setxOffset(itemX);
 		menuPadding.addPart(background);
+
+		menuItemEntity.addPart(new MenuItemPart(menuItem));
 
 		return menuItemEntity;
 	}

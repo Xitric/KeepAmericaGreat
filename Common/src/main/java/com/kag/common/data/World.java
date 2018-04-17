@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class World {
 
 	private final Collection<Entity> entities;
-	private final GameMap gameMap;
+	private GameMap gameMap;
 
 	public World(GameMap gameMap) {
 		entities = new ArrayList<>();
