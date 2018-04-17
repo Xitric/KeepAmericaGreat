@@ -12,6 +12,7 @@ import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IGameStateListener;
 import com.kag.common.spinterfaces.ISystem;
+import com.kag.tdcommon.entities.parts.EnemyPart;
 import com.kag.tdcommon.entities.parts.MoneyPart;
 import com.kag.tdcommon.entities.parts.PlayerPart;
 import com.kag.tdcommon.spinterfaces.IEnemy;
@@ -166,5 +167,9 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader, IGameStateLis
 		wave = null;
 		waveNumber = 0;
 		nextWaveCountdown = 0;
+
+		for (Entity enemy : world.getEntitiesByFamily(Family.forAll(EnemyPart.class))) {
+			world.removeEntity(enemy);
+		}
 	}
 }

@@ -7,5 +7,6 @@ import com.kag.common.data.World;
  */
 public interface IGameStateListener {
 
+	//Not called when starting the game - only when a new game is started after this
 	void newGame(World world);
 }

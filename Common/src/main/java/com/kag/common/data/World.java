@@ -26,6 +26,12 @@ public class World {
 		addEntity(gameMap.getTileEntity());
 	}
 
+	public void setMap(GameMap gameMap) {
+		removeEntity(this.gameMap.getTileEntity());
+		this.gameMap = gameMap;
+		addEntity(gameMap.getTileEntity());
+	}
+
 	/**
 	 * isWalkable considers only Tile.isWalkable()
 	 *

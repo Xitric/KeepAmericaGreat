@@ -56,16 +56,6 @@
             <artifactId>ModuleUpdateManager</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>MapMenu</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>TDCommon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

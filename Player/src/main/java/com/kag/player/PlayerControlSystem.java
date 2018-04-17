@@ -13,6 +13,7 @@ import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
+import com.kag.common.spinterfaces.IGameStateListener;
 import com.kag.tdcommon.entities.parts.LifePart;
 import com.kag.tdcommon.entities.parts.MoneyPart;
 import com.kag.tdcommon.entities.parts.PlayerPart;
@@ -22,9 +23,10 @@ import org.openide.util.lookup.ServiceProviders;
 
 @ServiceProviders(value = {
 		@ServiceProvider(service = IEntitySystem.class),
-		@ServiceProvider(service = IComponentLoader.class)
+		@ServiceProvider(service = IComponentLoader.class),
+		@ServiceProvider(service = IGameStateListener.class)
 })
-public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
+public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGameStateListener {
 
 	private static final Family FAMILY = Family.forAll(LifePart.class, MoneyPart.class, PositionPart.class, PlayerPart.class);
 
@@ -45,12 +47,11 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 
 		playerHealthGui.getPart(LabelPart.class).setLabel(String.valueOf(lifePart.getHealth()));
 		playerCurrencyGui.getPart(LabelPart.class).setLabel(String.valueOf(currencyPart.getMoney()));
-
 	}
 
 	@Override
 	public int getPriority() {
-		return 0;
+		return UPDATE_PASS_1;
 	}
 
 	@Override
@@ -119,5 +120,13 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader {
 		world.removeEntity(playerHealthGui);
 		world.removeEntity(playerCurrencyGui);
 		world.removeEntity(playerMenuBackground);
+	}
+
+	@Override
+	public void newGame(World world) {
+		player.getPart(MoneyPart.class).setMoney(100);
+		player.getPart(LifePart.class).setHealth(50);
+		player.getPart(PositionPart.class).setPos(world.getGameMap().getPlayerX() * world.getGameMap().getTileWidth(),
+				world.getGameMap().getPlayerY() * world.getGameMap().getTileHeight());
 	}
 }

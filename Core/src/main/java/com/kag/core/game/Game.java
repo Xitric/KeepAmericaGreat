@@ -116,10 +116,15 @@ public class Game implements ApplicationListener, IGame {
 
 	private void generateNewMap() {
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
-		world = new World(mapGenerator.generateMap(12, 36));
+
+		if (world == null) {
+			world = new World(mapGenerator.generateMap(12, 36));
+		} else {
+			world.setMap(mapGenerator.generateMap(12, 36));
+		}
 	}
 
-	private void notifyGameListeners() {
+	private synchronized void notifyGameListeners() {
 		for (IGameStateListener gameStateListener : Lookup.getDefault().lookupAll(IGameStateListener.class)) {
 			gameStateListener.newGame(world);
 		}
