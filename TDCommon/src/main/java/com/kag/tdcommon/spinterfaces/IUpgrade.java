@@ -7,5 +7,5 @@ public interface IUpgrade {
     IAsset getAsset();
     boolean isTowerCompatible(Entity entity);
     void upgrade(Entity entity);
-    int getCost();
+    int getCost(Entity entity);
 }

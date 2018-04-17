@@ -3,19 +3,18 @@ package com.kag.basicupgrade;
 import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
 import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.tdcommon.entities.parts.DamageUpgradePart;
+import com.kag.tdcommon.entities.parts.RangeUpgradePart;
 import com.kag.tdcommon.entities.parts.WeaponPart;
 import com.kag.tdcommon.spinterfaces.IUpgrade;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = IUpgrade.class)
-public class DamageUpgrade implements IUpgrade {
-
+public class RangeUpgrade implements IUpgrade {
     @Override
     public IAsset getAsset() {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        return assetManager.loadAsset(getClass().getResourceAsStream("/sword.png"));
+        return assetManager.loadAsset(getClass().getResourceAsStream("/bow21.png"));
     }
 
     @Override
@@ -25,26 +24,25 @@ public class DamageUpgrade implements IUpgrade {
 
     @Override
     public void upgrade(Entity entity) {
-        DamageUpgradePart upgradePart = entity.getPart(DamageUpgradePart.class);
-        if (!entity.hasPart(DamageUpgradePart.class)) {
-            upgradePart = new DamageUpgradePart();
+        RangeUpgradePart upgradePart = entity.getPart(RangeUpgradePart.class);
+        if (!entity.hasPart(RangeUpgradePart.class)) {
+            upgradePart = new RangeUpgradePart();
             entity.addPart(upgradePart);
         }
 
         if (upgradePart.getLevel() <= 4) {
-            upgradePart.setDamageMultiplier(upgradePart.getDamageMultiplier() * 1.33);
+            upgradePart.setRangeMultiplier(upgradePart.getRangeMultiplier() * 1.33);
             upgradePart.setCost(upgradePart.getCost() * 4);
             upgradePart.setLevel(upgradePart.getLevel() + 1);
         }
 
         WeaponPart weaponPart = entity.getPart(WeaponPart.class);
-        weaponPart.setDamage((int) Math.ceil(weaponPart.getDamage() * upgradePart.getDamageMultiplier()));
+        weaponPart.setDamage((int) Math.ceil(weaponPart.getDamage() * upgradePart.getRangeMultiplier()));
     }
 
     @Override
     public int getCost(Entity entity) {
-        DamageUpgradePart upgradePart = entity.getPart(DamageUpgradePart.class);
-        return entity.hasPart(DamageUpgradePart.class) ? upgradePart.getCost() : new DamageUpgradePart().getCost();
+        RangeUpgradePart upgradePart = entity.getPart(RangeUpgradePart.class);
+        return entity.hasPart(RangeUpgradePart.class) ? upgradePart.getCost() : new RangeUpgradePart().getCost();
     }
-
 }

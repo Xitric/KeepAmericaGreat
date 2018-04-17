@@ -5,15 +5,14 @@ import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.tdcommon.entities.parts.MoneyPart;
+import com.kag.tdcommon.entities.parts.PlayerPart;
 import com.kag.tdcommon.entities.parts.WeaponPart;
 import com.kag.tdcommon.spinterfaces.IUpgrade;
-import com.kag.upgradecontroller.parts.UpgradePart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -33,7 +32,7 @@ import java.util.function.Consumer;
 public class UpgradeController implements ISystem, IComponentLoader {
 
     private static final Family towerFamily = Family.forAll(MoneyPart.class, PositionPart.class, WeaponPart.class);
-    private static final Family upgradeFamily = Family.forAll(UpgradePart.class);
+    private static final Family playerFamily = Family.forAll(PlayerPart.class);
 
     private ServiceManager<IUpgrade> towerServiceManager;
     private List<UpgradeModel> upgradeModels;
@@ -93,8 +92,15 @@ public class UpgradeController implements ISystem, IComponentLoader {
                 //If the mouse is hovering over an entity in the buy menu
                 //Find a tower at the position
                 if (mouseX >= towerXStart && mouseX <= towerXEnd && mouseY >= towerYStart && mouseY <= towerYEnd) {
-                    towerModel.getiUpgrade().upgrade(towerToUpgrade);
-                    System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage());
+                    MoneyPart playerMoneyPart = world.getEntitiesByFamily(playerFamily).iterator().next().getPart(MoneyPart.class);
+                    if (towerModel.getiUpgrade().getCost(towerToUpgrade) < playerMoneyPart.getMoney()) {
+                        //Player can NOT afford the upgrade
+                    } else {
+                        towerModel.getiUpgrade().upgrade(towerToUpgrade);
+                        playerMoneyPart.setMoney(playerMoneyPart.getMoney() - towerModel.getiUpgrade().getCost(towerToUpgrade));
+                        System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage());
+                    }
+
                 }
             }
         }
@@ -133,7 +139,7 @@ public class UpgradeController implements ISystem, IComponentLoader {
         menuStartY += dy;
         assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
-        
+
         upgradeEntity.addPart(assetPart);
         upgradeEntity.addPart(positionPart);
         //upgradeEntity.addPart(new BoundingBoxPart(10, 10));
