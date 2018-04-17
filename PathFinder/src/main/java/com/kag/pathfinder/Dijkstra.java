@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author Kasper
  */
-public class Dijkstra {
+public class Dijkstra extends AbstractPathFinder {
 
 	/**
 	 * Perform a modified version of Dijkstra's algorithm (inspired by Uniform Cost Search) from the specified goal
@@ -48,41 +48,5 @@ public class Dijkstra {
 		}
 
 		return nodeMap;
-	}
-
-	private boolean validateCoordinates(World world, int x, int y) {
-		if (x < 0 || x >= world.getGameMap().getWidth() || y < 0 || y >= world.getGameMap().getHeight()) {
-			return false;
-		}
-
-		return world.isWalkable(x, y);
-	}
-
-	private Collection<EvaluatedNode> getNeighborsFromTile(EvaluatedNode current, World world) {
-		List<EvaluatedNode> nodes = new ArrayList<>();
-
-		Tile currentTile = current.getTile();
-
-		// Left
-		if (validateCoordinates(world, currentTile.getX() - 1, currentTile.getY())) {
-			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() - 1, currentTile.getY())));
-		}
-
-		// Right
-		if (validateCoordinates(world, currentTile.getX() + 1, currentTile.getY())) {
-			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX() + 1, currentTile.getY())));
-		}
-
-		// Up
-		if (validateCoordinates(world, currentTile.getX(), currentTile.getY() - 1)) {
-			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() - 1)));
-		}
-
-		// Down
-		if (validateCoordinates(world, currentTile.getX(), currentTile.getY() + 1)) {
-			nodes.add(new EvaluatedNode(world.getGameMap().getTile(currentTile.getX(), currentTile.getY() + 1)));
-		}
-
-		return nodes;
 	}
 }

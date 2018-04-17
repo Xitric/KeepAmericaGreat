@@ -5,10 +5,13 @@ public abstract class AbstractBuilder implements IWorldBuilder {
 	private static final int waterLevel = 70;
 
 	boolean isGroundLevel(float[][] heightMap, int x, int y) {
+		/*
 		if (y < 0 || y >= heightMap.length || x < 0 || x >= heightMap[0].length) {
 			return true;
 		}
 		return heightMap[y][x] * 255 - waterLevel > 0;
+		 */
+		return y < 0 || y >= heightMap.length || x < 0 || x >= heightMap[0].length || heightMap[y][x] * 255 - waterLevel > 0;
 	}
 
 	TileOrientation getGroundTileOrientation(float[][] heightMap, int x, int y) {

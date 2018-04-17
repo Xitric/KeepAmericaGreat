@@ -1,8 +1,9 @@
 package com.kag.common.data;
 
 public class Tile {
-    private int x, y;
-    private int[] layers;
+    private final int x;
+	private final int y;
+    private final int[] layers;
     private boolean walkable;
     private boolean occupied;
 

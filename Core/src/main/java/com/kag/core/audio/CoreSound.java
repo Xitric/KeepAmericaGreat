@@ -11,7 +11,7 @@ import com.kag.common.data.ISound;
  */
 public class CoreSound implements ISound {
 
-	private Sound sound;
+	private final Sound sound;
 
 	public CoreSound(Sound sound) {
 		this.sound = sound;

@@ -8,7 +8,7 @@ import com.kag.common.entities.IPart;
  */
 public class TileMapPart implements IPart {
 
-	private Tile[][] tiles;
+	private final Tile[][] tiles;
 	private int tileWidth, tileHeight;
 
 	public TileMapPart(int width, int height, int tileWidth, int tileHeight) {

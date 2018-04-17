@@ -7,6 +7,7 @@ package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
@@ -35,7 +36,7 @@ public class Game implements ApplicationListener {
 	private ServiceManager<IComponentLoader> componentManager;
 	private ServiceManager<ISystem> systemManager;
 	private ServiceManager<IEntitySystem> entitySystemManager;
-	private Collection<Runnable> scheduledJobs;
+	private final Collection<Runnable> scheduledJobs;
 	private World world;
 	private GameData gameData;
 	private GdxKeyboard keyboard;
@@ -82,7 +83,7 @@ public class Game implements ApplicationListener {
 		}
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		OrthographicCamera camera = QueuedRenderer.getInstance().getDynamicCamera();
 		camera.position.x = (int) gameData.getCamera().getX();

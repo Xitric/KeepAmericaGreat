@@ -1,6 +1,7 @@
 package com.kag.core.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,12 +18,12 @@ import java.util.PriorityQueue;
 public class QueuedRenderer {
 
 	private static QueuedRenderer instance;
-	private PriorityQueue<SpriteRenderItem> spriteRenderItems;
-	private PriorityQueue<ShapeRenderItem> shapeRenderItems;
-	private SpriteBatch sb;
-	private ShapeRenderer sr;
-	private OrthographicCamera staticCamera;
-	private OrthographicCamera dynamicCamera;
+	private final PriorityQueue<SpriteRenderItem> spriteRenderItems;
+	private final PriorityQueue<ShapeRenderItem> shapeRenderItems;
+	private final SpriteBatch sb;
+	private final ShapeRenderer sr;
+	private final OrthographicCamera staticCamera;
+	private final OrthographicCamera dynamicCamera;
 
 	private QueuedRenderer() {
 		spriteRenderItems = new PriorityQueue<>();
@@ -111,7 +112,7 @@ public class QueuedRenderer {
 				//Ensure that we are not using both the sprite batch and shape renderer at the same time
 				if (sr.isDrawing()) {
 					sr.end();
-					Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
+					Gdx.gl.glDisable(GL20.GL_BLEND);
 				}
 
 				SpriteRenderItem spriteRenderItem = spriteRenderItems.poll();
@@ -153,8 +154,8 @@ public class QueuedRenderer {
 					sr.begin(shapeRenderItem.getDrawType());
 
 					//Enable blending (this is done differently for sprite batches and shape renderers)
-					Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-					Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+					Gdx.gl.glEnable(GL20.GL_BLEND);
+					Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 				}
 				shapeRenderItem.doOperation(sr);
 			}

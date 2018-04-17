@@ -13,8 +13,8 @@ import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.tdcommon.entities.parts.DamagePart;
+import com.kag.tdcommon.entities.parts.EnemyPart;
 import com.kag.tdcommon.entities.parts.LifePart;
-import com.kag.tdcommon.entities.parts.MoneyPart;
 import com.kag.tdcommon.spinterfaces.IProjectile;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
@@ -30,13 +30,7 @@ import static java.lang.Math.PI;
 public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, IProjectile {
 
 	private static final Family PROJECTILE_FAMILY = Family.forAll(PositionPart.class, BoundingBoxPart.class, DamagePart.class, MovingPart.class);
-	private static final Family ENEMY_FAMILY = Family.forAll(PositionPart.class, BoundingBoxPart.class, LifePart.class);
-	private static final Family PLAYER_FAMILY = Family.forAll(PositionPart.class, BoundingBoxPart.class, LifePart.class, MoneyPart.class);
-
-	private int projectileWidth = 10;
-	private int projectileHeight = 10;
-	private Lookup lookup;
-
+	private static final Family ENEMY_FAMILY = Family.forAll(PositionPart.class, BoundingBoxPart.class, LifePart.class, EnemyPart.class);
 
 	@Override
 	public void load(World world) {
@@ -115,7 +109,6 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 			}
 		}
 
-
 		x += dx;
 		y += dy;
 
@@ -126,11 +119,5 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 
 		projectilePositionPart.setPos(x, y);
 	}
-
-	private Entity getPlayer(World world) {
-		return world.getEntitiesByFamily(PLAYER_FAMILY).get(0);
-	}
-
-
 }
 

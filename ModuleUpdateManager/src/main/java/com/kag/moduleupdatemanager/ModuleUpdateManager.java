@@ -33,7 +33,10 @@ public class ModuleUpdateManager {
 		locallyInstalled = getLocallyInstalled();
 
 		try {
-			getUpdateProvider(KAG_UC).refresh(null, true);
+			UpdateUnitProvider updateUnitProvider = getUpdateProvider(KAG_UC);
+			if(updateUnitProvider != null) {
+				updateUnitProvider.refresh(null, true);
+			}
 		} catch (IOException ex) {
 			LOGGER.log(Level.WARNING, ex.getLocalizedMessage(), ex.getCause());
 			return;
@@ -55,13 +58,14 @@ public class ModuleUpdateManager {
 	 */
 	private List<UpdateElement> getLocallyInstalled() {
 		List<UpdateElement> locals = new ArrayList<>();
-
-		for (UpdateUnit unit : getUpdateProvider(KAG_UC).getUpdateUnits()) {
-			if (unit.getInstalled() != null) {
-				locals.add(unit.getInstalled());
+		UpdateUnitProvider updateUnitProvider = getUpdateProvider(KAG_UC);
+		if(updateUnitProvider != null) {
+			for (UpdateUnit unit : updateUnitProvider.getUpdateUnits()) {
+				if (unit.getInstalled() != null) {
+					locals.add(unit.getInstalled());
+				}
 			}
 		}
-
 		return locals;
 	}
 
@@ -90,12 +94,14 @@ public class ModuleUpdateManager {
 	 */
 	private List<UpdateElement> getModulesToUpdate() {
 		List<UpdateElement> update = new ArrayList<>();
-
-		for (UpdateUnit unit : getUpdateProvider(KAG_UC).getUpdateUnits()) {
-			if (!unit.getAvailableUpdates().isEmpty()) {
-				if (unit.getInstalled() != null) {
-					LOGGER.log(Level.INFO, "Found new version of module: {0} v{1}", new Object[]{unit.getCodeName(), unit.getAvailableUpdates().get(0).getSpecificationVersion()});
-					update.add(unit.getAvailableUpdates().get(0));
+		UpdateUnitProvider updateUnitProvider = getUpdateProvider(KAG_UC);
+		if(updateUnitProvider != null) {
+			for (UpdateUnit unit : updateUnitProvider.getUpdateUnits()) {
+				if (!unit.getAvailableUpdates().isEmpty()) {
+					if (unit.getInstalled() != null) {
+						LOGGER.log(Level.INFO, "Found new version of module: {0} v{1}", new Object[]{unit.getCodeName(), unit.getAvailableUpdates().get(0).getSpecificationVersion()});
+						update.add(unit.getAvailableUpdates().get(0));
+					}
 				}
 			}
 		}

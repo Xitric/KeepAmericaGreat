@@ -5,7 +5,7 @@ import com.kag.tdcommon.spinterfaces.ITower;
 
 public class TowerPart implements IPart {
 
-	private ITower iTower;
+	private final ITower iTower;
 
 	public TowerPart(ITower itower) {
 		this.iTower = itower;

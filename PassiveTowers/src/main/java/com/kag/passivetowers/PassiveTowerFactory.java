@@ -17,7 +17,7 @@ import java.util.List;
 public class PassiveTowerFactory  {
 
     private static PassiveTowerFactory INSTANCE = null;
-    private static List<Entity> listOfTowers = new ArrayList<>();
+    private static final List<Entity> listOfTowers = new ArrayList<>();
 
     public static PassiveTowerFactory getInstance() {
         if (INSTANCE == null) {
@@ -27,7 +27,6 @@ public class PassiveTowerFactory  {
     }
 
     public Entity createPassiveTower(int cost, AssetPart assetPart, ITower iTower) {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         PositionPart positionPart = new PositionPart(0, 0);
         MoneyPart costPart = new MoneyPart(cost);
         BlockingPart blockingPart = new BlockingPart();

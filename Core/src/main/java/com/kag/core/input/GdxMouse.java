@@ -72,6 +72,7 @@ public class GdxMouse {
 	 * @param amount the amount of scrolling
 	 * @return true if the input was processed, false otherwise
 	 */
+	@SuppressWarnings("SameReturnValue")
 	public boolean scrolled(int amount) {
 		mouse.setScrollAmount(amount);
 		return true;
@@ -84,6 +85,7 @@ public class GdxMouse {
 	 * @param y the vertical position of the mouse
 	 * @return true if the input was processed, false otherwise
 	 */
+	@SuppressWarnings("SameReturnValue")
 	public boolean mouseMoved(int x, int y) {
 		mouse.setX(x);
 		mouse.setY(y);
@@ -131,6 +133,7 @@ public class GdxMouse {
 	 * @param dy the vertical drag distance
 	 * @return true if the input was processed, false otherwise
 	 */
+	@SuppressWarnings("SameReturnValue")
 	public boolean mouseDragged(int dx, int dy) {
 		//TODO: Do we need this?
 		return false;

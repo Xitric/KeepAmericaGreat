@@ -14,7 +14,7 @@ public class ObstacleBuilder extends AbstractBuilder {
                     continue;
                 }
                 if ((int) (Math.random() * 100 + 1) <= spawnChance) {
-                    int randomObstacle = (int) Math.random() * 7;
+                    int randomObstacle = (int) (Math.random() * 7);
                     gameMap.getTile(x, y).setLayer(1, randomObstacle + offset);
                     gameMap.getTile(x, y).setWalkable(false);
                 }

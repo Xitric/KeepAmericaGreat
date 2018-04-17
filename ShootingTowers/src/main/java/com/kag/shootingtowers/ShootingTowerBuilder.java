@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class ShootingTowerBuilder {
 
-	private static List<Entity> allTowers = new ArrayList<>();
 	private String name;
 	private int damage;
 	private int range;
@@ -31,10 +30,6 @@ public class ShootingTowerBuilder {
 	private AssetPart turretAsset;
 	private int turretAxisX;
 	private int turretAxisY;
-
-	public static List<Entity> getAllTowers() {
-		return allTowers;
-	}
 
 	public ShootingTowerBuilder setName(String name) {
 		this.name = name;
@@ -129,7 +124,6 @@ public class ShootingTowerBuilder {
 		tower.addPart(baseAsset);
 		tower.addPart(turretAsset);
 
-		allTowers.add(tower);
 		return tower;
 	}
 }

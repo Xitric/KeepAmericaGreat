@@ -95,10 +95,10 @@ public class AssetManager implements IAssetManager {
 
 		TextureRegion[] tiles1D = new TextureRegion[tileH * tileV];
 		int insertionIndex = 0;
-		for (int row = 0; row < tileV; row++) {
+		for (TextureRegion[] aTiles2D : tiles2D) {
 			for (int col = 0; col < tileH; col++) {
-				tiles2D[row][col].flip(false, true);
-				tiles1D[insertionIndex++] = tiles2D[row][col];
+				aTiles2D[col].flip(false, true);
+				tiles1D[insertionIndex++] = aTiles2D[col];
 			}
 		}
 

@@ -23,12 +23,9 @@ public enum ZIndex {
     MENU_BACKGROUND(40),
     MENU_ITEM_ICON(41);
 
-
-
-
     public final int value;
-    private ZIndex(int value){
+
+    ZIndex(int value){
         this.value = value;
     }
-
 }

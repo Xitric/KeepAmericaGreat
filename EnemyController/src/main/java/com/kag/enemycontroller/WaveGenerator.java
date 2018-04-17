@@ -40,9 +40,11 @@ public class WaveGenerator {
 			}
 
 			IEnemy enemy = chooseEnemyType(possibleEnemyTypes, spawnChances, range);
-			strength -= enemy.getDifficulty();
 
-			wave.add(enemy.create());
+			if (enemy != null) {
+				strength -= enemy.getDifficulty();
+				wave.add(enemy.create());
+			}
 		}
 
 		return wave;

@@ -9,8 +9,8 @@ import com.kag.common.entities.parts.AssetPart;
  */
 public class TexturePart extends AssetPart {
 
-	private IAsset asset;
-	private TextureRegion texture;
+	private final IAsset asset;
+	private final TextureRegion texture;
 
 	public TexturePart(IAsset asset, TextureRegion texture) {
 		this.asset = asset;

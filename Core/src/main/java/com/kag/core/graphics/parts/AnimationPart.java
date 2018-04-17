@@ -9,8 +9,8 @@ import com.kag.common.entities.parts.AssetPart;
  */
 public class AnimationPart extends AssetPart {
 
-	private IAsset asset;
-	private Animation animation;
+	private final IAsset asset;
+	private final Animation animation;
 	private float stateTime;
 
 	public AnimationPart(IAsset asset, Animation animation) {

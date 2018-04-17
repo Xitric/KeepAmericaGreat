@@ -10,7 +10,7 @@ import org.openide.util.Lookup;
  */
 public class GameMap {
 
-	private Entity tileEntity;
+	private final Entity tileEntity;
 	private Node[][] pathNodes;
 	private int playerX, playerY;
 

@@ -22,7 +22,7 @@ public abstract class AbstractRenderer {
 	 * @param entity the entity to get a camera for
 	 * @return a dynamic or static camera depending on the entity's position information
 	 */
-	protected OrthographicCamera getCamera(Entity entity) {
+	OrthographicCamera getCamera(Entity entity) {
 		if (entity.hasPart(PositionPart.class)) {
 			//Render in world coordinates
 			return QueuedRenderer.getInstance().getDynamicCamera();
@@ -41,7 +41,7 @@ public abstract class AbstractRenderer {
 	 * @param entity the entity to extract a position from
 	 * @return the positioning information of the entity
 	 */
-	protected PositionPart getPosition(Entity entity) {
+	PositionPart getPosition(Entity entity) {
 		if (entity.hasPart(PositionPart.class)) {
 			return entity.getPart(PositionPart.class);
 		} else {

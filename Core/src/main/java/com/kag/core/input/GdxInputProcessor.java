@@ -9,8 +9,8 @@ import com.badlogic.gdx.InputAdapter;
  */
 public class GdxInputProcessor extends InputAdapter {
 
-	private GdxKeyboard keyboard;
-	private GdxMouse mouse;
+	private final GdxKeyboard keyboard;
+	private final GdxMouse mouse;
 
 	public GdxInputProcessor(GdxKeyboard keyboard, GdxMouse mouse) {
 		this.keyboard = keyboard;
@@ -19,64 +19,43 @@ public class GdxInputProcessor extends InputAdapter {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (!keyboard.keyUp(keycode)) {
-			return super.keyUp(keycode);
-		}
+		return keyboard.keyUp(keycode) || super.keyUp(keycode);
 
-		return true;
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (!keyboard.keyDown(keycode)) {
-			return super.keyDown(keycode);
-		}
+		return keyboard.keyDown(keycode) || super.keyDown(keycode);
 
-		return true;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		if (!mouse.scrolled(amount)) {
-			return super.scrolled(amount);
-		}
+		return mouse.scrolled(amount) || super.scrolled(amount);
 
-		return true;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		if (!mouse.mouseMoved(screenX, screenY)) {
-			return super.mouseMoved(screenX, screenY);
-		}
+		return mouse.mouseMoved(screenX, screenY) || super.mouseMoved(screenX, screenY);
 
-		return true;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (!mouse.mousePressed(screenX, screenY, button)) {
-			return super.touchDown(screenX, screenY, pointer, button);
-		}
+		return mouse.mousePressed(screenX, screenY, button) || super.touchDown(screenX, screenY, pointer, button);
 
-		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if (!mouse.mouseReleased(screenX, screenY, button)) {
-			return super.touchUp(screenX, screenY, pointer, button);
-		}
+		return mouse.mouseReleased(screenX, screenY, button) || super.touchUp(screenX, screenY, pointer, button);
 
-		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (!mouse.mouseDragged(screenX, screenY)) {
-			return super.touchDragged(screenX, screenY, pointer);
-		}
+		return mouse.mouseDragged(screenX, screenY) || super.touchDragged(screenX, screenY, pointer);
 
-		return true;
 	}
 }

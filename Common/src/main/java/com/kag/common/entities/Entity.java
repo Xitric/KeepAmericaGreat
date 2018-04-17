@@ -28,7 +28,7 @@ public class Entity {
 	 * @param part the part to add
 	 */
 	public void addPart(IPart part) {
-		Set<IPart> partSet = parts.getOrDefault(part.getClass(), new HashSet());
+		Set<IPart> partSet = parts.getOrDefault(part.getClass(), new HashSet<>());
 		partSet.add(part);
 		parts.put(part.getClass(), partSet);
 

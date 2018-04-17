@@ -7,30 +7,27 @@ import com.kag.common.entities.parts.*;
 import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.tdcommon.entities.parts.LifePart;
-import com.kag.tdcommon.entities.parts.MoneyPart;
-import com.kag.tdcommon.entities.parts.TowerPart;
-import com.kag.tdcommon.entities.parts.WeaponPart;
+import com.kag.tdcommon.entities.parts.*;
 import org.openide.util.Lookup;
 
 public class TowerSelectionManager {
-	private static final Family PLAYER_FAMILY = Family.forAll(MoneyPart.class, LifePart.class, PositionPart.class, BoundingBoxPart.class).excluding(BlockingPart.class);
-	private static final Family towerFamily = Family.forAll(TowerPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class, MoneyPart.class);
+	private static final Family TOWER_FAMILY = Family.forAll(TowerPart.class, MoneyPart.class);
 
 	private TowerModel selectedTower;
-	private IAssetManager assetManager;
+	private final IAssetManager assetManager;
 	private AssetPart towerPreviewOverlayAssetPart = null;
 	private Entity previewTower;
-	private AssetPart redOverlay;
-	private AssetPart blueOverlay;
+	private final AssetPart redOverlay;
+	private final AssetPart blueOverlay;
 	private Entity tempTower;
 	private float xTilePositionOnMap;
 	private float yTilePositionOnMap;
-	private Entity sellTowerButton;
-	private Entity sellTowerLabel;
+	private final Entity sellTowerButton;
+	private final Entity sellTowerLabel;
 	private int sellingPrice;
 
-	public TowerSelectionManager() {
+	TowerSelectionManager() {
 		assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		redOverlay = assetManager.createTexture(getClass().getResourceAsStream("/RedOverlay.png"));
 		redOverlay.setzIndex(ZIndex.TOWER_OVERLAY);
@@ -51,7 +48,7 @@ public class TowerSelectionManager {
 		sellTowerButton.addPart(new BoundingBoxPart(130, 80));
 	}
 
-	public Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
+	Entity createTowerPreview(GameData gameData, TowerModel selectedTower) {
 		previewTower = new Entity();
 
 		PositionPart positionPart = new AbsolutePositionPart(0, 0);
@@ -66,6 +63,7 @@ public class TowerSelectionManager {
 
 		Entity tower = selectedTower.getITower().create();
 		WeaponPart weaponPart = tower.getPart(WeaponPart.class);
+
 		if (weaponPart != null) {
 			CirclePart rangeCircle = new CirclePart(weaponPart.getRange(), new Color(0x55ADD8E6));
 			rangeCircle.setxOffset(32);
@@ -80,14 +78,14 @@ public class TowerSelectionManager {
 		return previewTower;
 	}
 
-	public void createTowerPreviewOverlay() {
+	void createTowerPreviewOverlay() {
 		if (towerPreviewOverlayAssetPart == null) {
 			towerPreviewOverlayAssetPart = redOverlay;
 			getPreviewTower().addPart(towerPreviewOverlayAssetPart);
 		}
 	}
 
-	public void updateTowerPreviewOverlayOnMap(World world, GameData gameData) {
+	void updateTowerPreviewOverlayOnMap(World world, GameData gameData) {
 		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
 		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
@@ -98,7 +96,6 @@ public class TowerSelectionManager {
 			getPreviewTower().removePart(towerPreviewOverlayAssetPart);
 			towerPreviewOverlayAssetPart = blueOverlay;
 			getPreviewTower().addPart(towerPreviewOverlayAssetPart);
-
 		} else {
 			getPreviewTower().removePart(towerPreviewOverlayAssetPart);
 			towerPreviewOverlayAssetPart = redOverlay;
@@ -106,7 +103,7 @@ public class TowerSelectionManager {
 		}
 	}
 
-	public void updateTowerPreviewOverlayOnMenu(GameData gameData) {
+	void updateTowerPreviewOverlayOnMenu(GameData gameData) {
 		getPreviewTower().getPart(AbsolutePositionPart.class).setPos(gameData.getMouse().getX() - 32, gameData.getMouse().getY() - 32);
 
 		if (towerPreviewOverlayAssetPart != null) {
@@ -123,9 +120,9 @@ public class TowerSelectionManager {
 	private int countValidPaths(Node[][] paths) {
 		int count = 0;
 
-		for (int i = 0; i < paths.length; i++) {
-			for (int j = 0; j < paths[i].length; j++) {
-				if (paths[i][j] != null) {
+		for (Node[] path : paths) {
+			for (Node aPath : path) {
+				if (aPath != null) {
 					count++;
 				}
 			}
@@ -150,7 +147,7 @@ public class TowerSelectionManager {
 		playerCurrencyPart.setMoney(playerMoney - cost);
 	}
 
-	public void placeTowerOnGameMap(World world, GameData gameData) {
+	void placeTowerOnGameMap(World world, GameData gameData) {
 		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
 		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 
@@ -221,29 +218,25 @@ public class TowerSelectionManager {
 		return true;
 	}
 
-	public void resetTowerSelection(World world) {
+	void resetTowerSelection(World world) {
 		world.removeEntity(getPreviewTower());
-		setPreviewTower(null);
+		previewTower = null;
 		setSelectedTower(null);
 	}
 
-	public Entity getPreviewTower() {
+	private Entity getPreviewTower() {
 		return previewTower;
 	}
 
-	public void setPreviewTower(Entity mouseTower) {
-		this.previewTower = mouseTower;
-	}
-
-	public TowerModel getSelectedTower() {
+	TowerModel getSelectedTower() {
 		return selectedTower;
 	}
 
-	public void setSelectedTower(TowerModel selectedTower) {
+	void setSelectedTower(TowerModel selectedTower) {
 		this.selectedTower = selectedTower;
 	}
 
-	public void handleSellTower(World world, GameData gameData) {
+	void handleSellTower(World world, GameData gameData) {
 		if (gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT)) {
 			if (isSellBtnPressed(world, gameData, sellTowerButton) && world.getAllEntities().contains(sellTowerButton)) {
 				world.removeEntity(tempTower);
@@ -260,7 +253,7 @@ public class TowerSelectionManager {
 			}
 
 			Entity tower = getMouseSelectedTower(gameData, world);
-			if (tower != null && towerFamily.matches(tower.getBits())) {
+			if (tower != null && TOWER_FAMILY.matches(tower.getBits())) {
 				xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX()) / 64;
 				yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY()) / 64;
 				//Save a reference to the tower, so the tower can be removed
@@ -280,16 +273,16 @@ public class TowerSelectionManager {
 		float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
 		float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
 		Entity entity = world.getEntityAt(xTilePositionOnMap, yTilePositionOnMap);
+
 		if (entity == null) {
 			System.out.println("no entity");
 			return null;
 		}
-		if (towerFamily.matches(entity.getBits())) {
-			System.out.println("found a tower");
+
+		if (TOWER_FAMILY.matches(entity.getBits())) {
 			return entity;
-		} else {
-			System.out.println("found a non-tower");
 		}
+
 		return null;
 	}
 
@@ -297,7 +290,7 @@ public class TowerSelectionManager {
 		return world.isEntityLeftPressed(gameData, sellTowerButton);
 	}
 
-	public void dispose(World world) {
+	void dispose(World world) {
 		redOverlay.dispose();
 		blueOverlay.dispose();
 		world.removeEntity(sellTowerButton);

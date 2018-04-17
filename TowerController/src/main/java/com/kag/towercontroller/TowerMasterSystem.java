@@ -32,10 +32,10 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 
 	private Entity towerMenuBackground;
 	private Entity upgradeMenuBackground;
-	private List<Consumer<World>> towerConsumer;
-	private List<TowerModel> towerModels;
+	private final List<Consumer<World>> towerConsumer;
+	private final List<TowerModel> towerModels;
 	private ServiceManager<ITower> towerServiceManager;
-	private IAssetManager assetManager;
+	private final IAssetManager assetManager;
 	private TowerSelectionManager towerSelectionManager;
 	private boolean updateBuyMenu;
 
@@ -213,6 +213,7 @@ public class TowerMasterSystem implements ISystem, IComponentLoader {
 		updateBuyMenu = true;
 	}
 
+	@SuppressWarnings("unused")
 	private void onTowersChanged(ITower tower) {
 		towerConsumer.add(this::removeTowerPreviews);
 	}

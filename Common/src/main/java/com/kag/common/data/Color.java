@@ -142,7 +142,7 @@ public class Color {
 		value = (a << ALPHA_OFFSET) |
 				(r << RED_OFFSET) |
 				(g << GREEN_OFFSET) |
-				(b << BLUE_OFFSET);
+				(b);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class Color {
 	 * @return the blue component
 	 */
 	public int getBlue() {
-		return (value >> BLUE_OFFSET) & 0xFF;
+		return (value) & 0xFF;
 	}
 
 	/**

@@ -36,8 +36,6 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
 	@Override
 	public void load(World world) {
-		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-
 		IAudioManager audioManager = Lookup.getDefault().lookup(IAudioManager.class);
 		shootingSound = audioManager.loadSound(getClass().getResourceAsStream("/shooting.wav"), "wav");
 	}

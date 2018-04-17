@@ -15,7 +15,7 @@ public abstract class RenderItem implements Comparable<RenderItem> {
 	private int insertionIndex;
 	private final OrthographicCamera camera;
 
-	public RenderItem(int zIndex, OrthographicCamera camera) {
+	RenderItem(int zIndex, OrthographicCamera camera) {
 		this.zIndex = zIndex;
 		this.camera = camera;
 	}
@@ -24,7 +24,7 @@ public abstract class RenderItem implements Comparable<RenderItem> {
 		return zIndex;
 	}
 
-	public int getInsertionIndex() {
+	int getInsertionIndex() {
 		return insertionIndex;
 	}
 

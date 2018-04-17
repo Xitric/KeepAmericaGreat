@@ -28,7 +28,7 @@ public class EvaluatedNode extends Node implements Comparable<EvaluatedNode> {
         this.gValue = gValue;
     }
 
-    public int getfValue() {
+    private int getfValue() {
         return fValue;
     }
 

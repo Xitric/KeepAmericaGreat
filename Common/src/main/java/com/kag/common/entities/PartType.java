@@ -27,22 +27,15 @@ public class PartType {
 	 * @param partClass the class of the part to get the type for
 	 * @return the type for the specified part class, storing the part's unique id
 	 */
-	public static PartType getType(Class<? extends IPart> partClass) {
-		PartType type = partTypes.get(partClass);
-
-		if (type == null) {
-			type = new PartType();
-			partTypes.put(partClass, type);
-		}
-
-		return type;
+	static PartType getType(Class<? extends IPart> partClass) {
+		return partTypes.computeIfAbsent(partClass, k -> new PartType());
 	}
 
 	private PartType() {
 		id = nextId++;
 	}
 
-	public int getId() {
+	int getId() {
 		return id;
 	}
 }
