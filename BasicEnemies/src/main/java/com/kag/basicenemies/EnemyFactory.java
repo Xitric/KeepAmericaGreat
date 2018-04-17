@@ -23,6 +23,7 @@ import org.openide.util.lookup.ServiceProvider;
 public class EnemyFactory implements IComponentLoader {
 
 	private static IAsset hatSpriteSheet;
+	private static IAsset animationSpriteSheet;
 
 	public static Entity createEnemy(int imageOffset, float speed, int money, int life) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
@@ -44,7 +45,9 @@ public class EnemyFactory implements IComponentLoader {
 		enemy.addPart(new LifePart(life));
 		enemy.addPart(new BasicEnemyPart());
 
-		AssetPart animationPart = assetManager.createAnimation(EnemyFactory.class.getResourceAsStream("/EnemyWalking.png"), 48, 52, (int) (60.0f * 100 / speed));
+		AssetPart animationPart = assetManager.createAnimation(animationSpriteSheet, 0, 0,
+				animationSpriteSheet.getWidth(), animationSpriteSheet.getHeight(),
+				48, 52, (int) (60.0f * 100 / speed));
 		animationPart.setxOffset(-24);
 		animationPart.setyOffset(-26);
 		animationPart.setzIndex(ZIndex.ENEMY_ANIMATIONPART);
@@ -57,11 +60,13 @@ public class EnemyFactory implements IComponentLoader {
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		hatSpriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/AllHats.png"));
+		animationSpriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/EnemyWalking.png"));
 	}
 
 	@Override
 	public void dispose(World world) {
 		hatSpriteSheet.dispose();
+		animationSpriteSheet.dispose();
 
 		for (Entity e: world.getAllEntities()) {
 			if (e.hasPart(BasicEnemyPart.class)) {

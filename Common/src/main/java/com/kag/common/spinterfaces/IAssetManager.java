@@ -85,4 +85,26 @@ public interface IAssetManager {
 	 * @return the new asset part or null if the resource could not be loaded
 	 */
 	AssetPart createAnimation(InputStream input, int frameWidth, int frameHeight, int frameDuration);
+
+	/**
+	 * Creates a new animation from a region of an existing asset. This method can be used to create multiple animations
+	 * that share the same graphical resource, thus lowering memory consumption. Note,
+	 * however, that when this animation is disposed, the {@link IAsset} is disposed for all other asset parts that
+	 * were made from it.
+	 * <ul>
+	 * <li>Pre-conditions: The graphics environment must be initialized</li>
+	 * <li>Post-conditions: None</li>
+	 * </ul>
+	 *
+	 * @param asset         the graphical resource to extract the animation from
+	 * @param x             the x-coordinate of the upper left corner of the texture
+	 * @param y             the y-coordinate of the upper left corner of the texture
+	 * @param width         the width of the texture to extract
+	 * @param height        the height of the texture to extract
+	 * @param frameWidth    the width of each frame of the animation, in pixels
+	 * @param frameHeight   the height of each frame of the animation, in pixels
+	 * @param frameDuration the duration of each frame of the animation, in milliseconds
+	 * @return the new asset part or null if the resource could not be loaded
+	 */
+	AssetPart createAnimation(IAsset asset, int x, int y, int width, int height, int frameWidth, int frameHeight, int frameDuration);
 }
