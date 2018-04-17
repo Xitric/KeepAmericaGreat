@@ -6,6 +6,7 @@ import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
@@ -93,22 +94,22 @@ public class UpgradeController implements ISystem, IComponentLoader {
                 //Find a tower at the position
                 if (mouseX >= towerXStart && mouseX <= towerXEnd && mouseY >= towerYStart && mouseY <= towerYEnd) {
                     MoneyPart playerMoneyPart = world.getEntitiesByFamily(playerFamily).iterator().next().getPart(MoneyPart.class);
-                    if (towerModel.getiUpgrade().getCost(towerToUpgrade) < playerMoneyPart.getMoney()) {
+                    if (towerModel.getiUpgrade().getCost(towerToUpgrade) > playerMoneyPart.getMoney()) {
                         //Player can NOT afford the upgrade
                     } else {
-                        towerModel.getiUpgrade().upgrade(towerToUpgrade);
                         playerMoneyPart.setMoney(playerMoneyPart.getMoney() - towerModel.getiUpgrade().getCost(towerToUpgrade));
-                        System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage());
+                        towerModel.getiUpgrade().upgrade(towerToUpgrade);
+                        towerModel.getUpgradeEntity().getPart(LabelPart.class).setLabel(String.valueOf(towerModel.getiUpgrade().getCost(towerToUpgrade)));
+                        System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage() + " range is " + towerToUpgrade.getPart(WeaponPart.class).getRange());
                     }
-
                 }
             }
         }
-
     }
 
     public Entity addNewUpgradeToMenu(IUpgrade upgrade) {
         //Create Entity from tower and return
+        
         Entity upgradeEntity = new Entity();
         upgradeModels.add(new UpgradeModel(upgradeEntity, upgrade));
 
@@ -122,7 +123,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
         int menuStartY = 410 + menuY * 52;
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-
         IAsset iAsset = upgrade.getAsset();
         AssetPart assetPart = assetManager.createTexture(iAsset, 0, 0, iAsset.getWidth(), iAsset.getHeight());
         float aspectRatio = (float) iAsset.getWidth() / iAsset.getHeight();
@@ -137,15 +137,18 @@ public class UpgradeController implements ISystem, IComponentLoader {
         int dy = (48 - assetPart.getHeight()) / 2;
         menuStartX += dx;
         menuStartY += dy;
+
+
         assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
 
+        LabelPart priceLabel = new LabelPart(String.valueOf(upgrade.getCost(towerToUpgrade)));
+        priceLabel.setzIndex(ZIndex.TOWER_TURRET);
+
+        upgradeEntity.addPart(priceLabel);
         upgradeEntity.addPart(assetPart);
         upgradeEntity.addPart(positionPart);
-        //upgradeEntity.addPart(new BoundingBoxPart(10, 10));
 
-        System.out.println(positionPart.getX() + " " + positionPart.getY());
-        System.out.println("New upgrade entity is: " + upgradeEntity);
         return upgradeEntity;
     }
 

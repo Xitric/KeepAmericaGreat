@@ -2,6 +2,7 @@ package com.kag.basicupgrade;
 
 import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.parts.gui.LabelPart;
 import com.kag.common.spinterfaces.IAssetManager;
 import com.kag.tdcommon.entities.parts.RangeUpgradePart;
 import com.kag.tdcommon.entities.parts.WeaponPart;
@@ -43,6 +44,8 @@ public class RangeUpgrade implements IUpgrade {
     @Override
     public int getCost(Entity entity) {
         RangeUpgradePart upgradePart = entity.getPart(RangeUpgradePart.class);
+        System.out.println(entity.hasPart(RangeUpgradePart.class) ? upgradePart.getCost() : new RangeUpgradePart().getCost());
         return entity.hasPart(RangeUpgradePart.class) ? upgradePart.getCost() : new RangeUpgradePart().getCost();
+
     }
 }
