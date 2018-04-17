@@ -10,6 +10,8 @@ import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = IUpgrade.class)
 public class DamageUpgrade implements IUpgrade {
+	private int cost = 50;
+	private double damageIncrement = 1.33;
 
 	@Override
 	public IAsset getAsset() {
@@ -25,7 +27,12 @@ public class DamageUpgrade implements IUpgrade {
 	@Override
 	public void upgrade(Entity entity) {
 		WeaponPart weaponPart = entity.getPart(WeaponPart.class);
-		weaponPart.setDamage(weaponPart.getDamage() + 10);
+		weaponPart.setDamage((int)Math.ceil(weaponPart.getDamage() * damageIncrement));
+	}
+
+	@Override
+	public int getCost() {
+		return cost;
 	}
 
 }

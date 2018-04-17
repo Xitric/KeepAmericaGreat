@@ -133,11 +133,9 @@ public class UpgradeController implements ISystem, IComponentLoader {
         menuStartY += dy;
         assetPart.setzIndex(ZIndex.GUI_CURRENCY_ICON);
         AbsolutePositionPart positionPart = new AbsolutePositionPart(menuStartX, menuStartY);
-
-        UpgradePart upgradePart = new UpgradePart();
+        
         upgradeEntity.addPart(assetPart);
         upgradeEntity.addPart(positionPart);
-        upgradeEntity.addPart(upgradePart);
         //upgradeEntity.addPart(new BoundingBoxPart(10, 10));
 
         System.out.println(positionPart.getX() + " " + positionPart.getY());
@@ -159,30 +157,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
         }
         if (towerFamily.matches(entity.getBits())) {
             //System.out.println("upgrade: found a tower");
-            return entity;
-        }
-        return null;
-    }
-
-    private Entity getUpgradeEntity(GameData gameData, World world) {
-        float xTilePositionOnMap = (gameData.getCamera().getX() - gameData.getWidth() / 2 + gameData.getMouse().getX());
-        float yTilePositionOnMap = (gameData.getCamera().getY() - gameData.getHeight() / 2 + gameData.getMouse().getY());
-
-        Entity entity = world.getEntityAt(788, 410);
-
-        if (entity == null) {
-            System.out.println("No upgrade entity found!");
-            return null;
-        }
-        System.out.println(entity);
-
-        if (entity.hasPart(UpgradePart.class)) {
-            System.out.println("Has upgrade part!");
-        } else {
-            System.out.println("Not upgrade part is found");
-        }
-        if (upgradeFamily.matches(entity.getBits())) {
-            System.out.println("upgrade: found a upgrade");
             return entity;
         }
         return null;
