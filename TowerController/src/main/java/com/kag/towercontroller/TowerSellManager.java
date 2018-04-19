@@ -89,9 +89,7 @@ public class TowerSellManager implements IComponentLoader, ISystem, ITowerServic
 				world.removeEntity(towerToSell);
 
 				PositionPart positionPart = towerToSell.getPart(PositionPart.class);
-				int tileX = (int) (positionPart.getX() / world.getGameMap().getTileWidth());
-				int tileY = (int) (positionPart.getY() / world.getGameMap().getTileHeight());
-				world.getTileAt(tileX, tileY).setWalkable(true);
+				world.getTileAt(positionPart.getX(), positionPart.getY()).setWalkable(true);
 
 				service.towerRemoved(service.getSelectedTower());
 			}

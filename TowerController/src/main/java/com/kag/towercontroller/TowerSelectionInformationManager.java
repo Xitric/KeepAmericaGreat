@@ -8,7 +8,6 @@ import com.kag.common.entities.parts.CirclePart;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.tdcommon.entities.parts.WeaponPart;
 import com.kag.tdcommon.spinterfaces.ITowerService;
-import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -31,9 +30,8 @@ public class TowerSelectionInformationManager implements IComponentLoader, ITowe
 
 	@Override
 	public void dispose(World world) {
-		Entity tower = Lookup.getDefault().lookup(ITowerService.class).getSelectedTower();
-		if (tower != null) {
-			tower.removePart(rangeCircle);
+		for (Entity entity : world.getAllEntities()) {
+			entity.removePart(rangeCircle);
 		}
 	}
 
