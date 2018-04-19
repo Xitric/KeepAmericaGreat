@@ -101,18 +101,32 @@ public class World {
 		return null;
 	}
 
-	public boolean isEntityLeftPressed(GameData gameData, Entity entity){
-		Mouse mouse = gameData.getMouse();
-		int mouseX = mouse.getX();
-		int mouseY = mouse.getY();
+	/**
+	 * Test if the specified entity is at the specified position. The supplied position may be in either world or screen
+	 * space coordinates, so it is up to the caller of this method to ensure that the positioning of the entity is in
+	 * the same space. This method takes the bounding box of the entity into consideration, so an entity may be spanning
+	 * multiple point locations at once.
+	 *
+	 * @param entity the entity to test for
+	 * @param x the horizontal coordinate of the position to test against
+	 * @param y the vertical coordinate of the position to test against
+	 * @return true if the entity is at the specified position
+	 */
+	public boolean isEntityAt(Entity entity, float x, float y){
+		BoundingBoxPart bbox = entity.getPart(BoundingBoxPart.class);
+		PositionPart positionPart;
+		if (entity.hasPart(PositionPart.class)) {
+			positionPart = entity.getPart(PositionPart.class);
+		} else {
+			positionPart = entity.getPart(AbsolutePositionPart.class);
+		}
 
-		float btnX = entity.getPart(AbsolutePositionPart.class).getX();
-		float btnY = entity.getPart(AbsolutePositionPart.class).getY();
+		float left = positionPart.getX() - bbox.getWidth() / 2;
+		float right = positionPart.getX() + bbox.getWidth() / 2;
+		float top = positionPart.getY() - bbox.getHeight() / 2;
+		float bottom = positionPart.getY() + bbox.getHeight() / 2;
 
-		float btnW = entity.getPart(BoundingBoxPart.class).getWidth();
-		float btnH = entity.getPart(BoundingBoxPart.class).getHeight();
-
-		return mouse.isButtonPressed(Mouse.BUTTON_LEFT) && mouseX > btnX && mouseX < btnX + btnW && mouseY > btnY && mouseY < btnY + btnH;
+		return x >= left && x <= right && y >= top && y <= bottom;
 	}
 
 	public Tile getTileAt(float worldX, float worldY) {
