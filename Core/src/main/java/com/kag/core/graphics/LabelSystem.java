@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.kag.common.data.GameData;
 import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
@@ -92,8 +93,18 @@ public class LabelSystem extends AbstractRenderer implements IEntitySystem, ICom
 		OrthographicCamera cam = getCamera(entity);
 
 		for (LabelPart label : labelParts) {
+			//Apply local rotation around origin, and then apply entity rotation
+			Matrix4 transform = new Matrix4();
+			transform.idt()
+//					.translate(position.getX(), position.getY(), 0)
+					.rotate(Vector3.Z, position.getRotation())
+					.translate(label.getxOffset(), label.getyOffset(), 0)
+					.translate(label.getOriginX(), label.getOriginY(), 0)
+					.rotate(Vector3.Z, label.getRotation())
+					.translate(-label.getOriginX(), -label.getOriginY(), 0);
+
 			SpriteRenderItem renderItem = new SpriteRenderItem(label.getzIndex(), cam, sb -> {
-				sb.setTransformMatrix(new Matrix4().idt());
+				sb.setTransformMatrix(transform);
 				BitmapFont font = getFontForSize(label.getFontSize());
 				glyphLayout.setText(font, label.getLabel());
 				font.draw(sb, glyphLayout, position.getX(), position.getY() - glyphLayout.height / 2);

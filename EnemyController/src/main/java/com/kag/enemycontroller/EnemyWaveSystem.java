@@ -48,11 +48,13 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		nextWaveButton = new Entity();
-		nextWaveButton.addPart(new AbsolutePositionPart(15, 570));
-		nextWaveButton.addPart(new BoundingBoxPart(45, 32));
+		nextWaveButton.addPart(new AbsolutePositionPart(38, 586));
 		AssetPart waveImage = assetManager.createTexture(getClass().getResourceAsStream("/next.png"));
+		waveImage.setxOffset(- waveImage.getWidth() / 2);
+		waveImage.setyOffset(- waveImage.getHeight() / 2);
 		waveImage.setzIndex(ZIndex.WAVE_IMAGE);
 		nextWaveButton.addPart(waveImage);
+		nextWaveButton.addPart(new BoundingBoxPart(waveImage.getWidth(), waveImage.getHeight()));
 
 		countDownLabel = new Entity();
 		LabelPart labelPart = new LabelPart("Wave " + waveNumber + " in " + String.valueOf(Math.round(nextWaveCountdown)), 13);
@@ -133,7 +135,6 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader {
 	}
 
 	private boolean isNextWavePressed(World world, GameData gameData, Entity nextWaveButton) {
-		//System.out.println(Thread.currentThread().getName());
 		return gameData.getMouse().isButtonPressed(Mouse.BUTTON_LEFT) &&
 				world.isEntityAt(nextWaveButton, gameData.getMouse().getX(), gameData.getMouse().getY());
 	}

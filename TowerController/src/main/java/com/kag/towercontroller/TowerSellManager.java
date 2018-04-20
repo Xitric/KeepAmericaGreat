@@ -49,11 +49,13 @@ public class TowerSellManager implements IComponentLoader, ISystem, ITowerServic
 		AbsolutePositionPart positionPart = new AbsolutePositionPart(695, 592);
 		AssetPart buttonIcon = assetManager.createTexture(getClass().getResourceAsStream("/WoodSign.png"));
 		buttonIcon.setzIndex(ZIndex.GUI_SELLLABEL);
-		buttonIcon.setxOffset(- buttonIcon.getWidth() / 2);
-		buttonIcon.setyOffset(- buttonIcon.getHeight() / 2);
+		buttonIcon.setxOffset(-buttonIcon.getWidth() / 2);
+		buttonIcon.setyOffset(-buttonIcon.getHeight() / 2);
 		BoundingBoxPart bboxPart = new BoundingBoxPart(buttonIcon.getWidth(), buttonIcon.getHeight());
+
 		LabelPart buttonLabel = new LabelPart("", 14);
 		buttonLabel.setzIndex(ZIndex.GUI_CURRENCY_ICON);
+		buttonLabel.setxOffset(-42);
 
 		sellButton = new Entity();
 		sellButton.addPart(buttonIcon);

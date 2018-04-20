@@ -1,7 +1,6 @@
 package com.kag.common.entities.parts.gui;
 
-import com.kag.common.data.ZIndex;
-import com.kag.common.entities.IPart;
+import com.kag.common.entities.parts.AssetPart;
 
 /**
  * Part defining a label in the graphical user interface. A label is a string of
@@ -9,11 +8,10 @@ import com.kag.common.entities.IPart;
  *
  * @author Kasper
  */
-public class LabelPart implements IPart {
+public class LabelPart extends AssetPart {
 
 	private String label;
 	private int fontSize = 18;
-	private int zIndex;
 
 	public LabelPart(String label) {
 		this.label = label;
@@ -40,11 +38,8 @@ public class LabelPart implements IPart {
 		this.fontSize = fontSize;
 	}
 
-	public int getzIndex() {
-		return zIndex;
-	}
-
-	public void setzIndex(ZIndex zIndex) {
-		this.zIndex = zIndex.value;
+	@Override
+	public void dispose() {
+		//No-op
 	}
 }
