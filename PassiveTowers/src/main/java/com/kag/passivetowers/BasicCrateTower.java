@@ -31,7 +31,7 @@ public class BasicCrateTower implements ITower {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
         AssetPart assetPart = assetManager.createTexture(getAsset(), 0, 0, 58, 58);
         assetPart.setzIndex(ZIndex.TOWER_BASE);
-        return PassiveTowerFactory.getInstance().createPassiveTower(cost, assetPart, this);
+        return Lookup.getDefault().lookup(PassiveTowerFactory.class).createPassiveTower(cost, assetPart, this);
     }
 
     @Override

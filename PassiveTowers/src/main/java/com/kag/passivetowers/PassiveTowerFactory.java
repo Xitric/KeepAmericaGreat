@@ -1,30 +1,25 @@
 package com.kag.passivetowers;
 
+import com.kag.common.data.Tile;
+import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AssetPart;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.tdcommon.entities.parts.MoneyPart;
 import com.kag.tdcommon.entities.parts.TowerPart;
 import com.kag.tdcommon.spinterfaces.ITower;
-import org.openide.util.Lookup;
+import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassiveTowerFactory  {
+@ServiceProvider(service = IComponentLoader.class)
+public class PassiveTowerFactory implements IComponentLoader {
 
-    private static PassiveTowerFactory INSTANCE = null;
-    private static final List<Entity> listOfTowers = new ArrayList<>();
-
-    public static PassiveTowerFactory getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PassiveTowerFactory();
-        }
-        return INSTANCE;
-    }
+    private final List<Entity> listOfTowers = new ArrayList<>();
 
     public Entity createPassiveTower(int cost, AssetPart assetPart, ITower iTower) {
         PositionPart positionPart = new PositionPart(0, 0);
@@ -48,8 +43,20 @@ public class PassiveTowerFactory  {
         return newTowerEntity;
     }
 
-    public static List<Entity> getTowersCreated() {
-        return listOfTowers;
+    @Override
+    public void load(World world) {
+
+    }
+
+    @Override
+    public void dispose(World world) {
+        for(Entity entity : listOfTowers){
+            float xTilePositionOnMap = (entity.getPart(PositionPart.class).getX()) / 64;
+            float yTilePositionOnMap = (entity.getPart(PositionPart.class).getY()) / 64;
+            Tile tile = world.getGameMap().getTile((int) xTilePositionOnMap, (int) yTilePositionOnMap);
+            tile.setWalkable(true);
+            world.removeEntity(entity);
+        }
     }
 }
 

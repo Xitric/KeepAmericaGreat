@@ -24,8 +24,7 @@ public class ServiceManager<T> {
 	private Consumer<T> deletionCallback;
 
 	private final LookupListener lookupListener = ev -> {
-		System.out.println("Lookup listener for " + serviceProviderClass.getName() + " called on thread");
-		System.out.println("\tThread: " + Thread.currentThread().getName());
+		System.out.println("Lookup listener for " + serviceProviderClass.getName());
 		Collection<? extends T> actualServiceProviders = lookupResult.allInstances();
 
 		for (T serviceProvider : actualServiceProviders) {
@@ -36,7 +35,7 @@ public class ServiceManager<T> {
 				if (additionCallback != null) additionCallback.accept(serviceProvider);
 			}
 		}
-		System.out.println("Ehello!");
+
 		for (T serviceProvider : serviceProviders) {
 			//Removed service provider
 			if (!actualServiceProviders.contains(serviceProvider)) {
@@ -64,8 +63,8 @@ public class ServiceManager<T> {
 	 * TODO: Does blocking the callback postpone the unloading / loading of a module? That would be nice
 	 *
 	 * @param serviceProviderClass the class of the service providers to track
-	 * @param additionCallback the method to invoke when a new service provider is loaded
-	 * @param deletionCallback the method to invoke when a service provider is unloaded
+	 * @param additionCallback     the method to invoke when a new service provider is loaded
+	 * @param deletionCallback     the method to invoke when a service provider is unloaded
 	 */
 	public ServiceManager(Class<T> serviceProviderClass, Consumer<T> additionCallback, Consumer<T> deletionCallback) {
 		this.serviceProviderClass = serviceProviderClass;
