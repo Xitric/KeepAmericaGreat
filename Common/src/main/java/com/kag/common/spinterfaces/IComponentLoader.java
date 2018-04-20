@@ -5,7 +5,7 @@
  */
 package com.kag.common.spinterfaces;
 
-import com.kag.common.data.World;
+import com.kag.common.map.World;
 
 /**
  * Interface describing a class that can only initialize its internal state after the game engine has been initialized,

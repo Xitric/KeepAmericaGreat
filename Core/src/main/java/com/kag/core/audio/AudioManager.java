@@ -3,8 +3,8 @@ package com.kag.core.audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.kag.common.data.ISound;
-import com.kag.common.spinterfaces.IAudioManager;
+import com.kag.commonaudio.spinterfaces.IAudioManager;
+import com.kag.commonaudio.spinterfaces.ISound;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.io.InputStream;

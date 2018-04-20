@@ -1,19 +1,16 @@
 package com.kag.towercontroller;
 
-import com.kag.common.data.Color;
-import com.kag.common.data.World;
-import com.kag.common.data.ZIndex;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.CirclePart;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.tdcommon.entities.parts.WeaponPart;
-import com.kag.tdcommon.spinterfaces.ITowerService;
+import com.kag.commonasset.Color;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.CirclePart;
+import com.kag.commontower.entities.parts.WeaponPart;
+import com.kag.commontower.spinterfaces.ITowerService;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
-/**
- * @author Kasper
- */
 @ServiceProviders(value = {
 		@ServiceProvider(service = IComponentLoader.class),
 		@ServiceProvider(service = ITowerService.ITowerSelectionListener.class)

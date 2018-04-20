@@ -1,7 +1,7 @@
 package com.kag.core.game;
 
 import com.kag.common.data.ServiceManager;
-import com.kag.common.data.World;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPrioritizable;

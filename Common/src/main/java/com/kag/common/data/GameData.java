@@ -1,5 +1,8 @@
 package com.kag.common.data;
 
+import com.kag.common.input.Keyboard;
+import com.kag.common.input.Mouse;
+
 public class GameData {
 
 	private final Keyboard keyboard;

@@ -1,6 +1,6 @@
 package com.kag.mapgenerator;
 
-import com.kag.common.data.GameMap;
+import com.kag.common.map.GameMap;
 
 public class GroundBuilder extends AbstractBuilder{
 	@Override

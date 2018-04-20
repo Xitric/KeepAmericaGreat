@@ -1,7 +1,7 @@
 package com.kag.core.input;
 
 import com.badlogic.gdx.Input;
-import com.kag.common.data.Mouse;
+import com.kag.common.input.Mouse;
 
 /**
  * A mouse input manager for interpreting LinGDX input and translating it into

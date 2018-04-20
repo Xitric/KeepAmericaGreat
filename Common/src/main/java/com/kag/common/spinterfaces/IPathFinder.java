@@ -5,8 +5,9 @@
  */
 package com.kag.common.spinterfaces;
 
-import com.kag.common.data.Node;
-import com.kag.common.data.World;
+import com.kag.common.map.World;
+import com.kag.common.map.Node;
+
 
 /**
  * Interface describing a service for performing pathfinding within the world
@@ -43,7 +44,7 @@ public interface IPathFinder {
 	 * Generate all possible paths in the game world to the specified end
 	 * coordinates. This method is ideal for efficiently generating multiple
 	 * paths to the same goal. If only a small number of paths or paths with
-	 * different goals are neeeded, consider
+	 * different goals are needed, consider
 	 * {@link IPathFinder#getPath(int, int, int, int, com.kag.common.data.World)}
 	 * instead.
 	 * <ul>

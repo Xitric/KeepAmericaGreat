@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.input.Keyboard;
+import com.kag.common.input.Mouse;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.*;
 import com.kag.core.graphics.AssetManager;
 import com.kag.core.graphics.QueuedRenderer;
@@ -69,19 +72,19 @@ public class Game implements ApplicationListener, IGame {
 		systemManager.update(world);
 
 		synchronized (systemManager) {
-			for (ISystem system : systemManager.getActiveSystems()) {
+			systemManager.getActiveSystems().forEach((system) -> {
 				system.update(Gdx.graphics.getDeltaTime() * gameData.getSpeedMultiplier(), world, gameData);
-			}
+			});
 		}
 
 		synchronized (systemManager) {
-			for (IEntitySystem entitySystem : systemManager.getActiveEntitySystems()) {
+			systemManager.getActiveEntitySystems().forEach((entitySystem) -> {
 				Family systemFamily = entitySystem.getFamily();
 
-				for (Entity entity : world.getEntitiesByFamily(systemFamily)) {
+				world.getEntitiesByFamily(systemFamily).forEach((entity) -> {
 					entitySystem.update(Gdx.graphics.getDeltaTime() * gameData.getSpeedMultiplier(), entity, world, gameData);
-				}
-			}
+				});
+			});
 		}
 
 		//Render the jobs that were enqueued during this iteration

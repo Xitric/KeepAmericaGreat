@@ -90,6 +90,19 @@
         <module>TDCommon</module>
         <module>UpgradeController</module>
         <module>MapMenu</module>
+        <module>CommonEnemyWalking</module>
+        <module>CommonEnemyFlying</module>
+        <module>CommonTowerAiming</module>
+        <module>CommonTower</module>
+        <module>CommonUpgrade</module>
+        <module>CommonProjectile</module>
+        <module>CommonEnemy</module>
+        <module>CommonMath</module>
+        <module>CommonAsset</module>
+        <module>CommonPlayer</module>
+        <module>CommonAudio</module>
+        <module>CommonTD</module>
+        <module>CommonMenu</module>
     </modules>
 
     <properties>

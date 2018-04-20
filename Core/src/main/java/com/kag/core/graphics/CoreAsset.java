@@ -1,7 +1,6 @@
 package com.kag.core.graphics;
 
-import com.kag.common.data.IAsset;
-
+import com.kag.commonasset.spinterfaces.IAsset;
 import java.util.UUID;
 
 /**

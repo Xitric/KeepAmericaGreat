@@ -1,7 +1,7 @@
 package com.kag.towercontroller;
 
 import com.kag.common.entities.IPart;
-import com.kag.tdcommon.spinterfaces.ITower;
+import com.kag.commontower.spinterfaces.ITower;
 
 /**
  * @author Kasper

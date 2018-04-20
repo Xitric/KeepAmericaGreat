@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.kag.common.data.GameData;
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-import com.kag.common.entities.parts.CirclePart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IEntitySystem;
+import com.kag.commonasset.entities.parts.CirclePart;
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.Collection;

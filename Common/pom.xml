@@ -24,6 +24,10 @@
                         <publicPackage>com.kag.common.spinterfaces</publicPackage>
                         <publicPackage>com.kag.common.entities.parts</publicPackage>
                         <publicPackage>com.kag.common.entities.parts.gui</publicPackage>
+                        <publicPackage>com.kag.common.input</publicPackage>
+                        <publicPackage>com.kag.common.map</publicPackage>
+                        <publicPackage>com.kag.common.map.entities.parts</publicPackage>
+                        <publicPackage>com.kag.common.map.spinterfaces</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>

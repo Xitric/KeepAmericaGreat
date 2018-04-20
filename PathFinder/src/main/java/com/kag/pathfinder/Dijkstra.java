@@ -1,14 +1,9 @@
 package com.kag.pathfinder;
 
-import com.kag.common.data.Node;
-import com.kag.common.data.Tile;
-import com.kag.common.data.World;
-
+import com.kag.common.map.Node;
+import com.kag.common.map.World;
 import java.util.*;
 
-/**
- * @author Kasper
- */
 public class Dijkstra extends AbstractPathFinder {
 
 	/**

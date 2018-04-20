@@ -1,16 +1,12 @@
 package com.kag.enemycontroller;
 
 import com.kag.common.entities.Entity;
-import com.kag.tdcommon.spinterfaces.IEnemy;
-
+import com.kag.commonenemy.spinterfaces.IEnemy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * @author Kasper
- */
 public class WaveGenerator {
 
 	public List<Entity> generateWave(int strength, Collection<? extends IEnemy> enemyTypes) {

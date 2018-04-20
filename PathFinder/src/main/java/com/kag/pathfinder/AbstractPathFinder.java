@@ -1,15 +1,10 @@
 package com.kag.pathfinder;
 
-import com.kag.common.data.Tile;
-import com.kag.common.data.World;
-
+import com.kag.common.map.Tile;
+import com.kag.common.map.World;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-/**
- * Created by mstruntze on 17/04/2018.
- */
 
 public abstract class AbstractPathFinder {
 

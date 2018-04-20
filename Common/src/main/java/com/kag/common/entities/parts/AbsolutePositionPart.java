@@ -1,5 +1,7 @@
 package com.kag.common.entities.parts;
 
+import com.kag.common.entities.parts.PositionPart;
+
 /**
  * @author Kasper
  */

@@ -1,15 +1,15 @@
 package com.kag.towercontroller;
 
 import com.kag.common.data.GameData;
-import com.kag.common.data.Node;
-import com.kag.common.data.Tile;
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.map.Node;
+import com.kag.common.map.Tile;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.tdcommon.entities.parts.MoneyPart;
-import com.kag.tdcommon.entities.parts.PlayerPart;
+import com.kag.commonplayer.entities.parts.PlayerPart;
+import com.kag.commontd.entities.parts.MoneyPart;
 import org.openide.util.Lookup;
 
 /**

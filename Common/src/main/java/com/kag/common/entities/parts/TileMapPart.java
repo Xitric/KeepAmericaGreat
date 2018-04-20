@@ -1,11 +1,8 @@
 package com.kag.common.entities.parts;
 
-import com.kag.common.data.Tile;
 import com.kag.common.entities.IPart;
+import com.kag.common.map.Tile;
 
-/**
- * @author Kasper
- */
 public class TileMapPart implements IPart {
 
 	private final Tile[][] tiles;

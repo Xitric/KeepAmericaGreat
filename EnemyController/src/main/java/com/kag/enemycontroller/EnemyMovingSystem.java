@@ -1,19 +1,19 @@
 package com.kag.enemycontroller;
 
 import com.kag.common.data.GameData;
-import com.kag.common.data.Node;
-import com.kag.common.data.World;
-import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.map.Node;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
-import com.kag.tdcommon.entities.parts.EnemyPart;
-import com.kag.tdcommon.entities.parts.LifePart;
-import com.kag.tdcommon.entities.parts.PlayerPart;
+import com.kag.commonenemy.entities.parts.EnemyPart;
+import com.kag.commonmath.Vector2f;
+import com.kag.commonplayer.entities.parts.PlayerPart;
+import com.kag.commontd.entities.parts.LifePart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 

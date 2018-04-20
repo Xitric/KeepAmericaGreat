@@ -1,9 +1,8 @@
 package com.kag.pathfinder;
 
-import com.kag.common.data.Node;
-import com.kag.common.data.Tile;
-import com.kag.common.data.World;
 
+import com.kag.common.map.Node;
+import com.kag.common.map.World;
 import java.util.*;
 
 public class AStar extends AbstractPathFinder {

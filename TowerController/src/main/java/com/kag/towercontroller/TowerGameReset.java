@@ -1,17 +1,14 @@
 package com.kag.towercontroller;
 
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IGameStateListener;
-import com.kag.tdcommon.entities.parts.TowerPart;
-import com.kag.tdcommon.spinterfaces.ITowerService;
+import com.kag.commontower.entities.parts.TowerPart;
+import com.kag.commontower.spinterfaces.ITowerService;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IGameStateListener.class)
 public class TowerGameReset implements IGameStateListener {
 

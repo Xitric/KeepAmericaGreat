@@ -1,10 +1,7 @@
 package com.kag.mapgenerator;
 
-import com.kag.common.data.GameMap;
+import com.kag.common.map.GameMap;
 
-/**
- * @author Kasper
- */
 public class BridgeBuilder extends AbstractBuilder {
 
 	private static final int waterTile = 51;

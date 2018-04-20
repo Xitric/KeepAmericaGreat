@@ -1,7 +1,7 @@
 package com.kag.core.input;
 
 import com.badlogic.gdx.Input;
-import com.kag.common.data.Keyboard;
+import com.kag.common.input.Keyboard;
 
 /**
  * A keyboard input manager for interpreting LinGDX input and translating it

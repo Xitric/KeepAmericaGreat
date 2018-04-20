@@ -1,13 +1,10 @@
 package com.kag.towercontroller;
 
 import com.kag.common.entities.Entity;
-import com.kag.tdcommon.spinterfaces.ITowerService;
+import com.kag.commontower.spinterfaces.ITowerService;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = ITowerService.class)
 public class TowerService implements ITowerService {
 

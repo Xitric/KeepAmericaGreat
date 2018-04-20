@@ -6,9 +6,9 @@
 package com.kag.common.spinterfaces;
 
 import com.kag.common.data.GameData;
-import com.kag.common.data.World;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
+import com.kag.common.map.World;
 
 /**
  * A system for processing entities that contain certain parts. An entity system

@@ -1,11 +1,11 @@
 package com.kag.mapgenerator;
 
-import com.kag.common.data.GameMap;
-import com.kag.common.data.World;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.common.map.GameMap;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IMapGenerator;
 import com.kag.common.spinterfaces.IPathFinder;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -80,8 +80,7 @@ public class MapGenerator implements IMapGenerator {
             }
 
         } while (failed);
-
-		gameMap.setSpriteSheet(asset);
+		gameMap.getTileEntity().addPart(asset);
 		return gameMap;
 	}
 }

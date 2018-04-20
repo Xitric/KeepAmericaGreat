@@ -6,13 +6,11 @@
 package com.kag.common.spinterfaces;
 
 import com.kag.common.data.GameData;
-import com.kag.common.data.World;
+import com.kag.common.map.World;
 
 /**
  * A system for performing some logic once every iteration of the game loop. Use
  * this interface when performing logic that is not entity specific.
- *
- * @author andre
  */
 public interface ISystem extends IPrioritizable {
 

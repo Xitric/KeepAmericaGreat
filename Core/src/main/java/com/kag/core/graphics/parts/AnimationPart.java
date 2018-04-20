@@ -1,8 +1,8 @@
 package com.kag.core.graphics.parts;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.kag.common.data.IAsset;
-import com.kag.common.entities.parts.AssetPart;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAsset;
 
 /**
  * @author Kasper
