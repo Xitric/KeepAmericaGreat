@@ -1,4 +1,4 @@
-package com.kag.shootingtowers;
+package com.kag.aimingtowersbasic;
 
 import com.kag.common.entities.Entity;
 import com.kag.commonasset.entities.parts.AssetPart;
@@ -40,7 +40,7 @@ public class GreenTower implements ITower {
         AssetPart basePart = assetManager.createTexture(genericBaseBAsset,0,0,58,58);
         AssetPart turretPart = assetManager.createTexture(greenTurretAsset,0,0,63,48);
 
-        return new ShootingTowerBuilder()
+        return new AimingTowerBuilder()
                 .setiTower(this)
                 .setName("Green Tower")
                 .setDamage(1)

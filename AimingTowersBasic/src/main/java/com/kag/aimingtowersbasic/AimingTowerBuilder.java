@@ -1,7 +1,10 @@
-package com.kag.shootingtowers;
+package com.kag.aimingtowersbasic;
 
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.*;
+import com.kag.common.entities.parts.BlockingPart;
+import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.NamePart;
+import com.kag.common.entities.parts.PositionPart;
 import com.kag.commonasset.ZIndex;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonprojectile.entities.parts.ProjectileSpeedPart;
@@ -9,16 +12,13 @@ import com.kag.commontd.entities.parts.MoneyPart;
 import com.kag.commontower.entities.parts.TowerPart;
 import com.kag.commontower.entities.parts.WeaponPart;
 import com.kag.commontower.spinterfaces.ITower;
-import parts.RotationSpeedPart;
-import parts.ShootingTowerPart;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.kag.commontoweraiming.entities.parts.AimingTowerPart;
+import com.kag.commontoweraiming.entities.parts.RotationSpeedPart;
 
 /**
  * @author Kasper
  */
-public class ShootingTowerBuilder {
+public class AimingTowerBuilder {
 
 	private String name;
 	private int damage;
@@ -27,73 +27,75 @@ public class ShootingTowerBuilder {
 	private ITower iTower;
 	private float attackSpeed;
 	private int projectileSpeed;
-	private float rotationSpeed;
+	private int rotationSpeed;
 	private AssetPart baseAsset;
 	private AssetPart turretAsset;
 	private int turretAxisX;
 	private int turretAxisY;
 
-	public ShootingTowerBuilder setName(String name) {
+	public AimingTowerBuilder setName(String name) {
 		this.name = name;
 		return this;
 	}
 
-	public ShootingTowerBuilder setDamage(int damage) {
+	public AimingTowerBuilder setDamage(int damage) {
 		this.damage = damage;
 		return this;
 	}
 
-	public ShootingTowerBuilder setRange(int range) {
+	public AimingTowerBuilder setRange(int range) {
 		this.range = range;
 		return this;
 	}
 
-	public ShootingTowerBuilder setCost(int cost) {
+	public AimingTowerBuilder setCost(int cost) {
 		this.cost = cost;
 		return this;
 	}
 
-	public ShootingTowerBuilder setAttackSpeed(float attackSpeed) {
+	public AimingTowerBuilder setAttackSpeed(float attackSpeed) {
 		this.attackSpeed = attackSpeed;
 		return this;
 	}
 
-	public ShootingTowerBuilder setProjectileSpeed(int projectileSpeed) {
+	public AimingTowerBuilder setProjectileSpeed(int projectileSpeed) {
 		this.projectileSpeed = projectileSpeed;
 		return this;
 	}
 
-	public ShootingTowerBuilder setRotationSpeed(float rotationSpeed) {
+	public AimingTowerBuilder setRotationSpeed(int rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
 		return this;
 	}
 
-	public ShootingTowerBuilder setBaseAsset(AssetPart baseAsset) {
+	public AimingTowerBuilder setBaseAsset(AssetPart baseAsset) {
 		this.baseAsset = baseAsset;
 		return this;
 	}
 
-	public ShootingTowerBuilder setTurretAsset(AssetPart turretAsset) {
+	public AimingTowerBuilder setTurretAsset(AssetPart turretAsset) {
 		this.turretAsset = turretAsset;
 		return this;
 	}
 
-	public ShootingTowerBuilder setTurretAxisX(int turretAxisX) {
+	public AimingTowerBuilder setTurretAxisX(int turretAxisX) {
 		this.turretAxisX = turretAxisX;
 		return this;
 	}
 
-	public ShootingTowerBuilder setTurretAxisY(int turretAxisY) {
+	public AimingTowerBuilder setTurretAxisY(int turretAxisY) {
 		this.turretAxisY = turretAxisY;
 		return this;
 	}
 
-	public ShootingTowerBuilder setiTower(ITower iTower) {
+	public AimingTowerBuilder setiTower(ITower iTower) {
 		this.iTower = iTower;
 		return this;
 	}
 
 	public Entity getResult() {
+		AimingTowerPart aimingTowerPart = new AimingTowerPart(turretAsset);
+		AimingTowersBasicPart aimingTowersBasicPart = new AimingTowersBasicPart();
 		TowerPart towerPart = new TowerPart(iTower);
 		NamePart namePart = new NamePart(name);
 		MoneyPart costPart = new MoneyPart(cost);
@@ -115,7 +117,8 @@ public class ShootingTowerBuilder {
 		turretAsset.setzIndex(ZIndex.TOWER_TURRET);
 
 		Entity tower = new Entity();
-		tower.addPart(new ShootingTowerPart());
+		tower.addPart(aimingTowerPart);
+		tower.addPart(aimingTowersBasicPart);
 		tower.addPart(towerPart);
 		tower.addPart(namePart);
 		tower.addPart(costPart);

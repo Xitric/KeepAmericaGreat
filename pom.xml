@@ -78,7 +78,6 @@
         <module>Core</module>
         <module>ModuleUpdateManager</module>
         <module>Player</module>
-        <module>ShootingTowers</module>
         <module>CameraController</module>
         <module>BasicEnemies</module>
         <module>PassiveTowers</module>
@@ -102,6 +101,8 @@
         <module>CommonTD</module>
         <module>CommonMenu</module>
         <module>EnemyWalkingController</module>
+        <module>AimingTowersController</module>
+        <module>AimingTowersBasic</module>
     </modules>
 
     <properties>
