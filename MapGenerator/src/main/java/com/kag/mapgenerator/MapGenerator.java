@@ -5,6 +5,7 @@ import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IMapGenerator;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
@@ -19,6 +20,7 @@ public class MapGenerator implements IMapGenerator {
 	private int width;
 	private int height;
 	private List<IWorldBuilder> worldBuilders;
+	private IAsset spriteSheet;
 
 	public MapGenerator() {
 		//Not to be used.
@@ -49,18 +51,17 @@ public class MapGenerator implements IMapGenerator {
 		return this;
 	}
 
-    private GameMap create() {
-        IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        AssetPart asset = assetManager.createTexture(getClass().getResourceAsStream("/tilesheet.png"));
-        GameMap gameMap;
-	    IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
+	private GameMap create() {
+		AssetPart asset = getSpriteSheet();
+		GameMap gameMap;
+		IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
 
-        boolean failed;
-        do {
-            failed = false;
-            gameMap = new GameMap(width, height, 64, 64);
-            float[][] whiteNoise = PerlinNoiseGenerator.generateWhiteNoise(gameMap.getHeight(), gameMap.getWidth());
-            float[][] heightMap = PerlinNoiseGenerator.generateSmoothNoise(whiteNoise, octaves);
+		boolean failed;
+		do {
+			failed = false;
+			gameMap = new GameMap(width, height, 64, 64);
+			float[][] whiteNoise = PerlinNoiseGenerator.generateWhiteNoise(gameMap.getHeight(), gameMap.getWidth());
+			float[][] heightMap = PerlinNoiseGenerator.generateSmoothNoise(whiteNoise, octaves);
 
 			for (IWorldBuilder worldBuilder : worldBuilders) {
 				if (!worldBuilder.build(heightMap, gameMap)) {
@@ -70,17 +71,26 @@ public class MapGenerator implements IMapGenerator {
 				}
 			}
 
-            if(!failed) {
-	            World tempWorld = new World(gameMap);
-	            if(pathFinder.getPath(0,0, gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld) == null) {
-		            failed = true;
-	            } else {
-	            	gameMap.setPathNodes(pathFinder.getPath(gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld));
-	            }
-            }
+			if (!failed) {
+				World tempWorld = new World(gameMap);
+				if (pathFinder.getPath(0, 0, gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld) == null) {
+					failed = true;
+				} else {
+					gameMap.setPathNodes(pathFinder.getPath(gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld));
+				}
+			}
 
-        } while (failed);
+		} while (failed);
 		gameMap.getTileEntity().addPart(asset);
 		return gameMap;
+	}
+
+	private AssetPart getSpriteSheet() {
+		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
+		if (spriteSheet == null) {
+			spriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/tilesheet.png"));
+		}
+
+		return assetManager.createTexture(spriteSheet, 0, 0, spriteSheet.getWidth(), spriteSheet.getHeight());
 	}
 }
