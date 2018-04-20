@@ -68,7 +68,6 @@
     </build>
 
     <modules>
-        <module>branding</module>
         <module>application</module>
         <module>Common</module>
         <module>Collision</module>
