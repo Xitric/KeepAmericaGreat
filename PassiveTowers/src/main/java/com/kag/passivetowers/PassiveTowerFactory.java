@@ -1,16 +1,17 @@
 package com.kag.passivetowers;
 
-import com.kag.common.data.Tile;
-import com.kag.common.data.World;
+
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
+
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.map.Tile;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.tdcommon.entities.parts.MoneyPart;
-import com.kag.tdcommon.entities.parts.TowerPart;
-import com.kag.tdcommon.spinterfaces.ITower;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commontd.entities.parts.MoneyPart;
+
 import org.openide.util.lookup.ServiceProvider;
 
 import java.util.ArrayList;

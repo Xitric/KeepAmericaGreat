@@ -1,9 +1,9 @@
 package com.kag.gamespeedmenu;
 
-import com.kag.common.data.IAsset;
-import com.kag.common.data.ZIndex;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAsset;
+import com.kag.commonasset.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 
 /**

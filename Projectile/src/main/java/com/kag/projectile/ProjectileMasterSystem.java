@@ -1,21 +1,21 @@
 package com.kag.projectile;
 
 import com.kag.common.data.GameData;
-import com.kag.common.data.World;
-import com.kag.common.data.ZIndex;
+
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
-import com.kag.common.entities.parts.AssetPart;
+
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.MovingPart;
 import com.kag.common.entities.parts.PositionPart;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.tdcommon.entities.parts.DamagePart;
-import com.kag.tdcommon.entities.parts.EnemyPart;
-import com.kag.tdcommon.entities.parts.LifePart;
-import com.kag.tdcommon.spinterfaces.IProjectile;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonprojectile.entities.parts.DamagePart;
+import com.kag.commonprojectile.spinterfaces.IProjectile;
+
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

@@ -3,12 +3,17 @@ package com.kag.mapmenu;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-import com.kag.common.entities.parts.AssetPart;
+
 import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.common.input.Keyboard;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IGame;
-import com.kag.tdcommon.spinterfaces.IMenuItem;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAsset;
+import com.kag.commonasset.spinterfaces.IAssetManager;
+
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

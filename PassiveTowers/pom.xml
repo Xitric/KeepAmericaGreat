@@ -45,13 +45,23 @@
         </dependency>
         <dependency>
             <groupId>com.kag</groupId>
-            <artifactId>TDCommon</artifactId>
+            <artifactId>TowerController</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>TowerController</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonAsset</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonTower</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonTD</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <properties>

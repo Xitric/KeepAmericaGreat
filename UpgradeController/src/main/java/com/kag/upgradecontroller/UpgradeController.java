@@ -4,16 +4,15 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-import com.kag.common.entities.parts.AssetPart;
+
 import com.kag.common.entities.parts.PositionPart;
-import com.kag.common.entities.parts.gui.LabelPart;
-import com.kag.common.spinterfaces.IAssetManager;
+import com.kag.common.input.Mouse;
+import com.kag.common.map.World;
+
+
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
-import com.kag.tdcommon.entities.parts.MoneyPart;
-import com.kag.tdcommon.entities.parts.PlayerPart;
-import com.kag.tdcommon.entities.parts.WeaponPart;
-import com.kag.tdcommon.spinterfaces.IUpgrade;
+
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -70,7 +69,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
                 for (IUpgrade upgrade : upgrades) {
                     if (upgrade.isTowerCompatible(towerToUpgrade)) {
                         world.addEntity(addNewUpgradeToMenu(upgrade));
-
                     }
                 }
             } else {

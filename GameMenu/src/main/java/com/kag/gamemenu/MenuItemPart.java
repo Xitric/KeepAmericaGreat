@@ -1,7 +1,6 @@
 package com.kag.gamemenu;
 
 import com.kag.common.entities.IPart;
-import com.kag.tdcommon.spinterfaces.IMenuItem;
 
 /**
  * @author Kasper

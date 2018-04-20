@@ -2,8 +2,8 @@ package com.kag.cameracontroller;
 
 import com.kag.common.data.Camera;
 import com.kag.common.data.GameData;
-import com.kag.common.data.Mouse;
-import com.kag.common.data.World;
+import com.kag.common.input.Mouse;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.ISystem;
 import org.openide.util.lookup.ServiceProvider;
 
