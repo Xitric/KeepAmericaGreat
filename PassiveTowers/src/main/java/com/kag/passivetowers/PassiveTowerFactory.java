@@ -1,8 +1,6 @@
 package com.kag.passivetowers;
 
-
 import com.kag.common.entities.Entity;
-
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
@@ -11,9 +9,9 @@ import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commontd.entities.parts.MoneyPart;
-
+import com.kag.commontower.entities.parts.TowerPart;
+import com.kag.commontower.spinterfaces.ITower;
 import org.openide.util.lookup.ServiceProvider;
-
 import java.util.ArrayList;
 import java.util.List;
 

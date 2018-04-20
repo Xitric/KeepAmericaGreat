@@ -1,23 +1,22 @@
 package com.kag.player;
 
 import com.kag.common.data.GameData;
-
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.map.World;
-
-
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IGameStateListener;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.entities.parts.LabelPart;
+import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;

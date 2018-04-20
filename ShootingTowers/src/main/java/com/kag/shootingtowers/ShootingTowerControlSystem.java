@@ -1,19 +1,25 @@
 package com.kag.shootingtowers;
 
 import com.kag.common.data.*;
-import com.kag.common.data.math.Vector2f;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.*;
-import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.common.spinterfaces.IAudioManager;
+import com.kag.common.map.Tile;
+import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.IEntitySystem;
-import com.kag.tdcommon.entities.parts.LifePart;
-import com.kag.tdcommon.entities.parts.MoneyPart;
-import com.kag.tdcommon.entities.parts.TowerPart;
-import com.kag.tdcommon.entities.parts.WeaponPart;
-import com.kag.tdcommon.spinterfaces.IProjectile;
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAssetManager;
+import com.kag.commonaudio.spinterfaces.IAudioManager;
+import com.kag.commonaudio.spinterfaces.ISound;
+import com.kag.commonmath.Vector2f;
+import com.kag.commonprojectile.entities.parts.ProjectileSpeedPart;
+import com.kag.commonprojectile.spinterfaces.IProjectile;
+import com.kag.commontd.entities.parts.LifePart;
+import com.kag.commontd.entities.parts.MoneyPart;
+import com.kag.commontower.entities.parts.TowerPart;
+import com.kag.commontower.entities.parts.WeaponPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -111,6 +117,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
         TowerPart towerPart = tower.getPart(TowerPart.class);
         WeaponPart weaponPart = tower.getPart(WeaponPart.class);
+		ProjectileSpeedPart projectileSpeedPart = tower.getPart(ProjectileSpeedPart.class);
         PositionPart towerPositionPart = tower.getPart(PositionPart.class);
 
         //Calculate rotation
@@ -118,7 +125,6 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
         float rotationResult = turretPart.getRotation();
 
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        //MAJOR MEMORY LEAK WTF!?
         AssetPart pAsset = assetManager.createTexture(towerPart.getiTower().getProjectileAsset(),0,0,towerPart.getiTower().getProjectileAsset().getWidth(),towerPart.getiTower().getProjectileAsset().getHeight());
         pAsset.setyOffset(- pAsset.getHeight() / 2);
 
@@ -128,7 +134,7 @@ public class ShootingTowerControlSystem implements IEntitySystem, IComponentLoad
 
         shootingSound.play();
 
-        projectileImplementation.createProjectile(turretEndX, turretEndY, weaponPart.getDamage(), weaponPart.getProjectileSpeed(), rotationResult, world, pAsset);
+        projectileImplementation.createProjectile(turretEndX, turretEndY, weaponPart.getDamage(), projectileSpeedPart.getProjectileSpeed(), rotationResult, world, pAsset);
     }
 
     private AssetPart getTurretPart(Entity tower) {

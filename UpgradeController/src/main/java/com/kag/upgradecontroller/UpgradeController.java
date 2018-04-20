@@ -4,19 +4,23 @@ import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.input.Mouse;
 import com.kag.common.map.World;
-
-
 import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
-
+import com.kag.commonasset.ZIndex;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.entities.parts.LabelPart;
+import com.kag.commonasset.spinterfaces.IAsset;
+import com.kag.commonasset.spinterfaces.IAssetManager;
+import com.kag.commonplayer.entities.parts.PlayerPart;
+import com.kag.commontd.entities.parts.MoneyPart;
+import com.kag.commontower.entities.parts.WeaponPart;
+import com.kag.commonupgrade.spinterfaces.IUpgrade;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,7 +42,7 @@ public class UpgradeController implements ISystem, IComponentLoader {
     private List<UpgradeModel> upgradeModels;
     private List<Consumer<World>> upgradeConsumer;
     private boolean updateUpgradeMenu;
-    private IAssetManager assetManager;
+    private  IAssetManager assetManager;
     private Entity towerToUpgrade;
 
     public UpgradeController() {

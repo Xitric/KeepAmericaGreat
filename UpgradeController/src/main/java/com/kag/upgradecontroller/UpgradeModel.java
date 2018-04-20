@@ -1,7 +1,7 @@
 package com.kag.upgradecontroller;
 
 import com.kag.common.entities.Entity;
-import com.kag.tdcommon.spinterfaces.IUpgrade;
+import com.kag.commonupgrade.spinterfaces.IUpgrade;
 
 public class UpgradeModel {
     private Entity upgradeEntity;

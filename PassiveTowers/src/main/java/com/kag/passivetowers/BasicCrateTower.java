@@ -5,8 +5,7 @@ import com.kag.commonasset.ZIndex;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
-import com.kag.commontower.spinterfaces;
-
+import com.kag.commontower.spinterfaces.ITower;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 

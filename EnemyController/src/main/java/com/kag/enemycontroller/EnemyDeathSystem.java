@@ -4,7 +4,7 @@ import com.kag.common.data.GameData;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BoundingBoxPart;
-import com.kag.common.entities.parts.LifePart;
+import com.kag.commontd.entities.parts.LifePart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;

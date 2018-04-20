@@ -1,10 +1,10 @@
 package com.kag.shootingtowers;
 
-import com.kag.common.data.IAsset;
 import com.kag.common.entities.Entity;
-import com.kag.common.entities.parts.AssetPart;
-import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.tdcommon.spinterfaces.ITower;
+import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.spinterfaces.IAsset;
+import com.kag.commonasset.spinterfaces.IAssetManager;
+import com.kag.commontower.spinterfaces.ITower;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 

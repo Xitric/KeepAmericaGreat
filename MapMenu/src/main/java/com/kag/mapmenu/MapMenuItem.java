@@ -3,7 +3,6 @@ package com.kag.mapmenu;
 import com.kag.common.data.*;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
-
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.input.Keyboard;
 import com.kag.common.map.World;
@@ -13,7 +12,7 @@ import com.kag.commonasset.ZIndex;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
-
+import com.kag.commonmenu.spinterfaces.IMenuItem;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
