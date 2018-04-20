@@ -22,7 +22,7 @@ public class BasicTower implements ITower {
 
         if (yellowTowerAsset == null) {
             IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-            yellowTowerAsset = assetManager.loadAsset(getClass().getResourceAsStream("/towerTest.png"));
+            yellowTowerAsset = assetManager.loadAsset(getClass().getResourceAsStream("/YellowTower.png"));
         }
         return yellowTowerAsset;
     }

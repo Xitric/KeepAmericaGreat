@@ -1,6 +1,7 @@
 package com.kag.towercontroller;
 
-import com.kag.common.data.*;
+import com.kag.common.data.GameData;
+import com.kag.common.data.ServiceManager;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.AbsolutePositionPart;
@@ -10,6 +11,7 @@ import com.kag.common.spinterfaces.IComponentLoader;
 import com.kag.common.spinterfaces.ISystem;
 import com.kag.commonasset.ZIndex;
 import com.kag.commonasset.entities.parts.AssetPart;
+import com.kag.commonasset.entities.parts.LabelPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commontower.spinterfaces.ITower;
@@ -121,11 +123,17 @@ public class TowerGUI implements IComponentLoader, ISystem {
 			iconPart.setyOffset(-iconPart.getHeight() / 2);
 			iconPart.setzIndex(ZIndex.TOWER_BASE);
 
+			LabelPart priceLabelPart = new LabelPart(String.valueOf(tower.getCost()));
+			priceLabelPart.setzIndex(ZIndex.TOWER_TURRET);
+			priceLabelPart.setxOffset(-MENU_CELL_WIDTH / 2);
+			priceLabelPart.setyOffset(MENU_CELL_HEIGHT / 2 - 8);
+
 			Entity buyElement = new Entity();
 			buyElement.addPart(positionPart);
 			buyElement.addPart(bboxPart);
 			buyElement.addPart(buyMenuPart);
 			buyElement.addPart(iconPart);
+			buyElement.addPart(priceLabelPart);
 
 			world.addEntity(buyElement);
 

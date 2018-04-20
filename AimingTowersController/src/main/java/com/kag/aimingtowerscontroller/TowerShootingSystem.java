@@ -52,7 +52,6 @@ public class TowerShootingSystem implements IComponentLoader, IEntitySystem {
 
 		float timeBetweenShot = 1 / weaponPart.getAttackSpeed();
 		if (weaponPart.getTimeSinceLast() > timeBetweenShot) {
-			System.out.println(aimingTowerPart.getRotationDifference());
 			if (aimingTowerPart.getNearestEnemy() != null && Math.abs(aimingTowerPart.getRotationDifference()) < 25) {
 				shootAt(world, entity);
 				weaponPart.addDelta(-timeBetweenShot);
