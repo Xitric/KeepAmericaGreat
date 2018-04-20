@@ -1,11 +1,12 @@
 package com.kag.basicupgrade;
 
-import com.kag.common.data.IAsset;
+
 import com.kag.common.entities.Entity;
-import com.kag.common.spinterfaces.IAssetManager;
-import com.kag.tdcommon.entities.parts.DamageUpgradePart;
-import com.kag.tdcommon.entities.parts.WeaponPart;
-import com.kag.tdcommon.spinterfaces.IUpgrade;
+import com.kag.commonasset.spinterfaces.IAsset;
+import com.kag.commonasset.spinterfaces.IAssetManager;
+import com.kag.commontower.entities.parts.WeaponPart;
+import com.kag.commonupgrade.spinterfaces.IUpgrade;
+
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 

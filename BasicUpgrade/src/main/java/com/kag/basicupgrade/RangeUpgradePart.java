@@ -1,11 +1,11 @@
-package com.kag.tdcommon.entities.parts;
+package com.kag.basicupgrade;
 
 import com.kag.common.entities.IPart;
 
-public class DamageUpgradePart implements IPart {
+public class RangeUpgradePart implements IPart {
     private int level = 0;
     private int cost = 50;
-    private double damageMultiplier = 1.33;
+    private double rangeMultiplier = 1.1;
 
     public int getLevel() {
         return level;
@@ -23,14 +23,11 @@ public class DamageUpgradePart implements IPart {
         this.cost = cost;
     }
 
-    public double getDamageMultiplier() {
-        return damageMultiplier;
+    public double getRangeMultiplier() {
+        return rangeMultiplier;
     }
 
-    public void setDamageMultiplier(double damageMultiplier) {
-        this.damageMultiplier = damageMultiplier;
+    public void setRangeMultiplier(double rangeMultiplier) {
+        this.rangeMultiplier = rangeMultiplier;
     }
-
-
-
 }

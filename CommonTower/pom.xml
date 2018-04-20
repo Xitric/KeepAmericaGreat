@@ -18,6 +18,7 @@
                     <useOSGiDependencies>true</useOSGiDependencies>
                     <publicPackages>
                         <publicPackage>com.kag.commontower.entities.parts</publicPackage>
+                        <publicPackage>com.kag.commontower.spinterfaces</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>

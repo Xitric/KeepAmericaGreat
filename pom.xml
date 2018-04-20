@@ -87,7 +87,6 @@
         <module>GameMenu</module>
         <module>GameSpeedMenu</module>
         <module>BasicUpgrade</module>
-        <module>TDCommon</module>
         <module>UpgradeController</module>
         <module>MapMenu</module>
         <module>CommonEnemyWalking</module>
