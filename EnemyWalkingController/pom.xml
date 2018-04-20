@@ -6,7 +6,7 @@
         <artifactId>KeepAmericaGreat-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>GameSpeedMenu</artifactId>
+    <artifactId>EnemyWalkingController</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -34,29 +34,39 @@
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>Common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-openide-util-lookup</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>CommonAsset</artifactId>
+            <artifactId>Common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>GameMenu</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.kag</groupId>
+            <artifactId>CommonEnemy</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonMenu</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.kag</groupId>
+            <artifactId>CommonPlayer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>CommonEnemyWalking</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>CommonMath</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kag</groupId>
+            <artifactId>CommonTD</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <properties>

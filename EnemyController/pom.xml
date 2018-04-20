@@ -69,11 +69,6 @@
 	 </dependency>
 	 <dependency>
 	  <groupId>${project.groupId}</groupId>
-	  <artifactId>CommonMath</artifactId>
-	  <version>${project.version}</version>
-	 </dependency>
-	 <dependency>
-	  <groupId>${project.groupId}</groupId>
 	  <artifactId>CommonAsset</artifactId>
 	  <version>${project.version}</version>
 	 </dependency>

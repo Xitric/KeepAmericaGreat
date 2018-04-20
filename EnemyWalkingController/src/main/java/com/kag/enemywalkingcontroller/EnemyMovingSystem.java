@@ -1,16 +1,19 @@
-package com.kag.enemycontroller;
+package com.kag.enemywalkingcontroller;
 
 import com.kag.common.data.GameData;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BoundingBoxPart;
+import com.kag.common.entities.parts.MovingPart;
 import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.map.Node;
 import com.kag.common.map.World;
 import com.kag.common.spinterfaces.ICollision;
 import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.common.spinterfaces.IPathFinder;
+import com.kag.common.spinterfaces.IPrioritizable;
 import com.kag.commonenemy.entities.parts.EnemyPart;
+import com.kag.commonenemywalking.entities.parts.WalkingPart;
 import com.kag.commonmath.Vector2f;
 import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.LifePart;
@@ -23,18 +26,18 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IEntitySystem.class)
 public class EnemyMovingSystem implements IEntitySystem {
 
-	private static final Family FAMILY = Family.forAll(EnemyPart.class, PositionPart.class, BoundingBoxPart.class);
-	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class);
+	private static final Family FAMILY = Family.forAll(EnemyPart.class, WalkingPart.class, MovingPart.class, PositionPart.class, BoundingBoxPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class, PositionPart.class, BoundingBoxPart.class, LifePart.class);
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
-		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
+		WalkingPart walkingPart = entity.getPart(WalkingPart.class);
 
-		if (enemyPart.getNextNode() == null) {
+		if (walkingPart.getNextNode() == null) {
 			generateNewPath(entity, world);
 		}
 
-		if (enemyPart.getNextNode() != null) {
+		if (walkingPart.getNextNode() != null) {
 			move(entity, delta, world, world.getGameMap().getTileWidth(), world.getGameMap().getTileHeight());
 		}
 
@@ -46,17 +49,17 @@ public class EnemyMovingSystem implements IEntitySystem {
 		int tileX = (int) (positionPart.getX() / world.getGameMap().getTileWidth());
 		int tileY = (int) (positionPart.getY() / world.getGameMap().getTileHeight());
 
-		entity.getPart(EnemyPart.class).setNextNode(world.getGameMap().getPathNodes()[tileY][tileX]);
+		entity.getPart(WalkingPart.class).setNextNode(world.getGameMap().getPathNodes()[tileY][tileX]);
 	}
 
 	private void move(Entity entity, float dt, World world, int tileWidth, int tileHeight) {
 		PositionPart positionPart = entity.getPart(PositionPart.class);
-		EnemyPart enemyPart = entity.getPart(EnemyPart.class);
-		Node nextNode = enemyPart.getNextNode();
+		WalkingPart walkingPart = entity.getPart(WalkingPart.class);
+		Node nextNode = walkingPart.getNextNode();
 
 		if(world.getGameMap().doesCollideWithTile(nextNode.getTile(), entity)) {
 			if(!nextNode.getTile().isWalkable()) {
-				entity.getPart(EnemyPart.class).setNextNode(null);
+				walkingPart.setNextNode(null);
 
 				//Recalculate node map - it has become invalid
 				IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
@@ -76,16 +79,16 @@ public class EnemyMovingSystem implements IEntitySystem {
 		Vector2f moveDirection = goal.sub(position);
 		Vector2f move = Vector2f.ZERO;
 		if (!moveDirection.isZero()) {
-			move = moveDirection.normalize().scale(enemyPart.getSpeed() * dt);
+			move = moveDirection.normalize().scale(entity.getPart(MovingPart.class).getMovementSpeed() * dt);
 		} else {
 			//Bug fix: Some enemies would randomly stop mid path
-			enemyPart.setNextNode(enemyPart.getNextNode().getNext());
+			walkingPart.setNextNode(walkingPart.getNextNode().getNext());
 		}
 
 		if (move.lengthSquared() > moveDirection.lengthSquared()) {
 			//We are able to reach past the current goal node, so we check if we can go to the next node instead
 			nextNode = nextNode.getNext();
-			enemyPart.setNextNode(nextNode);
+			walkingPart.setNextNode(nextNode);
 
 			if (nextNode == null) {
 				//We reached the final goal, so just go to it
@@ -93,7 +96,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 			} else {
 				goal = new Vector2f(nextNode.getTile().getX() * tileWidth + tileWidth / 2,
 						nextNode.getTile().getY() * tileHeight + tileHeight / 2);
-				move = goal.sub(position).normalize().scale(enemyPart.getSpeed() * dt);
+				move = goal.sub(position).normalize().scale(entity.getPart(MovingPart.class).getMovementSpeed() * dt);
 			}
 		}
 
@@ -113,7 +116,6 @@ public class EnemyMovingSystem implements IEntitySystem {
 		Entity trumpTower = world.getEntitiesByFamily(PLAYER_FAMILY).stream().findFirst().orElse(null);
 
 		if(trumpTower == null) {
-			System.out.println("Trump tower missing?!");
 			return;
 		}
 
@@ -132,6 +134,6 @@ public class EnemyMovingSystem implements IEntitySystem {
 
 	@Override
 	public int getPriority() {
-		return UPDATE_PASS_1;
+		return IPrioritizable.UPDATE_PASS_1;
 	}
 }

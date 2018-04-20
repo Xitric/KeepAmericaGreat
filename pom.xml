@@ -101,6 +101,7 @@
         <module>CommonAudio</module>
         <module>CommonTD</module>
         <module>CommonMenu</module>
+        <module>EnemyWalkingController</module>
     </modules>
 
     <properties>
