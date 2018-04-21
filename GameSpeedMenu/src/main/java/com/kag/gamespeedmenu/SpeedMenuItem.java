@@ -25,7 +25,7 @@ import org.openide.util.lookup.ServiceProviders;
 public class SpeedMenuItem extends MultiIconMenuItem implements IMenuItem, IComponentLoader {
 
 	private IAsset[] speedIcons;
-	private int speed = 1;
+	private int speed = 0;
 	private Entity menuItemEntity;
 
 	@Override
@@ -65,7 +65,7 @@ public class SpeedMenuItem extends MultiIconMenuItem implements IMenuItem, IComp
 
 	@Override
 	public void onAction(World world, GameData gameData) {
-		speed = speed % speedIcons.length + 1;
+		speed = (speed + 1) % speedIcons.length;
 		setSpeed(gameData, speed);
 
 		PauseMenuItem pauseMenuItem = Lookup.getDefault().lookup(PauseMenuItem.class);
@@ -73,11 +73,11 @@ public class SpeedMenuItem extends MultiIconMenuItem implements IMenuItem, IComp
 	}
 
 	public void setSpeed(GameData gameData, int speed) {
-		if (speed > 0 && speed <= speedIcons.length) {
-			gameData.setSpeedMultiplier(speed * 2);
+		if (speed >= 0 && speed < speedIcons.length) {
+			gameData.setSpeedMultiplier(speed * 3 + 1);
 
 			menuItemEntity.removePart(menuItemEntity.getPartsDeep(AssetPart.class).iterator().next());
-			menuItemEntity.addPart(getAssetPart(speedIcons[speed - 1]));
+			menuItemEntity.addPart(getAssetPart(speedIcons[speed]));
 		}
 	}
 
