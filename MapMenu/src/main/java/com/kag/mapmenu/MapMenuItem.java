@@ -1,13 +1,12 @@
 package com.kag.mapmenu;
 
-import com.kag.common.data.*;
+import com.kag.common.data.GameData;
 import com.kag.common.entities.Entity;
 import com.kag.common.entities.parts.AbsolutePositionPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.input.Keyboard;
 import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
-import com.kag.common.spinterfaces.IGame;
 import com.kag.commonasset.ZIndex;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
@@ -27,16 +26,28 @@ import org.openide.util.lookup.ServiceProviders;
 public class MapMenuItem implements IMenuItem, IComponentLoader {
 
 	private IAsset icon;
+	private AssetPart mapMenuBackground;
+	private Entity mapMenu;
 
 	@Override
 	public void load(World world) {
 		IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 		icon = assetManager.loadAsset(getClass().getResourceAsStream("/MapIcon.png"));
+		mapMenuBackground = assetManager.createTexture(getClass().getResourceAsStream("/MapMenu.png"));
+		mapMenuBackground.setzIndex(ZIndex.MENU_BACKGROUND);
+
+		mapMenu = new Entity();
+		mapMenu.addPart(mapMenuBackground);
+		mapMenu.addPart(new AbsolutePositionPart(59, 640));
+		mapMenu.addPart(new MapMenuPart());
 	}
 
 	@Override
 	public void dispose(World world) {
 		icon.dispose();
+		mapMenuBackground.dispose();
+
+		world.removeEntity(mapMenu);
 	}
 
 	@Override
@@ -63,7 +74,12 @@ public class MapMenuItem implements IMenuItem, IComponentLoader {
 
 	@Override
 	public void onAction(World world, GameData gameData) {
-		//TODO: Show menu
-		Lookup.getDefault().lookup(IGame.class).startNewGame();
+		MapMenuPart mapMenuPart = mapMenu.getPart(MapMenuPart.class);
+		mapMenuPart.setVisible(! mapMenuPart.isVisible());
+
+		if (mapMenuPart.isVisible() && ! world.getAllEntities().contains(mapMenu)) {
+			world.addEntity(mapMenu);
+		}
+		//Lookup.getDefault().lookup(IGame.class).startNewGame();
 	}
 }
