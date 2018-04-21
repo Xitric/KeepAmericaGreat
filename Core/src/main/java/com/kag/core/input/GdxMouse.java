@@ -129,14 +129,15 @@ public class GdxMouse {
 	/**
 	 * Call when the mouse is dragged.
 	 *
-	 * @param dx the horizontal drag distance
-	 * @param dy the vertical drag distance
+	 * @param x the horizontal position of the mouse
+	 * @param y the vertical position of the mouse
 	 * @return true if the input was processed, false otherwise
 	 */
 	@SuppressWarnings("SameReturnValue")
-	public boolean mouseDragged(int dx, int dy) {
-		//TODO: Do we need this?
-		return false;
+	public boolean mouseDragged(int x, int y) {
+		mouse.setX(x);
+		mouse.setY(y);
+		return true;
 	}
 
 	private void initButtonMapper() {
