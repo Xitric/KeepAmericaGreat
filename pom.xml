@@ -88,7 +88,6 @@
         <module>UpgradeController</module>
         <module>MapMenu</module>
         <module>CommonEnemyWalking</module>
-        <module>CommonEnemyFlying</module>
         <module>CommonTowerAiming</module>
         <module>CommonTower</module>
         <module>CommonUpgrade</module>
