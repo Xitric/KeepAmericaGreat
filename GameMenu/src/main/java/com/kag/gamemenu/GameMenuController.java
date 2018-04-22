@@ -65,6 +65,10 @@ public class GameMenuController implements ISystem, IComponentLoader {
 	@Override
 	public void dispose(World world) {
 		world.removeEntity(menuPadding);
+		for (Entity menuItemEntity : menuItemEntities) {
+			world.removeEntity(menuItemEntity);
+		}
+		menuItemEntities.clear();
 
 		menuPaddingLeft.dispose();
 		menuItemBackground.dispose();
