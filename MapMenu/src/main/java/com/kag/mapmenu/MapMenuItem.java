@@ -36,9 +36,12 @@ public class MapMenuItem implements IMenuItem, IComponentLoader {
 		mapMenuBackground = assetManager.createTexture(getClass().getResourceAsStream("/MapMenu.png"));
 		mapMenuBackground.setzIndex(ZIndex.MENU_BACKGROUND);
 
+		int x = (768 - mapMenuBackground.getWidth()) / 2;
+		int y = (640 - mapMenuBackground.getHeight()) / 2;
+
 		mapMenu = new Entity();
 		mapMenu.addPart(mapMenuBackground);
-		mapMenu.addPart(new AbsolutePositionPart(59, 640));
+		mapMenu.addPart(new AbsolutePositionPart(x, y));
 		mapMenu.addPart(new MapMenuPart());
 	}
 
@@ -74,12 +77,10 @@ public class MapMenuItem implements IMenuItem, IComponentLoader {
 
 	@Override
 	public void onAction(World world, GameData gameData) {
-		MapMenuPart mapMenuPart = mapMenu.getPart(MapMenuPart.class);
-		mapMenuPart.setVisible(! mapMenuPart.isVisible());
-
-		if (mapMenuPart.isVisible() && ! world.getAllEntities().contains(mapMenu)) {
+		if (world.getAllEntities().contains(mapMenu)) {
+			world.removeEntity(mapMenu);
+		} else {
 			world.addEntity(mapMenu);
 		}
-		//Lookup.getDefault().lookup(IGame.class).startNewGame();
 	}
 }
