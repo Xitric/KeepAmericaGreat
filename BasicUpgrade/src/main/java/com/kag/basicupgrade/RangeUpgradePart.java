@@ -1,33 +1,8 @@
 package com.kag.basicupgrade;
 
-import com.kag.common.entities.IPart;
+public class RangeUpgradePart extends BasicUpgradePart {
 
-public class RangeUpgradePart implements IPart {
-    private int level = 0;
-    private int cost = 50;
-    private double rangeMultiplier = 1.1;
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public double getRangeMultiplier() {
-        return rangeMultiplier;
-    }
-
-    public void setRangeMultiplier(double rangeMultiplier) {
-        this.rangeMultiplier = rangeMultiplier;
-    }
+	public RangeUpgradePart() {
+		super(50, 1.1f);
+	}
 }
