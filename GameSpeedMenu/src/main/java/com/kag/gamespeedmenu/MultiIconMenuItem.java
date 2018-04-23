@@ -6,9 +6,6 @@ import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import org.openide.util.Lookup;
 
-/**
- * @author Kasper
- */
 public abstract class MultiIconMenuItem {
 
 	public AssetPart getAssetPart(IAsset asset) {

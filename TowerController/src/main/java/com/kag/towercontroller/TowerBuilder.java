@@ -12,9 +12,6 @@ import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.MoneyPart;
 import org.openide.util.Lookup;
 
-/**
- * @author Kasper
- */
 public class TowerBuilder {
 
 	private static final Family PLAYER_FAMILY = Family.forAll(PlayerPart.class, MoneyPart.class);

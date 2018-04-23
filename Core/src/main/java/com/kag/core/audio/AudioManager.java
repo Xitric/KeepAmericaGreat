@@ -9,9 +9,6 @@ import org.openide.util.lookup.ServiceProvider;
 
 import java.io.InputStream;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IAudioManager.class)
 public class AudioManager implements IAudioManager {
 

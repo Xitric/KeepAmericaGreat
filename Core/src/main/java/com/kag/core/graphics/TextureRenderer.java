@@ -28,8 +28,6 @@ import java.util.Collection;
  * <li>{@link PositionPart}</li>
  * <li>{@link AbsolutePositionPart}</li>
  * </ul>
- *
- * @author Kasper
  */
 @ServiceProvider(service = IEntitySystem.class)
 public class TextureRenderer extends AbstractRenderer implements IEntitySystem {

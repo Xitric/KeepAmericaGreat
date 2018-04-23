@@ -9,8 +9,6 @@ import java.util.function.Consumer;
 /**
  * A rendering operation for drawing geometric shapes using a shape renderer. Instances of this class with the same
  * z-index will also be ordered by shape type, as this minimizes the number of flushes on the GPU.
- *
- * @author Kasper
  */
 public class ShapeRenderItem extends RenderItem {
 

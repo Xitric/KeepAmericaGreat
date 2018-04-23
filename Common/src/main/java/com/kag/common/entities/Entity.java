@@ -3,18 +3,19 @@ package com.kag.common.entities;
 import java.util.*;
 
 /**
- * An entity is a combination of {@link IPart parts} that can exist in the game
+ * An entity is a combination of {@link IPart parts} and it can exist in the game
  * world. Entities are automatically processed by all systems that match its
  * family of parts. An entity is allowed to have multiple instances of the same
  * part type, although systems are free to use just those parts they want.
- *
- * @author Kasper
  */
 public class Entity {
 
 	private final Map<Class<? extends IPart>, Set<IPart>> parts;
 	private final BitSet bits;
 
+	/**
+	 * Constructs a new entity with no parts.
+	 */
 	public Entity() {
 		this.parts = new HashMap<>();
 		bits = new BitSet();
@@ -22,7 +23,7 @@ public class Entity {
 
 	/**
 	 * Add the specified part to this entity. After adding the part, the entity
-	 * will automatically be processed by those new systems whose families it
+	 * will automatically be processed by those systems whose families it now
 	 * satisfies.
 	 *
 	 * @param part the part to add
@@ -113,7 +114,7 @@ public class Entity {
 	}
 
 	/**
-	 * Test if this entity contains at least one part of the specified type.
+	 * Test if this entity contains at least one part of the specified type. This method does not consider subtypes.
 	 *
 	 * @param partClass the type of part to test for
 	 * @return true if this entity contains at least one part of the specified type, false otherwise

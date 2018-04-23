@@ -8,9 +8,6 @@ import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IComponentLoader;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IComponentLoader.class)
 public class Unloader implements IComponentLoader {
 

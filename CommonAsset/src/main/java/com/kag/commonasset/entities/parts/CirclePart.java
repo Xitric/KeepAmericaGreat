@@ -3,9 +3,6 @@ package com.kag.commonasset.entities.parts;
 import com.kag.commonasset.Color;
 
 
-/**
- * @author Kasper
- */
 public class CirclePart extends AssetPart {
 
 	private float radius;

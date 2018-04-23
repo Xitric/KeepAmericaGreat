@@ -21,8 +21,6 @@ import java.util.logging.Logger;
 
 /**
  * Implementation of the {@link IAssetManager} interface to manage the lifetime of LibGDX textures and animations.
- *
- * @author Kasper
  */
 @ServiceProvider(service = IAssetManager.class)
 public class AssetManager implements IAssetManager {

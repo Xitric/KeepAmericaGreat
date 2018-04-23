@@ -7,8 +7,6 @@ import java.util.function.Consumer;
 
 /**
  * A rendering operation for drawing 2d textures using a sprite batch.
- *
- * @author Kasper
  */
 public class SpriteRenderItem extends RenderItem {
 

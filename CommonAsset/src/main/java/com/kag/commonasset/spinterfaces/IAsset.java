@@ -4,10 +4,7 @@ import java.io.InputStream;
 
 /**
  * Representation of a graphical element that can be rendered by the Core module. Instances of this interface should be
- * created by calling {@link com.kag.common.spinterfaces.IAssetManager#loadAsset(InputStream)}.
- *
- * @author Sofie Jørgensen
- * @author Kasper
+ * created by calling {@link IAssetManager#loadAsset(InputStream)}.
  */
 public interface IAsset {
 

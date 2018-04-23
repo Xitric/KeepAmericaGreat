@@ -12,9 +12,6 @@ import com.kag.common.spinterfaces.IGame;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IEntitySystem.class)
 public class MenuController implements IEntitySystem {
 

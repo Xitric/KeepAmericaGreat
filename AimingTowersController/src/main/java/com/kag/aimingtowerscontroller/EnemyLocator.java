@@ -11,9 +11,6 @@ import com.kag.commontower.entities.parts.WeaponPart;
 import com.kag.commontoweraiming.entities.parts.AimingTowerPart;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IEntitySystem.class)
 public class EnemyLocator implements IEntitySystem {
 

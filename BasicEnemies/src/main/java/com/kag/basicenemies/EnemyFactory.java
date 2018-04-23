@@ -18,9 +18,6 @@ import com.kag.commontd.entities.parts.MoneyPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IComponentLoader.class)
 public class EnemyFactory implements IComponentLoader {
 

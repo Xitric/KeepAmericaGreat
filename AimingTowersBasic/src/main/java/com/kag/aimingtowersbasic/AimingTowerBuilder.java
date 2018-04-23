@@ -15,9 +15,6 @@ import com.kag.commontower.spinterfaces.ITower;
 import com.kag.commontoweraiming.entities.parts.AimingTowerPart;
 import com.kag.commontoweraiming.entities.parts.RotationSpeedPart;
 
-/**
- * @author Kasper
- */
 public class AimingTowerBuilder {
 
 	private String name;

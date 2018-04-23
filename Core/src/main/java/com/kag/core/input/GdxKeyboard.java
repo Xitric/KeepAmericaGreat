@@ -8,8 +8,6 @@ import com.kag.common.input.Keyboard;
  * into something that the game engine can work with. The primary responsibility
  * of this class is to allow the game to get input through LibGDX without having
  * a dependency on LibGDX.
- *
- * @author Kasper
  */
 public class GdxKeyboard {
 

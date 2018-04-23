@@ -2,9 +2,6 @@ package com.kag.basicupgrade;
 
 import com.kag.common.entities.IPart;
 
-/**
- * @author Kasper
- */
 public abstract class BasicUpgradePart implements IPart {
 
 	private int level;

@@ -10,9 +10,6 @@ import com.kag.common.spinterfaces.IGameStateListener;
 import com.kag.commonprojectile.entities.parts.DamagePart;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IGameStateListener.class)
 public class ProjectileGameReset implements IGameStateListener {
 

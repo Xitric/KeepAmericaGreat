@@ -9,9 +9,6 @@ import com.kag.common.spinterfaces.ISystem;
 
 import java.util.*;
 
-/**
- * @author Kasper
- */
 public class SystemManager {
 
 	private final List<ISystem> systems;

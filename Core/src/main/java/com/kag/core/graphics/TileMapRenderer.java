@@ -14,9 +14,6 @@ import com.kag.common.spinterfaces.IEntitySystem;
 import com.kag.core.graphics.parts.TexturePart;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IEntitySystem.class)
 public class TileMapRenderer implements IEntitySystem {
 

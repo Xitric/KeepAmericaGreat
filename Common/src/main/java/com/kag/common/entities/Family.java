@@ -6,8 +6,6 @@ import java.util.BitSet;
  * A family is a representation of a collection of {@link IPart parts}. Families can be used by
  * {@link com.kag.common.spinterfaces.IEntitySystem entity systems} to specify what components an entity must have to be
  * processed by that system. This class is heavily inspired by the entity component framework called Ashley.
- *
- * @author Kasper
  */
 public class Family {
 
@@ -134,7 +132,7 @@ public class Family {
 
 	/**
 	 * Extend this family to disallow more parts. None of the specified parts, including all of the parts initially
-	 * disallowed by this family, must be present to match with the resulting family. This method will not affect the
+	 * disallowed by this family, may be present to match with the resulting family. This method will not affect the
 	 * existing family, but instead create a new family that describes the new part requirements.
 	 *
 	 * @param partClasses the classes of the parts of which none must be present to match with this family

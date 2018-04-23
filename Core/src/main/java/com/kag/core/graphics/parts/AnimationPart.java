@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 
-/**
- * @author Kasper
- */
 public class AnimationPart extends AssetPart {
 
 	private final IAsset asset;

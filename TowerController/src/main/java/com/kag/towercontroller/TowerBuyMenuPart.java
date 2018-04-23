@@ -3,9 +3,6 @@ package com.kag.towercontroller;
 import com.kag.common.entities.IPart;
 import com.kag.commontower.spinterfaces.ITower;
 
-/**
- * @author Kasper
- */
 public class TowerBuyMenuPart implements IPart {
 
 	private final ITower towerFactory;

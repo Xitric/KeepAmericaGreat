@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.common.spinterfaces;
 
 import com.kag.common.map.World;
@@ -16,8 +11,6 @@ import com.kag.common.map.World;
  * The reason that this cannot simply be done in a module installer, is that it does not provide a reference to the game
  * state such as the game world, and the installer is not guaranteed to run on a thread allowing for the loading or
  * disposal of graphical resources.
- *
- * @author Kasper
  */
 public interface IComponentLoader {
 

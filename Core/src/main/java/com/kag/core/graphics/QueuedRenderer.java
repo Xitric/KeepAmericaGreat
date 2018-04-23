@@ -12,8 +12,6 @@ import java.util.PriorityQueue;
  * Handler class for rendering {@link RenderItem RenderItems}. This class allows for rendering operations to be ordered
  * by depth regardless of the type of asset being rendered. This class makes only minimal attempts to reduce state
  * changes and flushes on the GPU.
- *
- * @author Kasper
  */
 public class QueuedRenderer {
 

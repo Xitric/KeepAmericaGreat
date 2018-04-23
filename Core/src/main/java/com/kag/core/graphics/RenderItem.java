@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  * Representation of a rendering operation with LibGDX which can be queued up. The point of queuing render operations is
  * that different types of assets (which are handled by separate entity systems) might need to be rendered at
  * interleaving layers.
- *
- * @author Kasper
  */
 public abstract class RenderItem implements Comparable<RenderItem> {
 

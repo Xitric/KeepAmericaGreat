@@ -6,8 +6,6 @@ import java.io.InputStream;
 
 /**
  * An implementation of the LibGDX {@link FileHandle} for wrapping an existing input stream.
- *
- * @author Kasper
  */
 public class InputStreamFileHandle extends FileHandle {
 

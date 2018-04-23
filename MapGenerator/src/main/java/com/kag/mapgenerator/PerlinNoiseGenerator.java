@@ -16,8 +16,13 @@
 
 package com.kag.mapgenerator;
 
-/** Adapted from <a href="http://devmag.org.za/2009/04/25/perlin-noise/">http://devmag.org.za/2009/04/25/perlin-noise/</a>
- * @author badlogic */
+/**
+ * Adapted from <a href="http://devmag.org.za/2009/04/25/perlin-noise/">http://devmag.org.za/2009/04/25/perlin-noise/</a>
+ * Further adapted from <a href="https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/g3d/voxel/PerlinNoiseGenerator.java">https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/g3d/voxel/PerlinNoiseGenerator.java</a>
+ * for compatibility with this project, in full compliance with the license.
+ *
+ * @author badlogic
+ */
 @SuppressWarnings("ALL")
 public class PerlinNoiseGenerator {
 	public static float[][] generateWhiteNoise (int width, int height) {

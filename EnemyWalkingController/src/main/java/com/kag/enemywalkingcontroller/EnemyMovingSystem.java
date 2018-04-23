@@ -20,9 +20,6 @@ import com.kag.commontd.entities.parts.LifePart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IEntitySystem.class)
 public class EnemyMovingSystem implements IEntitySystem {
 

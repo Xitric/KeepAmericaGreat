@@ -7,9 +7,6 @@ import com.kag.common.map.World;
 import com.kag.common.spinterfaces.ISystem;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = ISystem.class)
 public class CameraController implements ISystem {
 

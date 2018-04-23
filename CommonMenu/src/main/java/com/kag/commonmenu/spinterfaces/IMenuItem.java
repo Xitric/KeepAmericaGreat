@@ -4,9 +4,6 @@ import com.kag.common.data.GameData;
 import com.kag.common.entities.Entity;
 import com.kag.common.map.World;
 
-/**
- * @author Kasper
- */
 public interface IMenuItem {
 
 	Entity getMenuItemEntity();

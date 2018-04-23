@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.core.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.kag.common.data.*;
-import com.kag.common.entities.Entity;
+import com.kag.common.data.Camera;
+import com.kag.common.data.GameData;
 import com.kag.common.entities.Family;
 import com.kag.common.input.Keyboard;
 import com.kag.common.input.Mouse;
 import com.kag.common.map.World;
-import com.kag.common.spinterfaces.*;
+import com.kag.common.spinterfaces.IGame;
+import com.kag.common.spinterfaces.IGameStateListener;
+import com.kag.common.spinterfaces.IMapGenerator;
 import com.kag.core.graphics.AssetManager;
 import com.kag.core.graphics.QueuedRenderer;
 import com.kag.core.input.GdxInputProcessor;
@@ -24,9 +21,6 @@ import com.kag.core.input.GdxMouse;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author niels
- */
 @ServiceProvider(service = IGame.class)
 public class Game implements ApplicationListener, IGame {
 
@@ -134,7 +128,7 @@ public class Game implements ApplicationListener, IGame {
 
 	@Override
 	public void startNewGame() {
-		generateNewMap();
 		notifyGameListeners();
+		generateNewMap();
 	}
 }

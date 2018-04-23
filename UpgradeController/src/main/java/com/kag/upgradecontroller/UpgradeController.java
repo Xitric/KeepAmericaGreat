@@ -28,9 +28,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * @author Emil
- */
 @ServiceProviders(value = {
 		@ServiceProvider(service = ISystem.class),
 		@ServiceProvider(service = IComponentLoader.class)

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.common.spinterfaces;
 
 import com.kag.common.data.GameData;
@@ -15,8 +10,6 @@ import com.kag.common.map.World;
  * specifies the parts that it requires entities to have to be processed by the
  * system. Each entity system is called for every entity that satisfies the
  * requirements for every iteration of the game loop.
- *
- * @author andre
  */
 public interface IEntitySystem extends IPrioritizable {
 

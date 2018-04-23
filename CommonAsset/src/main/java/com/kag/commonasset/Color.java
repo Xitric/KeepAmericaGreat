@@ -5,8 +5,6 @@ package com.kag.commonasset;
 /**
  * Class used to define a color in the sRGB color space. The alpha value of the
  * color can be set explicitly.
- *
- * @author Kasper
  */
 public class Color {
 

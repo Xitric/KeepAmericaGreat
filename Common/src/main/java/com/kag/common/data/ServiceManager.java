@@ -13,7 +13,6 @@ import java.util.function.Consumer;
  * service providers are loaded and unloaded.
  *
  * @param <T> the type of service to manage
- * @author Kasper
  */
 public class ServiceManager<T> {
 
@@ -60,7 +59,6 @@ public class ServiceManager<T> {
 	 * Constructs a new service manager for maintaining a list of service providers of the specified type in memory.
 	 * This service manager will use the specified callback methods when new service providers are loaded and unloaded.
 	 * The service provider makes no guarantee as to which thread these callback methods are invoked on.
-	 * TODO: Does blocking the callback postpone the unloading / loading of a module? That would be nice
 	 *
 	 * @param serviceProviderClass the class of the service providers to track
 	 * @param additionCallback     the method to invoke when a new service provider is loaded

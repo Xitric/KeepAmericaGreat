@@ -35,8 +35,6 @@ import java.util.Map;
  * <li>{@link PositionPart}</li>
  * <li>{@link AbsolutePositionPart}</li>
  * </ul>
- *
- * @author Kasper
  */
 @ServiceProviders(value = {
 		@ServiceProvider(service = IEntitySystem.class),

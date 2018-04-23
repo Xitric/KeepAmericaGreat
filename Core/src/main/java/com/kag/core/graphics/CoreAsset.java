@@ -1,13 +1,12 @@
 package com.kag.core.graphics;
 
 import com.kag.commonasset.spinterfaces.IAsset;
+
 import java.util.UUID;
 
 /**
  * Implementation of the {@link IAsset} interface for use in the core module. This implementation provides some
  * augmented information to assist the {@link AssetManager}.
- *
- * @author Kasper
  */
 public class CoreAsset implements IAsset {
 
@@ -23,6 +22,8 @@ public class CoreAsset implements IAsset {
 	 * Constructs a new, uniquely identifiable asset.
 	 *
 	 * @param assetManager the manager responsible for controlling the life time of this asset
+	 * @param width        the width of the asset, in pixels
+	 * @param height       the height of the asset, in pixels
 	 */
 	public CoreAsset(AssetManager assetManager, int width, int height) {
 		id = UUID.randomUUID();

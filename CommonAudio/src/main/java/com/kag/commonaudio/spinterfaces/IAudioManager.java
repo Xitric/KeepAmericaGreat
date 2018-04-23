@@ -12,8 +12,6 @@ import java.io.InputStream;
  *     <li>OGG</li>
  *     <li>WAV</li>
  * </ul>
- *
- * @author Kasper
  */
 public interface IAudioManager {
 

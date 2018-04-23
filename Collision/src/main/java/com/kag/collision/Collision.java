@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.collision;
 
 import com.kag.common.entities.Entity;
@@ -11,10 +6,6 @@ import com.kag.common.entities.parts.PositionPart;
 import com.kag.common.spinterfaces.ICollision;
 import org.openide.util.lookup.ServiceProvider;
 
-
-/**
- * @author Sofie Jørgensen
- */
 @ServiceProvider(service = ICollision.class)
 public class Collision implements ICollision {
 

@@ -5,8 +5,6 @@ package com.kag.common.entities;
  * can be associated with one or more entities. Thus it is possible for entities
  * to share data by sharing a part. All an entity's data must be stored in its
  * parts.
- *
- * @author andre
  */
 public interface IPart {
 

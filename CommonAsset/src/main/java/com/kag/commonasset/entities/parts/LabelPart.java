@@ -4,8 +4,6 @@ package com.kag.commonasset.entities.parts;
 /**
  * Part defining a label in the graphical user interface. A label is a string of
  * text.
- *
- * @author Kasper
  */
 public class LabelPart extends AssetPart {
 

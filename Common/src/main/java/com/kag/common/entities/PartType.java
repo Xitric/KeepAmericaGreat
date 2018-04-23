@@ -9,8 +9,6 @@ import java.util.Map;
  * the part's bit in a bit vector representation. This class provides a static
  * method for querying the type of a part class, which automatically registers
  * new parts.
- *
- * @author Kasper
  */
 public class PartType {
 
@@ -21,7 +19,7 @@ public class PartType {
 
 	/**
 	 * Get the part type associated with the specified part class. If the part
-	 * class is unknown, a new part type with a unique is is generated.
+	 * class is unknown, a new part type with a unique id is generated.
 	 * Otherwise the existing part type is guaranteed to be returned.
 	 *
 	 * @param partClass the class of the part to get the type for
@@ -35,6 +33,11 @@ public class PartType {
 		id = nextId++;
 	}
 
+	/**
+	 * Get the id of the part represented by this part type.
+	 *
+	 * @return the id of the type of part
+	 */
 	int getId() {
 		return id;
 	}

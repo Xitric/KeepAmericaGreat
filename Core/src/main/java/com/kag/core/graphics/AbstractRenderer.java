@@ -8,8 +8,6 @@ import com.kag.common.entities.parts.PositionPart;
 /**
  * Representation of a type that can render graphics using both a static and dynamic camera. This class combines logic
  * shared by many rendering systems.
- *
- * @author Kasper
  */
 public abstract class AbstractRenderer {
 

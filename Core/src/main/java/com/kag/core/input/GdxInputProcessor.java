@@ -4,8 +4,6 @@ import com.badlogic.gdx.InputAdapter;
 
 /**
  * Input handler that forwards keyboard and mouse input to designated handlers.
- *
- * @author Kasper
  */
 public class GdxInputProcessor extends InputAdapter {
 

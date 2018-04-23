@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.kag.commonasset.spinterfaces;
 
 import com.kag.commonasset.entities.parts.AssetPart;
@@ -13,8 +8,6 @@ import java.io.InputStream;
  * Service used to create graphical elements irrespective of the underlying rendering framework. The main limitation of
  * this architecture is that the rendering framework cannot be changed during runtime, but since the Core module is
  * never changed, this is not an apparent issue.
- *
- * @author Kasper
  */
 public interface IAssetManager {
 

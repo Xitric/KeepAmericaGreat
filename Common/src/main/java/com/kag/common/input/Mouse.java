@@ -2,8 +2,6 @@ package com.kag.common.input;
 
 /**
  * Class containing information about the state of the mouse.
- * 
- * @author Kasper
  */
 public class Mouse {
 

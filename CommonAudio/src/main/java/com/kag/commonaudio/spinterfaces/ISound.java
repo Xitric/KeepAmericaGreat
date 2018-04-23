@@ -3,8 +3,6 @@ package com.kag.commonaudio.spinterfaces;
 /**
  * Class for representing a sound file that can be played in the game. Objects of this class should always be disposed
  * before releasing the reference to the object.
- *
- * @author Kasper
  */
 public interface ISound {
 

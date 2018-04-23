@@ -6,8 +6,6 @@ import com.kag.common.entities.Entity;
  * Service provider interface describing a service for managing events and queries regarding towers. This interface
  * allows for subscribing to events raised when actions are performed on towers, as well as querying the currently
  * selected tower etc.
- *
- * @author Kasper
  */
 public interface ITowerService {
 

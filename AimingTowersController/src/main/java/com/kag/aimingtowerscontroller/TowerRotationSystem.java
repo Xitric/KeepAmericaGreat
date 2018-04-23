@@ -11,9 +11,6 @@ import com.kag.commontoweraiming.entities.parts.AimingTowerPart;
 import com.kag.commontoweraiming.entities.parts.RotationSpeedPart;
 import org.openide.util.lookup.ServiceProvider;
 
-/**
- * @author Kasper
- */
 @ServiceProvider(service = IEntitySystem.class)
 public class TowerRotationSystem implements IEntitySystem {
 

@@ -23,9 +23,6 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
-/**
- * @author Kasper
- */
 @ServiceProviders(value = {
 		@ServiceProvider(service = IComponentLoader.class),
 		@ServiceProvider(service = ISystem.class),

@@ -2,9 +2,6 @@ package com.kag.commonmath;
 
 /**
  * An immutable representation of the mathematical two-dimensional vector.
- * 
- * @author Kasper
- *
  */
 public class Vector2f {
 	
