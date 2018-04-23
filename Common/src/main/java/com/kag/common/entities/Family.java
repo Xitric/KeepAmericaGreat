@@ -104,7 +104,7 @@ public class Family {
 		newAllBits.or(this.allBits);
 
 		for (Class<? extends IPart> partClass : partClasses) {
-			allBits.set(PartType.getType(partClass).getId());
+			newAllBits.set(PartType.getType(partClass).getId());
 		}
 
 		return new Family(newAllBits, this.anyBits, this.excludeBits);
