@@ -102,6 +102,7 @@
         <module>EnemyWalkingController</module>
         <module>AimingTowersController</module>
         <module>AimingTowersBasic</module>
+        <module>BuffEnemies</module>
     </modules>
 
     <properties>

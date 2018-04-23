@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kag.commonenemy.spinterfaces;
+package com.kag.buffenemies;
 
-import com.kag.common.entities.Entity;
+import com.kag.common.entities.IPart;
 
 /**
  *
- * @author Sofie Jørgensen
+ * @author danie
  */
-public interface IEnemy {
-    int getDifficulty();
-    Entity create();
+public class BuffEnemyPart implements IPart{
+    
 }
