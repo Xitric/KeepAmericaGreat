@@ -17,6 +17,7 @@ import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonenemy.entities.parts.EnemyPart;
+import com.kag.commonenemybuff.SpeedBuffPart;
 import com.kag.commonenemywalking.entities.parts.WalkingPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
@@ -33,7 +34,7 @@ public class BuffEnemyFactory implements IComponentLoader {
     private static IAsset hatSpriteSheet;
     private static IAsset animationSpriteSheet;
 
-    public static Entity create(int imageOffset, float speed, int money, int life) {
+    public static Entity create(int imageOffset, float speed, int money, int life, int buffValue, int buffRadius) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         AssetPart hatPart = assetManager.createTexture(hatSpriteSheet, imageOffset * 128, 0, 128, 128);
@@ -62,6 +63,7 @@ public class BuffEnemyFactory implements IComponentLoader {
         animationPart.setyOffset(-26);
         animationPart.setzIndex(ZIndex.ENEMY_ANIMATIONPART);
         enemy.addPart(animationPart);
+        enemy.addPart(new SpeedBuffPart(buffValue,buffRadius));
 
         return enemy;
     }
@@ -69,7 +71,7 @@ public class BuffEnemyFactory implements IComponentLoader {
     @Override
     public void load(World world) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
-        hatSpriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/AllHats.png"));
+        hatSpriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/BuffHats.png"));
         animationSpriteSheet = assetManager.loadAsset(getClass().getResourceAsStream("/EnemyWalking.png"));
     }
 

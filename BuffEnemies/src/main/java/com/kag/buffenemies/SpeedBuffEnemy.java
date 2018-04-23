@@ -18,12 +18,12 @@ public class SpeedBuffEnemy implements IEnemy{
 
     @Override
     public int getDifficulty() {
-        return 1;
+        return 12;
     }
 
     @Override
     public Entity create() {
-        return BuffEnemyFactory.create(6,150,25,100);
+        return BuffEnemyFactory.create(6,100,25,100,150,15);
     }
     
 }

@@ -103,6 +103,8 @@
         <module>AimingTowersController</module>
         <module>AimingTowersBasic</module>
         <module>BuffEnemies</module>
+        <module>EnemyBuffController</module>
+        <module>CommonEnemyBuff</module>
     </modules>
 
     <properties>

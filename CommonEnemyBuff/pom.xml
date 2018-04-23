@@ -6,7 +6,7 @@
         <artifactId>KeepAmericaGreat-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>BuffEnemies</artifactId>
+    <artifactId>CommonEnemyBuff</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -16,6 +16,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <useOSGiDependencies>true</useOSGiDependencies>
+                    <publicPackages>
+                        <publicPackage>com.kag.commonenemybuff</publicPackage>
+                    </publicPackages>
                 </configuration>
             </plugin>
             <plugin>
@@ -33,41 +36,12 @@
             <artifactId>org-netbeans-api-annotations-common</artifactId>
             <version>${netbeans.version}</version>
         </dependency>
-       <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-lookup</artifactId>
-            <version>${netbeans.version}</version>
-        </dependency>
         <dependency>
-            <groupId>com.kag</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>Common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonEnemyBuff</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonAsset</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonEnemy</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kag</groupId>
-            <artifactId>CommonEnemyWalking</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>CommonTD</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+      
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
