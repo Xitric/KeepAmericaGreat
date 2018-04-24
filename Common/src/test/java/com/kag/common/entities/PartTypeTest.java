@@ -23,10 +23,6 @@ class PartTypeTest {
 		PartType blockingTypeRepeat = PartType.getType(BlockingPart.class);
 
 		//Assert
-		Assertions.assertTrue(positionType.getId() == 0);
-		Assertions.assertTrue(bboxType.getId() == 1);
-		Assertions.assertTrue(blockingType.getId() == 2);
-
 		Assertions.assertTrue(positionType == positionTypeRepeat);
 		Assertions.assertTrue(bboxType == bboxTypeRepeat);
 		Assertions.assertTrue(blockingType == blockingTypeRepeat);
