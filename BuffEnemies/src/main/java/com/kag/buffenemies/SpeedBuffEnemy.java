@@ -23,7 +23,7 @@ public class SpeedBuffEnemy implements IEnemy{
 
     @Override
     public Entity create() {
-        return BuffEnemyFactory.create(6,100,25,100,150,15);
+        return BuffEnemyFactory.create(6,100,25,100,150,15, this.getClass());
     }
     
 }

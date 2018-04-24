@@ -6,7 +6,7 @@
         <artifactId>KeepAmericaGreat-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>EnemySpeedBuffController</artifactId>
+    <artifactId>EnemyBuffController</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>

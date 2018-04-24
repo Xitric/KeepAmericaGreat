@@ -19,7 +19,7 @@ public class SpeedBuffPart extends BuffPart {
     }
 
     @Override
-    public void buff(Entity entityToBuff) {
+    public void buff(Entity entityToBuff, float delta) {
         MovingPart movingPart = entityToBuff.getPart(MovingPart.class);
         if (movingPart == null) {
             return;

@@ -63,7 +63,7 @@
         </dependency>
          <dependency>
             <groupId>com.kag</groupId>
-            <artifactId>EnemySpeedBuffController</artifactId>
+            <artifactId>EnemyBuffController</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

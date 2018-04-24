@@ -18,6 +18,7 @@ import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonenemy.entities.parts.EnemyPart;
 import com.kag.commonenemybuff.SpeedBuffPart;
+import com.kag.commonenemybuff.LifeBuffPart;
 import com.kag.commonenemywalking.entities.parts.WalkingPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
@@ -34,7 +35,7 @@ public class BuffEnemyFactory implements IComponentLoader {
     private static IAsset hatSpriteSheet;
     private static IAsset animationSpriteSheet;
 
-    public static Entity create(int imageOffset, float speed, int money, int life, int buffValue, int buffRadius) {
+    public static Entity create(int imageOffset, float speed, int money, int life, int buffValue, int buffRadius, Class enemyType) {
         IAssetManager assetManager = Lookup.getDefault().lookup(IAssetManager.class);
 
         AssetPart hatPart = assetManager.createTexture(hatSpriteSheet, imageOffset * 128, 0, 128, 128);
@@ -63,9 +64,19 @@ public class BuffEnemyFactory implements IComponentLoader {
         animationPart.setyOffset(-26);
         animationPart.setzIndex(ZIndex.ENEMY_ANIMATIONPART);
         enemy.addPart(animationPart);
-        enemy.addPart(new SpeedBuffPart(buffValue,buffRadius));
+        
+        addBuffPart(enemy, enemyType, buffValue, buffRadius);
 
         return enemy;
+    }
+
+    private static void addBuffPart(Entity enemy, Class enemyType, int buffValue, int buffRadius) {
+        
+        if(enemyType.equals(LifeBuffEnemy.class)){
+            enemy.addPart(new LifeBuffPart(buffValue, buffRadius));
+        } else if (enemyType.equals(SpeedBuffEnemy.class)){
+            enemy.addPart(new SpeedBuffPart(buffValue, buffRadius));            
+        }
     }
 
     @Override

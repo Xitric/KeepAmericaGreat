@@ -30,6 +30,6 @@ public abstract class BuffPart implements IPart{
         return buffRadius;
     }   
 
-    public abstract void buff(Entity entityToBuff);
+    public abstract void buff(Entity entityToBuff, float delta);
     
 }
