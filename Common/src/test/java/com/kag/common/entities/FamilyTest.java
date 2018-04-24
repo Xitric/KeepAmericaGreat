@@ -4,9 +4,6 @@ import com.kag.common.entities.parts.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Kasper
- */
 class FamilyTest {
 
 	@Test
