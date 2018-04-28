@@ -17,6 +17,7 @@ import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
+import com.kag.commontower.entities.parts.TowerPart;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -28,17 +29,13 @@ import org.openide.util.lookup.ServiceProviders;
 })
 public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGameStateListener {
 
-	private static final Family FAMILY = Family.forAll(LifePart.class, MoneyPart.class, PositionPart.class, PlayerPart.class);
+	private static final Family PLAYER_FAMILY = Family.forAll(LifePart.class, MoneyPart.class, PositionPart.class, PlayerPart.class);
+	private static final Family TOWER_FAMILY = Family.forAll(TowerPart.class);
 
 	private Entity player;
 	private Entity playerHealthGui;
 	private Entity playerCurrencyGui;
 	private Entity playerMenuBackground;
-
-	@Override
-	public Family getFamily() {
-		return FAMILY;
-	}
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
@@ -47,6 +44,20 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGa
 
 		playerHealthGui.getPart(LabelPart.class).setLabel(String.valueOf(lifePart.getHealth()));
 		playerCurrencyGui.getPart(LabelPart.class).setLabel(String.valueOf(currencyPart.getMoney()));
+
+		if (lifePart.getHealth() <= 0) {
+			for (Entity tower : world.getEntitiesByFamily(TOWER_FAMILY)) {
+				world.removeEntity(tower);
+			}
+
+			world.removeEntity(entity);
+			playerHealthGui.getPart(LabelPart.class).setLabel("0");
+		}
+	}
+
+	@Override
+	public Family getFamily() {
+		return PLAYER_FAMILY;
 	}
 
 	@Override
@@ -84,7 +95,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGa
 		healthIcon.setxOffset(-40);
 		healthIcon.setyOffset(-16);
 		healthIcon.setzIndex(ZIndex.GUI_HEALTH_ICON);
-		LabelPart healthLabel = new LabelPart("Health: " + String.valueOf(lifePart.getHealth()));
+		LabelPart healthLabel = new LabelPart(String.valueOf(lifePart.getHealth()));
 		healthLabel.setzIndex(ZIndex.GUI_HEALTH_LABEL);
 
 		playerHealthGui.addPart(new AbsolutePositionPart(66 + 768, 42));
@@ -95,7 +106,7 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGa
 		moneyIcon.setxOffset(-40);
 		moneyIcon.setyOffset(-16);
 		moneyIcon.setzIndex(ZIndex.GUI_CURRENCY_ICON);
-		LabelPart moneyLabel = new LabelPart("C-Fire: " + String.valueOf(currencyPart.getMoney()));
+		LabelPart moneyLabel = new LabelPart(String.valueOf(currencyPart.getMoney()));
 		moneyLabel.setzIndex(ZIndex.GUI_CURRENCY_LABEL);
 
 		playerCurrencyGui.addPart(new AbsolutePositionPart(66 + 768, 86));
@@ -128,5 +139,9 @@ public class PlayerControlSystem implements IEntitySystem, IComponentLoader, IGa
 		player.getPart(LifePart.class).setHealth(50);
 		player.getPart(PositionPart.class).setPos(world.getGameMap().getPlayerX() * world.getGameMap().getTileWidth(),
 				world.getGameMap().getPlayerY() * world.getGameMap().getTileHeight());
+
+		if (! world.getAllEntities().contains(player)) {
+			world.addEntity(player);
+		}
 	}
 }
