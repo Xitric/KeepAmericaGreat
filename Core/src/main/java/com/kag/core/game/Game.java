@@ -46,6 +46,7 @@ public class Game implements ApplicationListener, IGame {
 		Gdx.input.setInputProcessor(new GdxInputProcessor(keyboard, mouse));
 		generateNewMap();
 		systemManager = new SystemManager();
+               
 	}
 
 	@Override
