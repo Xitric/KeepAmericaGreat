@@ -6,6 +6,7 @@
 package com.kag.buffenemies;
 
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.MovingPart;
@@ -17,8 +18,8 @@ import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonenemy.entities.parts.EnemyPart;
-import com.kag.commonenemybuff.SpeedBuffPart;
 import com.kag.commonenemybuff.LifeBuffPart;
+import com.kag.commonenemybuff.SpeedBuffPart;
 import com.kag.commonenemywalking.entities.parts.WalkingPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
@@ -32,6 +33,7 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IComponentLoader.class)
 public class BuffEnemyFactory implements IComponentLoader {
 
+    private static final Family FAMILY = Family.forAll(BuffEnemyPart.class);
     private static IAsset hatSpriteSheet;
     private static IAsset animationSpriteSheet;
 
@@ -91,10 +93,8 @@ public class BuffEnemyFactory implements IComponentLoader {
         hatSpriteSheet.dispose();
         animationSpriteSheet.dispose();
 
-        for (Entity e : world.getAllEntities()) {
-            if (e.hasPart(BuffEnemyPart.class)) {
-                world.removeEntity(e);
-            }
+        for (Entity e : world.getEntitiesByFamily(FAMILY)) {
+            world.removeEntity(e);
         }
     }
 

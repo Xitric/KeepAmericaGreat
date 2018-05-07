@@ -1,6 +1,7 @@
 package com.kag.basicenemies;
 
 import com.kag.common.entities.Entity;
+import com.kag.common.entities.Family;
 import com.kag.common.entities.parts.BlockingPart;
 import com.kag.common.entities.parts.BoundingBoxPart;
 import com.kag.common.entities.parts.MovingPart;
@@ -21,6 +22,7 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = IComponentLoader.class)
 public class EnemyFactory implements IComponentLoader {
 
+	private static final Family FAMILY = Family.forAll(BasicEnemyPart.class);
 	private static IAsset hatSpriteSheet;
 	private static IAsset animationSpriteSheet;
 
@@ -69,10 +71,8 @@ public class EnemyFactory implements IComponentLoader {
 		hatSpriteSheet.dispose();
 		animationSpriteSheet.dispose();
 
-		for (Entity e: world.getAllEntities()) {
-			if (e.hasPart(BasicEnemyPart.class)) {
-				world.removeEntity(e);
-			}
+		for (Entity e: world.getEntitiesByFamily(FAMILY)) {
+			world.removeEntity(e);
 		}
 	}
 }

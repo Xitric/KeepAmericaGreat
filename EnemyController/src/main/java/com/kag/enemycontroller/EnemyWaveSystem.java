@@ -55,8 +55,8 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader, IGameStateLis
 		nextWaveButton = new Entity();
 		nextWaveButton.addPart(new AbsolutePositionPart(38, 586));
 		AssetPart waveImage = assetManager.createTexture(getClass().getResourceAsStream("/next.png"));
-		waveImage.setxOffset(- waveImage.getWidth() / 2);
-		waveImage.setyOffset(- waveImage.getHeight() / 2);
+		waveImage.setxOffset(-waveImage.getWidth() / 2);
+		waveImage.setyOffset(-waveImage.getHeight() / 2);
 		waveImage.setzIndex(ZIndex.WAVE_IMAGE);
 		nextWaveButton.addPart(waveImage);
 		nextWaveButton.addPart(new BoundingBoxPart(waveImage.getWidth(), waveImage.getHeight()));
@@ -118,24 +118,23 @@ public class EnemyWaveSystem implements ISystem, IComponentLoader, IGameStateLis
 
 				nextSpawnCountdown += dt;
 				countDownLabel.getPart(LabelPart.class).setLabel("Enemies spawning");
-            world.removeEntity(nextWaveButton);
+				world.removeEntity(nextWaveButton);
 
-            if (nextSpawnCountdown >= spawnDelay) {
+				if (nextSpawnCountdown >= spawnDelay) {
 
+					nextSpawnCountdown -= spawnDelay;
 
-                nextSpawnCountdown -= spawnDelay;
+					Entity enemy = wave.get(wave.size() - 1);
 
-                Entity enemy = wave.get(wave.size() - 1);
+					//Calculate random spawn position
+					int tileX = (int) (Math.random() * world.getGameMap().getWidth());
+					PositionPart enemyPosition = enemy.getPart(PositionPart.class);
+					enemyPosition.setPos(tileX * world.getGameMap().getTileWidth() + world.getGameMap().getTileWidth() / 2, world.getGameMap().getTileHeight() / 2);
 
-                //Calculate random spawn position
-                int tileX = (int) (Math.random() * world.getGameMap().getWidth());
-                PositionPart enemyPosition = enemy.getPart(PositionPart.class);
-                enemyPosition.setPos(tileX * world.getGameMap().getTileWidth() + world.getGameMap().getTileWidth() / 2, world.getGameMap().getTileHeight() / 2);
-
-                world.addEntity(enemy);
-                wave.remove(wave.size() - 1);
-            }
-        }
+					world.addEntity(enemy);
+					wave.remove(wave.size() - 1);
+				}
+			}
 		}
 	}
 
