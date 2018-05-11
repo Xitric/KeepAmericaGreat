@@ -14,6 +14,6 @@ public class YellowEnemyBeta implements IEnemy {
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(2, 60, 6, 8);
+		return EnemyFactory.createEnemy(2, 60, 5, 8);
 	}
 }

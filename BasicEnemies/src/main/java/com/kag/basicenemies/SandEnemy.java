@@ -9,11 +9,11 @@ public class SandEnemy implements IEnemy {
 
 	@Override
 	public int getDifficulty() {
-		return 7;
+		return 8;
 	}
 
 	@Override
 	public Entity create() {
-		return EnemyFactory.createEnemy(4, 90, 4, 4);
+		return EnemyFactory.createEnemy(4, 90, 12, 4);
 	}
 }

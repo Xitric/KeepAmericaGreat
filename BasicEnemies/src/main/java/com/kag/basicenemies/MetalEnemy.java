@@ -9,7 +9,7 @@ public class MetalEnemy implements IEnemy {
 
 	@Override
 	public int getDifficulty() {
-		return 15;
+		return 25;
 	}
 
 	@Override

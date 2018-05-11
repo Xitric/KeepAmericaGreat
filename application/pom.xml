@@ -29,7 +29,6 @@
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-nbjunit</artifactId>
             <version>${netbeans.version}</version>
-            <scope>test</scope> <!-- beyond platform cluster, this often needs to be dropped down to compile/runtime, some other modules in IDE clusters depend on it -->
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -56,6 +55,7 @@
             <artifactId>ModuleUpdateManager</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <build>

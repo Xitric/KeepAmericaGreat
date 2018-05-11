@@ -80,6 +80,9 @@ public class ApplicationTest extends NbTestCase {
         Assert.assertTrue(count(IPathFinder.class) == 1);
         Assert.assertTrue(count(IMapGenerator.class) == 1);
         Assert.assertTrue(count(IGameStateListener.class) == 0);
+
+        //Clean up
+        restoreUpdates();
     }
 
     private void reset() {
@@ -99,6 +102,11 @@ public class ApplicationTest extends NbTestCase {
 
     private void removeEnemyControllers() {
         setUpdatesXml("../netbeans_site/updatesRemoveEnemyControllers.xml");
+        waitForUpdate();
+    }
+
+    private void restoreUpdates() {
+        setUpdatesXml("../netbeans_site/updatesFull.xml");
         waitForUpdate();
     }
 
