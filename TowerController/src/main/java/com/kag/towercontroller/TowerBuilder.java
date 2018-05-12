@@ -10,6 +10,7 @@ import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IPathFinder;
 import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.MoneyPart;
+import com.kag.commontower.spinterfaces.ITowerService;
 import org.openide.util.Lookup;
 
 public class TowerBuilder {
@@ -77,7 +78,10 @@ public class TowerBuilder {
 			world.removeEntity(tower);
 			hoverTile.setWalkable(true);
 		} else {
-			Lookup.getDefault().lookup(TowerService.class).towerCreated(tower);
+			ITowerService service = Lookup.getDefault().lookup(ITowerService.class);
+			if (service != null) {
+				service.towerCreated(tower);
+			}
 		}
 	}
 

@@ -37,48 +37,48 @@ public class ApplicationTest extends NbTestCase {
         Assert.assertTrue(count(IComponentLoader.class) == 1);
         Assert.assertTrue(count(ISystem.class) == 0);
         Assert.assertTrue(count(IEntitySystem.class) == 5);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 0);
 
         addPlayerModules();
         Assert.assertTrue(count(IComponentLoader.class) == 2);
         Assert.assertTrue(count(ISystem.class) == 1);
         Assert.assertTrue(count(IEntitySystem.class) == 6);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 1);
 
         reset();
         Assert.assertTrue(count(IComponentLoader.class) == 1);
         Assert.assertTrue(count(ISystem.class) == 0);
         Assert.assertTrue(count(IEntitySystem.class) == 5);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 0);
 
         addEnemyModules();
         Assert.assertTrue(count(IComponentLoader.class) == 5);
         Assert.assertTrue(count(ISystem.class) == 1);
         Assert.assertTrue(count(IEntitySystem.class) == 8);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 1);
 
         removeEnemyControllers();
         Assert.assertTrue(count(IComponentLoader.class) == 3);
         Assert.assertTrue(count(ISystem.class) == 0);
         Assert.assertTrue(count(IEntitySystem.class) == 5);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 0);
 
         reset();
         Assert.assertTrue(count(IComponentLoader.class) == 1);
         Assert.assertTrue(count(ISystem.class) == 0);
         Assert.assertTrue(count(IEntitySystem.class) == 5);
-        Assert.assertTrue(count(IPathFinder.class) == 1);
-        Assert.assertTrue(count(IMapGenerator.class) == 1);
+        Assert.assertTrue(count(IPathFinder.class) == 0);
+        Assert.assertTrue(count(IMapGenerator.class) == 0);
         Assert.assertTrue(count(IGameStateListener.class) == 0);
 
         //Clean up

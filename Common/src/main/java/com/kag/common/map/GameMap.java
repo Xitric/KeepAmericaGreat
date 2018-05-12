@@ -32,6 +32,8 @@ public class GameMap {
 
 		TileMapPart tileMapPart = new TileMapPart(width, height, tileWidth, tileHeight);
 		tileEntity.addPart(tileMapPart);
+
+		pathNodes = new Node[height][width];
 	}
 
 	/**

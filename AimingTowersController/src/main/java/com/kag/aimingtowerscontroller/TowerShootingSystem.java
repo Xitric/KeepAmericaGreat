@@ -60,6 +60,7 @@ public class TowerShootingSystem implements IComponentLoader, IEntitySystem {
 
 	private void shootAt(World world, Entity tower) {
 		IProjectile projectileImplementation = Lookup.getDefault().lookup(IProjectile.class);
+		if (projectileImplementation == null) return;
 
 		TowerPart towerPart = tower.getPart(TowerPart.class);
 		WeaponPart weaponPart = tower.getPart(WeaponPart.class);

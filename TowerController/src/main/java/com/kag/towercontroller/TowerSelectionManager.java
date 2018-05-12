@@ -160,12 +160,18 @@ public class TowerSelectionManager implements IComponentLoader, ISystem {
 
 		for (Entity tower : world.getEntitiesByFamily(TOWER_FAMILY)) {
 			if (world.isEntityAt(tower, worldX, worldY)) {
-				Lookup.getDefault().lookup(ITowerService.class).towerSelected(tower);
+				ITowerService service = Lookup.getDefault().lookup(ITowerService.class);
+				if (service != null) {
+					service.towerSelected(tower);
+				}
 				return;
 			}
 		}
 
-		Lookup.getDefault().lookup(ITowerService.class).towerSelected(null);
+		ITowerService service = Lookup.getDefault().lookup(ITowerService.class);
+		if (service != null) {
+			service.towerSelected(null);
+		}
 	}
 
 	private boolean isMouseOnGameMap(Mouse mouse) {

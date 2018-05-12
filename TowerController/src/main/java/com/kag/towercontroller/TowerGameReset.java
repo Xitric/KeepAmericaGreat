@@ -20,7 +20,9 @@ public class TowerGameReset implements IGameStateListener {
 
 		for (Entity tower : world.getEntitiesByFamily(TOWER_FAMILY)) {
 			world.removeEntity(tower);
-			service.towerRemoved(tower);
+			if (service != null) {
+				service.towerRemoved(tower);
+			}
 		}
 	}
 }

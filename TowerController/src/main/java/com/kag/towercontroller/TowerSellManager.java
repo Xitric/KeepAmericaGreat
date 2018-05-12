@@ -83,13 +83,15 @@ public class TowerSellManager implements IComponentLoader, ISystem, ITowerServic
 						player.getPart(MoneyPart.class).setMoney(player.getPart(MoneyPart.class).getMoney() + sellingPrice));
 
 				ITowerService service = Lookup.getDefault().lookup(ITowerService.class);
-				Entity towerToSell = service.getSelectedTower();
-				world.removeEntity(towerToSell);
+				if (service != null) {
+					Entity towerToSell = service.getSelectedTower();
+					world.removeEntity(towerToSell);
 
-				PositionPart positionPart = towerToSell.getPart(PositionPart.class);
-				world.getTileAt(positionPart.getX(), positionPart.getY()).setWalkable(true);
+					PositionPart positionPart = towerToSell.getPart(PositionPart.class);
+					world.getTileAt(positionPart.getX(), positionPart.getY()).setWalkable(true);
 
-				service.towerRemoved(service.getSelectedTower());
+					service.towerRemoved(service.getSelectedTower());
+				}
 			}
 		}
 	}

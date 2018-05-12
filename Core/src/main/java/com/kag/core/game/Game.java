@@ -9,6 +9,7 @@ import com.kag.common.data.GameData;
 import com.kag.common.entities.Family;
 import com.kag.common.input.Keyboard;
 import com.kag.common.input.Mouse;
+import com.kag.common.map.GameMap;
 import com.kag.common.map.World;
 import com.kag.common.spinterfaces.IGame;
 import com.kag.common.spinterfaces.IGameStateListener;
@@ -46,7 +47,6 @@ public class Game implements ApplicationListener, IGame {
 		Gdx.input.setInputProcessor(new GdxInputProcessor(keyboard, mouse));
 		generateNewMap();
 		systemManager = new SystemManager();
-               
 	}
 
 	@Override
@@ -114,10 +114,16 @@ public class Game implements ApplicationListener, IGame {
 	private void generateNewMap() {
 		IMapGenerator mapGenerator = Lookup.getDefault().lookup(IMapGenerator.class);
 
-		if (world == null) {
-			world = new World(mapGenerator.generateMap(12, 36));
+		if (mapGenerator == null) {
+			if (world == null) {
+				world = new World(new GameMap(12, 36, 64, 64));
+			}
 		} else {
-			world.setMap(mapGenerator.generateMap(12, 36));
+			if (world == null) {
+				world = new World(mapGenerator.generateMap(12, 36));
+			} else {
+				world.setMap(mapGenerator.generateMap(12, 36));
+			}
 		}
 	}
 
@@ -129,7 +135,7 @@ public class Game implements ApplicationListener, IGame {
 
 	@Override
 	public void startNewGame() {
-		notifyGameListeners();
 		generateNewMap();
+		notifyGameListeners();
 	}
 }

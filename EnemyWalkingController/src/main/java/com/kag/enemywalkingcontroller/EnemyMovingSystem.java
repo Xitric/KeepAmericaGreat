@@ -46,7 +46,21 @@ public class EnemyMovingSystem implements IEntitySystem {
 		int tileX = (int) (positionPart.getX() / world.getGameMap().getTileWidth());
 		int tileY = (int) (positionPart.getY() / world.getGameMap().getTileHeight());
 
-		entity.getPart(WalkingPart.class).setNextNode(world.getGameMap().getPathNodes()[tileY][tileX]);
+		Node nextNode = world.getGameMap().getPathNodes()[tileY][tileX];
+		entity.getPart(WalkingPart.class).setNextNode(nextNode);
+
+		if (nextNode == null) {
+			//If we are missing a path, we should generate a new one
+			recalculateNodeMap(world);
+		}
+	}
+
+	private void recalculateNodeMap(World world) {
+		IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
+		if (pathFinder == null) return;
+
+		Node[][] nodeMap = pathFinder.getPath(world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world);
+		world.getGameMap().setPathNodes(nodeMap);
 	}
 
 	private void move(Entity entity, float dt, World world, int tileWidth, int tileHeight) {
@@ -59,11 +73,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 				walkingPart.setNextNode(null);
 
 				//Recalculate node map - it has become invalid
-				IPathFinder pathFinder = Lookup.getDefault().lookup(IPathFinder.class);
-				if (pathFinder == null) return;
-
-				Node[][] nodeMap = pathFinder.getPath(world.getGameMap().getPlayerX(), world.getGameMap().getPlayerY(), world);
-				world.getGameMap().setPathNodes(nodeMap);
+				recalculateNodeMap(world);
 
 				return;
 			}
@@ -117,7 +127,7 @@ public class EnemyMovingSystem implements IEntitySystem {
 		}
 
 		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
-		if (collision.doesCollide(entity, trumpTower)) {
+		if (collision != null && collision.doesCollide(entity, trumpTower)) {
 			LifePart pHealth = trumpTower.getPart(LifePart.class);
 			pHealth.setHealth(pHealth.getHealth() - 1);
 			world.removeEntity(entity);

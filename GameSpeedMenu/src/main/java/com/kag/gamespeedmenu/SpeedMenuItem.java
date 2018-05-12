@@ -66,7 +66,9 @@ public class SpeedMenuItem extends MultiIconMenuItem implements IMenuItem, IComp
 		setSpeed(gameData, speed);
 
 		PauseMenuItem pauseMenuItem = Lookup.getDefault().lookup(PauseMenuItem.class);
-		pauseMenuItem.unpause();
+		if (pauseMenuItem != null) {
+			pauseMenuItem.unpause();
+		}
 	}
 
 	public void setSpeed(GameData gameData, int speed) {

@@ -73,10 +73,13 @@ public class MapGenerator implements IMapGenerator {
 
 			if (!failed) {
 				World tempWorld = new World(gameMap);
-				if (pathFinder.getPath(0, 0, gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld) == null) {
-					failed = true;
-				} else {
-					gameMap.setPathNodes(pathFinder.getPath(gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld));
+
+				if (pathFinder != null) {
+					if (pathFinder.getPath(0, 0, gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld) == null) {
+						failed = true;
+					} else {
+						gameMap.setPathNodes(pathFinder.getPath(gameMap.getPlayerX(), gameMap.getPlayerY(), tempWorld));
+					}
 				}
 			}
 

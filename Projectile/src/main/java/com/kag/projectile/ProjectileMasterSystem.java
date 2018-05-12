@@ -39,7 +39,9 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 
 	@Override
 	public void dispose(World world) {
-
+		for (Entity projectile : world.getEntitiesByFamily(PROJECTILE_FAMILY)) {
+			world.removeEntity(projectile);
+		}
 	}
 
 	@Override
@@ -75,8 +77,6 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 
 	@Override
 	public void update(float delta, Entity entity, World world, GameData gameData) {
-		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
-
 		PositionPart projectilePositionPart = entity.getPart(PositionPart.class);
 		DamagePart towerDamagePart = entity.getPart(DamagePart.class);
 		MovingPart projectileMovingPart = entity.getPart(MovingPart.class);
@@ -100,8 +100,9 @@ public class ProjectileMasterSystem implements IEntitySystem, IComponentLoader, 
 			}
 		}
 
+		ICollision collision = Lookup.getDefault().lookup(ICollision.class);
 		if (closestEntity != null) {
-			if (collision.doesCollide(entity, closestEntity)) {
+			if (collision != null && collision.doesCollide(entity, closestEntity)) {
 				LifePart enemyLifePart = closestEntity.getPart(LifePart.class);
 				enemyLifePart.setHealth(enemyLifePart.getHealth() - towerDamagePart.getDamage());
 
