@@ -86,6 +86,7 @@ public class ApplicationTest extends NbTestCase {
     }
 
     private void reset() {
+        waitForUpdate();
         setUpdatesXml("../netbeans_site/updatesEmpty.xml");
         waitForUpdate();
     }
