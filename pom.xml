@@ -43,8 +43,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.5.1</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
             <plugin>
@@ -54,18 +54,57 @@
             </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <modules>
-        <module>branding</module>
         <module>application</module>
         <module>Common</module>
         <module>Collision</module>
         <module>MapGenerator</module>
         <module>EnemyController</module>
         <module>PathFinder</module>
-        <module>Sound</module>
         <module>TowerController</module>
+        <module>Core</module>
+        <module>ModuleUpdateManager</module>
+        <module>Player</module>
+        <module>CameraController</module>
+        <module>BasicEnemies</module>
+        <module>PassiveTowers</module>
+        <module>Projectile</module>
+        <module>GameMenu</module>
+        <module>GameSpeedMenu</module>
+        <module>BasicUpgrade</module>
+        <module>UpgradeController</module>
+        <module>MapMenu</module>
+        <module>CommonEnemyWalking</module>
+        <module>CommonTowerAiming</module>
+        <module>CommonTower</module>
+        <module>CommonUpgrade</module>
+        <module>CommonProjectile</module>
+        <module>CommonEnemy</module>
+        <module>CommonMath</module>
+        <module>CommonAsset</module>
+        <module>CommonPlayer</module>
+        <module>CommonAudio</module>
+        <module>CommonTD</module>
+        <module>CommonMenu</module>
+        <module>EnemyWalkingController</module>
+        <module>AimingTowersController</module>
+        <module>AimingTowersBasic</module>
+        <module>BuffEnemies</module>
+        <module>EnemyBuffController</module>
+        <module>CommonEnemyBuff</module>
     </modules>
 
     <properties>

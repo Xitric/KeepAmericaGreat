@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE module_updates PUBLIC "-//NetBeans//DTD Autoupdate Catalog 2.4//EN" "http://www.netbeans.org/dtds/autoupdate-catalog-2_4.dtd">
+<module_updates timestamp="20/30/13/12/05/2018">
+
+<module codenamebase="com.kag.AimingTowersBasic" distribution="AimingTowersBasic-1.0-SNAPSHOT.nbm" downloadsize="29063" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.AimingTowersBasic" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonTower &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.Common &gt; 1.0, com.kag.CommonTowerAiming &gt; 1.0, com.kag.CommonTD &gt; 1.0, com.kag.CommonProjectile &gt; 1.0" OpenIDE-Module-Name="AimingTowersBasic" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.AimingTowersController" distribution="AimingTowersController-1.0-SNAPSHOT.nbm" downloadsize="59534" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.AimingTowersController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonTowerAiming &gt; 1.0, com.kag.CommonTower &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonMath &gt; 1.0, com.kag.CommonAudio &gt; 1.0, com.kag.CommonProjectile &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="AimingTowersController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.BasicEnemies" distribution="BasicEnemies-1.0-SNAPSHOT.nbm" downloadsize="133906" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.BasicEnemies" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonEnemyWalking &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="BasicEnemies" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.BasicUpgrade" distribution="BasicUpgrade-1.0-SNAPSHOT.nbm" downloadsize="11939" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.BasicUpgrade" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonUpgrade &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonTower &gt; 1.0" OpenIDE-Module-Name="BasicUpgrade" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.BuffEnemies" distribution="BuffEnemies-1.0-SNAPSHOT.nbm" downloadsize="131526" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.BuffEnemies" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonEnemyBuff &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonEnemyWalking &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="BuffEnemies" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CameraController" distribution="CameraController-1.0-SNAPSHOT.nbm" downloadsize="4716" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CameraController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CameraController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.Collision" distribution="Collision-1.0-SNAPSHOT.nbm" downloadsize="4735" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.Collision" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1" OpenIDE-Module-Name="Collision" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.Common" distribution="Common-1.0-SNAPSHOT.nbm" downloadsize="24618" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.Common" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1" OpenIDE-Module-Name="Common" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonAsset" distribution="CommonAsset-1.0-SNAPSHOT.nbm" downloadsize="9144" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonAsset" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonAsset" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonAudio" distribution="CommonAudio-1.0-SNAPSHOT.nbm" downloadsize="4143" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonAudio" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1" OpenIDE-Module-Name="CommonAudio" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonEnemy" distribution="CommonEnemy-1.0-SNAPSHOT.nbm" downloadsize="4324" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonEnemy" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonEnemy" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonEnemyBuff" distribution="CommonEnemyBuff-1.0-SNAPSHOT.nbm" downloadsize="5410" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonEnemyBuff" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="CommonEnemyBuff" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonEnemyWalking" distribution="CommonEnemyWalking-1.0-SNAPSHOT.nbm" downloadsize="4258" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonEnemyWalking" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonEnemyWalking" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonMath" distribution="CommonMath-1.0-SNAPSHOT.nbm" downloadsize="4965" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonMath" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1" OpenIDE-Module-Name="CommonMath" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonMenu" distribution="CommonMenu-1.0-SNAPSHOT.nbm" downloadsize="4016" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonMenu" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonMenu" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonPlayer" distribution="CommonPlayer-1.0-SNAPSHOT.nbm" downloadsize="4072" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonPlayer" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonPlayer" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonProjectile" distribution="CommonProjectile-1.0-SNAPSHOT.nbm" downloadsize="4914" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonProjectile" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="CommonProjectile" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonTD" distribution="CommonTD-1.0-SNAPSHOT.nbm" downloadsize="4535" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonTD" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="CommonTD" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonTower" distribution="CommonTower-1.0-SNAPSHOT.nbm" downloadsize="5972" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonTower" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="CommonTower" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonTowerAiming" distribution="CommonTowerAiming-1.0-SNAPSHOT.nbm" downloadsize="4866" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonTowerAiming" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="CommonTowerAiming" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.CommonUpgrade" distribution="CommonUpgrade-1.0-SNAPSHOT.nbm" downloadsize="4079" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.CommonUpgrade" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="CommonUpgrade" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.Core" distribution="Core-1.0-SNAPSHOT.nbm" downloadsize="9187246" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.Core" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, org.openide.modules &gt; 7.48.1, com.kag.Common &gt; 1.0, com.kag.CommonAudio &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="Core" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.EnemyBuffController" distribution="EnemyBuffController-1.0-SNAPSHOT.nbm" downloadsize="5878" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.EnemyBuffController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonEnemyBuff &gt; 1.0, com.kag.Common &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonEnemyWalking &gt; 1.0, com.kag.CommonMath &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="EnemyBuffController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.EnemyController" distribution="EnemyController-1.0-SNAPSHOT.nbm" downloadsize="37698" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.EnemyController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonAudio &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonTD &gt; 1.0, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="EnemyController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.EnemyWalkingController" distribution="EnemyWalkingController-1.0-SNAPSHOT.nbm" downloadsize="7233" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.EnemyWalkingController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonEnemyWalking &gt; 1.0, com.kag.CommonMath &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="EnemyWalkingController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.GameMenu" distribution="GameMenu-1.0-SNAPSHOT.nbm" downloadsize="9444" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.GameMenu" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonAsset &gt; 1.0, com.kag.CommonMenu &gt; 1.0" OpenIDE-Module-Name="GameMenu" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.GameSpeedMenu" distribution="GameSpeedMenu-1.0-SNAPSHOT.nbm" downloadsize="10770" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.GameSpeedMenu" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonAsset &gt; 1.0, com.kag.CommonMenu &gt; 1.0" OpenIDE-Module-Name="GameSpeedMenu" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.MapGenerator" distribution="MapGenerator-1.0-SNAPSHOT.nbm" downloadsize="67907" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.MapGenerator" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="MapGenerator" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.MapMenu" distribution="MapMenu-1.0-SNAPSHOT.nbm" downloadsize="90743" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.MapMenu" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonAsset &gt; 1.0, com.kag.CommonMenu &gt; 1.0, com.kag.CommonPlayer &gt; 1.0" OpenIDE-Module-Name="MapMenu" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.ModuleUpdateManager" distribution="ModuleUpdateManager-1.0-SNAPSHOT.nbm" downloadsize="10755" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.ModuleUpdateManager" OpenIDE-Module-Display-Category="Infrastructure" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="Hej." OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.modules &gt; 7.48.1, org.netbeans.modules.autoupdate.services &gt; 1.52.1, org.openide.io &gt; 1.49.1, org.openide.util &gt; 9.7.1, org.openide.util.ui &gt; 9.6.1" OpenIDE-Module-Name="Module Update Manager" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="Update of Application" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.PassiveTowers" distribution="PassiveTowers-1.0-SNAPSHOT.nbm" downloadsize="7375" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.PassiveTowers" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonTower &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="PassiveTowers" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.PathFinder" distribution="PathFinder-1.0-SNAPSHOT.nbm" downloadsize="9425" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.PathFinder" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, org.openide.util.lookup &gt; 8.33.1, com.kag.Common &gt; 1.0" OpenIDE-Module-Name="PathFinder" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.Player" distribution="Player-1.0-SNAPSHOT.nbm" downloadsize="55171" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.Player" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonTD &gt; 1.0, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonTower &gt; 1.0" OpenIDE-Module-Name="Player" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.Projectile" distribution="Projectile-1.0-SNAPSHOT.nbm" downloadsize="7562" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.Projectile" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonAsset &gt; 1.0, com.kag.CommonProjectile &gt; 1.0, com.kag.CommonEnemy &gt; 1.0, com.kag.CommonTD &gt; 1.0" OpenIDE-Module-Name="Projectile" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.TowerController" distribution="TowerController-1.0-SNAPSHOT.nbm" downloadsize="48239" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.TowerController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonTD &gt; 1.0, com.kag.CommonTower &gt; 1.0, com.kag.CommonAsset &gt; 1.0" OpenIDE-Module-Name="TowerController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<module codenamebase="com.kag.UpgradeController" distribution="UpgradeController-1.0-SNAPSHOT.nbm" downloadsize="19768" license="B2517D31" needsrestart="false" releasedate="2018/05/12" targetcluster="keepamericagreat">
+    <manifest OpenIDE-Module="com.kag.UpgradeController" OpenIDE-Module-Display-Category="com.kag" OpenIDE-Module-Implementation-Version="1.0-20180512" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.27.1, com.kag.Common &gt; 1.0, org.openide.util.lookup &gt; 8.33.1, com.kag.CommonTD &gt; 1.0, com.kag.CommonPlayer &gt; 1.0, com.kag.CommonAsset &gt; 1.0, com.kag.CommonUpgrade &gt; 1.0, com.kag.CommonTower &gt; 1.0" OpenIDE-Module-Name="UpgradeController" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
+</module>
+
+<license name="B2517D31">Copyright  2018
+-----------------------------------------------------
+License terms:
+Unknown</license>
+</module_updates>
+
