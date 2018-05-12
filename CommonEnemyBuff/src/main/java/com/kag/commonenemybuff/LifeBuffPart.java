@@ -30,9 +30,7 @@ public class LifeBuffPart extends BuffPart{
         buffTimer++;
         
         if (buffTimer > 10){
-        System.out.println("Current HP: " + lp.getHealth());
         lp.setHealth(lp.getHealth() + super.getBuffValue());
-        System.out.println("Buffed HP: " + lp.getHealth());
         buffTimer = 0;
         }
     }

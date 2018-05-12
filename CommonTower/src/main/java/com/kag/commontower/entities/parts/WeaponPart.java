@@ -43,7 +43,7 @@ public class WeaponPart implements IPart {
 		return attackSpeed;
 	}
 
-	public void setAttackSpeed(int attackSpeed) {
+	public void setAttackSpeed(float attackSpeed) {
 		this.attackSpeed = attackSpeed;
 	}
 }

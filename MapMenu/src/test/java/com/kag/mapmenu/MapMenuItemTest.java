@@ -1,10 +1,12 @@
-package com.kag.basicenemies;
+package com.kag.mapmenu;
 
+import com.kag.common.entities.Entity;
 import com.kag.common.map.GameMap;
 import com.kag.common.map.World;
 import com.kag.commonasset.entities.parts.AssetPart;
 import com.kag.commonasset.spinterfaces.IAsset;
 import com.kag.commonasset.spinterfaces.IAssetManager;
+import com.kag.commonplayer.entities.parts.PlayerPart;
 import org.junit.Assert;
 import org.netbeans.junit.MockServices;
 
@@ -16,40 +18,45 @@ import static org.mockito.Mockito.when;
 /**
  * @author Kasper
  */
-public class EnemyFactoryTest {
+public class MapMenuItemTest {
 
-	private EnemyFactory enemyFactory;
 	private World world;
+	private Entity player;
+	private MapMenuItem mmi;
 
 	@org.junit.Before
 	public void setUp() throws Exception {
 		//Arrange
 		MockServices.setServices(AssetManagerMock.class);
 
-		world = new World(new GameMap(0, 0, 0, 0));
+		world = new World(new GameMap(8, 8, 0, 0));
 
-		enemyFactory = new EnemyFactory();
-		enemyFactory.load(world);
-		world.addEntity(EnemyFactory.createEnemy(0, 0, 0, 1));
-		world.addEntity(EnemyFactory.createEnemy(0, 0, 0, 1));
-		world.addEntity(EnemyFactory.createEnemy(0, 0, 0, 1));
-		world.addEntity(EnemyFactory.createEnemy(0, 0, 0, 1));
-		world.addEntity(EnemyFactory.createEnemy(0, 0, 0, 1));
+		player = new Entity();
+		player.addPart(new PlayerPart());
+		world.addEntity(player);
+
+		mmi = new MapMenuItem();
+		mmi.load(world);
 	}
 
 	@org.junit.Test
-	public void dispose() {
-		//Assert
-		//Six entities because we count the tile map entity
-		Assert.assertEquals(6, world.getAllEntities().size());
-
-		//TC#24
+	public void update() {
+		//TC#38
 		//Act
-		enemyFactory.dispose(world);
+		mmi.update(0, world, null);
 
 		//Assert
-		//The one entity is the tile map entity
-		Assert.assertEquals(1, world.getAllEntities().size());
+		Assert.assertTrue(world.getAllEntities().contains(player));
+		Assert.assertEquals(2, world.getAllEntities().size());
+
+		//TC#39
+		//Act
+		world.removeEntity(player);
+		mmi.update(0, world, null);
+
+		//Assert
+		Assert.assertFalse(world.getAllEntities().contains(player));
+		Assert.assertEquals(2, world.getAllEntities().size());
 	}
 
 	public static class AssetManagerMock implements IAssetManager {
@@ -68,15 +75,15 @@ public class EnemyFactoryTest {
 
 		@Override
 		public AssetPart createTexture(IAsset asset, int x, int y, int width, int height) {
-			AssetPart assetPart = mock(AssetPart.class);
-			when(assetPart.getWidth()).thenReturn(0);
-			when(assetPart.getHeight()).thenReturn(0);
-			return assetPart;
+			return null;
 		}
 
 		@Override
 		public AssetPart createTexture(InputStream input) {
-			return null;
+			AssetPart asset = mock(AssetPart.class);
+			when(asset.getWidth()).thenReturn(0);
+			when(asset.getHeight()).thenReturn(0);
+			return asset;
 		}
 
 		@Override
@@ -86,7 +93,7 @@ public class EnemyFactoryTest {
 
 		@Override
 		public AssetPart createAnimation(IAsset asset, int x, int y, int width, int height, int frameWidth, int frameHeight, int frameDuration) {
-			return mock(AssetPart.class);
+			return null;
 		}
 	}
 }

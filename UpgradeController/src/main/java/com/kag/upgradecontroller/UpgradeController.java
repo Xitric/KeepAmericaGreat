@@ -111,7 +111,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
 						playerMoneyPart.setMoney(playerMoneyPart.getMoney() - towerModel.getiUpgrade().getCost(towerToUpgrade));
 						towerModel.getiUpgrade().upgrade(towerToUpgrade);
 						towerModel.getUpgradeEntity().getPart(LabelPart.class).setLabel(String.valueOf(towerModel.getiUpgrade().getCost(towerToUpgrade)));
-						System.out.println("Tower is upgraded!" + " Tower damage is now: " + towerToUpgrade.getPart(WeaponPart.class).getDamage() + " range is " + towerToUpgrade.getPart(WeaponPart.class).getRange());
 					}
 				}
 			}
@@ -125,7 +124,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
 		upgradeModels.add(new UpgradeModel(upgradeEntity, upgrade));
 
 		int index = upgradeModels.size() - 1;
-		System.out.println("Index of new tower added to menu: " + index);
 
 		int menuX = index % 3;
 		int menuY = index / 3;
@@ -176,7 +174,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
 			return null;
 		}
 		if (towerFamily.matches(entity.getBits())) {
-			//System.out.println("upgrade: found a tower");
 			return entity;
 		}
 		return null;
@@ -185,7 +182,6 @@ public class UpgradeController implements ISystem, IComponentLoader {
 	private void removeUpgradePreviews(World world) {
 		for (UpgradeModel upgradeModel : upgradeModels) {
 			world.removeEntity(upgradeModel.getUpgradeEntity());
-			System.out.println("Upgrademodel is removed from the world! " + upgradeModel);
 		}
 		upgradeModels.clear();
 	}

@@ -12,6 +12,7 @@ import com.kag.commonasset.spinterfaces.IAssetManager;
 import com.kag.commonplayer.entities.parts.PlayerPart;
 import com.kag.commontd.entities.parts.LifePart;
 import com.kag.commontd.entities.parts.MoneyPart;
+import com.kag.commontower.entities.parts.TowerPart;
 import org.junit.Assert;
 import org.netbeans.junit.MockServices;
 
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.when;
 public class PlayerControlSystemTest {
 
 	private World world;
+	private List<Entity> towers;
 
 	@org.junit.Before
 	public void setUp() throws Exception {
@@ -35,6 +37,22 @@ public class PlayerControlSystemTest {
 		MockServices.setServices(AssetManagerMock.class);
 
 		world = new World(new GameMap(8, 8, 0, 0));
+
+		towers = new ArrayList<>();
+		towers.add(makeTower());
+		towers.add(makeTower());
+		towers.add(makeTower());
+		towers.add(makeTower());
+
+		for (Entity tower : towers) {
+			world.addEntity(tower);
+		}
+	}
+
+	private Entity makeTower() {
+		Entity tower = new Entity();
+		tower.addPart(new TowerPart(null));
+		return tower;
 	}
 
 	@org.junit.Test
@@ -65,6 +83,28 @@ public class PlayerControlSystemTest {
 			Assert.assertTrue(label.getPart(AbsolutePositionPart.class).getX() > 480);
 			Assert.assertTrue(label.getPart(AbsolutePositionPart.class).getY() < 320);
 		}
+	}
+
+	@org.junit.Test
+	public void deathTest() {
+		//TC#37
+		//Arrange
+		PlayerControlSystem pcs = new PlayerControlSystem();
+		pcs.load(world);
+
+		//Act
+		Entity player = world.getEntitiesByFamily(Family.forAll(PlayerPart.class)).stream().findFirst().orElse(null);
+		player.getPart(LifePart.class).setHealth(0);
+		pcs.update(0, player, world, null);
+
+		//Assert
+		//Towers removed
+		for (Entity tower : towers) {
+			Assert.assertFalse(world.getAllEntities().contains(tower));
+		}
+
+		//Player removed
+		Assert.assertFalse(world.getAllEntities().contains(player));
 	}
 
 	public static class AssetManagerMock implements IAssetManager {
